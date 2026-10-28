@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linrol 的赛博咖啡小角 · 慢下来喝杯咖啡，看看顺手小工具</title>
+  <meta name="description" content="Linrol 的独立开发者主页与赛博咖啡馆。在这里冲杯云咖啡消磨时间，听听雨声白噪音，探索纯原生、小于2MB的克制 macOS 工具。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+  <style>
+    :root {
+      --bg-paper: #fbf8f1;
+      --bg-card: #ffffff;
+      --ink-primary: #332a24;
+      --ink-muted: #6e6459;
+      --ink-subtle: #9c9184;
+      --border-line: #ded7c8;
+      --border-dashed: #cbbfad;
+      
+      --coffee-dark: #3a2216;
+      --coffee-latte: #b88656;
+      --coffee-foam: #f6efe6;
+      --accent-badge: #e6ede3;
+      --accent-badge-text: #345c3b;
+      --accent-warm: #d97443;
+      
+      --shadow-soft: 0 8px 30px rgba(53, 44, 38, 0.05);
+      --shadow-hover: 0 14px 40px rgba(53, 44, 38, 0.09);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --font-hand: "STKaiti", "KaiTi", "Kaiti SC", "SimKai", Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-paper);
+      color: var(--ink-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      padding: 0 20px 80px 20px;
+      background-image: radial-gradient(#ebe3d1 1px, transparent 1px);
+      background-size: 24px 24px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* 顶部导航 */
+    .site-header {
+      padding: 28px 0 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed var(--border-line);
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink-primary);
+    }
+
+    .brand-icon {
+      font-size: 22px;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.2px;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      background: #e8e3d6;
+      color: var(--ink-muted);
+      padding: 2px 7px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .brand-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #4caf50;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pill-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      color: var(--ink-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--ink-muted);
+      color: var(--ink-primary);
+      transform: translateY(-1px);
+    }
+
+    .pill-btn.active {
+      background: #f0e6d6;
+      border-color: var(--coffee-latte);
+      color: var(--coffee-dark);
+      font-weight: 500;
+    }
+
+    /* 核心交互区：咖啡吧台 */
+    .bar-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-lg);
+      padding: 44px 36px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+
+    .bar-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: repeating-linear-gradient(90deg, var(--coffee-latte), var(--coffee-latte) 20px, transparent 20px, transparent 30px);
+      opacity: 0.5;
+    }
+
+    .bar-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .bar-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
+    }
+
+    .bar-header p {
+      color: var(--ink-muted);
+      font-size: 15px;
+    }
+
+    /* 吧台控制台 */
+    .brew-shelf {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .brew-btn {
+      background: #faf6ee;
+      border: 1px solid var(--border-line);
+      color: var(--ink-primary);
+      padding: 9px 18px;
+      border-radius: 24px;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .brew-btn:hover {
+      background: #f3ece0;
+      border-color: var(--ink-muted);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .brew-btn:active {
+      transform: translateY(0);
+    }
+
+    .brew-btn.reset {
+      background: transparent;
+      border-color: transparent;
+      color: var(--ink-subtle);
+    }
+    .brew-btn.reset:hover {
+      color: var(--ink-primary);
+      background: #f0ebe2;
+    }
+
+    /* 咖啡杯舞台 */
+    .cup-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0 20px 0;
+    }
+
+    .cup-wrap {
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cup-wrap:hover {
+      transform: scale(1.02);
+    }
+
+    .cup-wrap:active {
+      transform: scale(0.97);
+    }
+
+    /* 蒸汽云雾 */
+    .steam-container {
+      position: absolute;
+      top: -38px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 36px;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-around;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .steam-container.active {
+      opacity: 1;
+    }
+
+    .steam-line {
+      width: 4px;
+      height: 24px;
+      background: linear-gradient(to top, rgba(160, 140, 125, 0.4), transparent);
+      border-radius: 4px;
+      filter: blur(1.5px);
+      animation: steamRise 2.4s infinite ease-out;
+    }
+
+    .steam-line:nth-child(2) {
+      animation-delay: 0.8s;
+      height: 32px;
+    }
+
+    .steam-line:nth-child(3) {
+      animation-delay: 1.4s;
+      height: 20px;
+    }
+
+    @keyframes steamRise {
+      0% {
+        transform: translateY(10px) scaleX(1);
+        opacity: 0;
+      }
+      50% {
+        transform: translateY(-5px) scaleX(1.8) rotate(4deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-22px) scaleX(2.5) rotate(-6deg);
+        opacity: 0;
+      }
+    }
+
+    /* 杯体外观 */
+    .cup-body {
+      width: 140px;
+      height: 120px;
+      border: 4px solid var(--coffee-dark);
+      border-radius: 8px 8px 60px 60px;
+      background: #fbf7f0;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 -6px 12px rgba(0,0,0,0.06), 0 10px 20px rgba(58, 34, 22, 0.08);
+    }
+
+    /* 杯把手 */
+    .cup-handle {
+      position: absolute;
+      right: -24px;
+      top: 24px;
+      width: 32px;
+      height: 54px;
+      border: 4px solid var(--coffee-dark);
+      border-radius: 0 20px 28px 0;
+      background: transparent;
+    }
+
+    /* 杯碟垫 */
+    .cup-saucer {
+      width: 180px;
+      height: 14px;
+      background: #ebd8c1;
+      border: 3px solid var(--coffee-dark);
+      border-radius: 20px;
+      margin-top: -6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    /* 咖啡液体 */
+    .liquid {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 0%;
+      background: var(--coffee-dark);
+      transition: height 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.6s ease;
+      border-top: 3px solid rgba(255,255,255,0.25);
+    }
+
+    /* 奶泡层 */
+    .foam-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10px;
+      background: var(--coffee-foam);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    /* 冰块容器 */
+    .ice-wrapper {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ice-cube {
+      width: 24px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.45);
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      border-radius: 4px;
+      backdrop-filter: blur(2px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transform: rotate(12deg);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .ice-cube.cube-2 {
+      width: 20px;
+      height: 20px;
+      transform: rotate(-18deg) translateY(6px);
+    }
+
+    .ice-cube.show {
+      opacity: 1;
+    }
+
+    /* 杯下提示 */
+    .sip-tip {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--ink-subtle);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .sip-tip .badge-key {
+      background: #ece5d6;
+      border: 1px solid var(--border-line);
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--ink-primary);
+      font-weight: 600;
+    }
+
+    /* 杯底彩蛋便签 */
+    .fortune-slip {
+      margin-top: 20px;
+      background: #fff8e8;
+      border: 1px dashed #d1b48c;
+      border-radius: var(--radius-md);
+      padding: 16px 22px;
+      max-width: 440px;
+      text-align: center;
+      display: none;
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: translateY(8px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .fortune-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-warm);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .fortune-text {
+      font-size: 14px;
+      color: var(--ink-primary);
+      font-family: var(--font-hand);
+      line-height: 1.5;
+    }
+
+    /* 全球出杯微小水表 */
+    .counter-bar {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink-subtle);
+      border-top: 1px dashed var(--border-line);
+      padding-top: 16px;
+    }
+
+    .counter-num {
+      color: var(--coffee-dark);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 产品卡片区 (xyptkd 风格) */
+    .section-title-wrap {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .section-eyebrow {
+      font-size: 13px;
+      color: var(--accent-warm);
+      font-weight: 600;
+      margin-bottom: 4px;
+      letter-spacing: 0.4px;
+    }
+
+    .section-heading {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .tool-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 26px 28px;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .tool-card:hover {
+      border-color: var(--border-dashed);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .tool-pain {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent-warm);
+      margin-bottom: 14px;
+      font-family: var(--font-hand);
+      letter-spacing: -0.1px;
+    }
+
+    .tool-body {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .tool-icon-box {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      background: #f7f2ea;
+      border: 1px solid var(--border-line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+    }
+
+    .tool-info {
+      flex: 1;
+    }
+
+    .tool-name-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .tool-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .tool-desc {
+      font-size: 14px;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .tool-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      background: #f4ede0;
+      color: var(--ink-muted);
+      font-size: 12px;
+      padding: 3px 9px;
+      border-radius: 6px;
+    }
+
+    .tag.highlight {
+      background: var(--accent-badge);
+      color: var(--accent-badge-text);
+      font-weight: 600;
+    }
+
+    .tool-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f2ece1;
+      padding-top: 16px;
+      margin-top: 4px;
+    }
+
+    .tool-code-snippet {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      background: #f5efe6;
+      color: var(--ink-primary);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #e5dcce;
+    }
+
+    .tool-links {
+      display: flex;
+      gap: 14px;
+    }
+
+    .action-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--coffee-dark);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: opacity 0.15s ease;
+    }
+
+    .action-link:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+
+    /* 烘焙中的新想法 */
+    .coming-card {
+      background: #faf6ee;
+      border: 1px dashed var(--border-dashed);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .coming-icon {
+      font-size: 28px;
+    }
+
+    .coming-text h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 4px;
+    }
+
+    .coming-text p {
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    /* 留言与投递小麻烦 */
+    .dropbox-section {
+      background: #f4ede1;
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 30px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .dropbox-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 8px;
+    }
+
+    .dropbox-section p {
+      font-size: 14px;
+      color: var(--ink-muted);
+      margin-bottom: 18px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .contact-chips {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* 页脚 */
+    .site-footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-subtle);
+      padding-top: 20px;
+      border-top: 1px dashed var(--border-line);
+    }
+
+    .site-footer a {
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+    .site-footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .bar-section {
+        padding: 30px 18px;
+      }
+      .bar-header h1 {
+        font-size: 22px;
+      }
+      .tool-body {
+        flex-direction: column;
+      }
+      .tool-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .header-actions {
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 顶部状态栏 -->
+    <header class="site-header">
+      <a href="./" class="brand">
+        <span class="brand-icon">☕</span>
+        <div>
+          <div class="brand-title">Linrol 的赛博咖啡角</div>
+        </div>
+        <span class="brand-badge">小铺营业中</span>
+      </a>
+
+      <div class="header-actions">
+        <button id="rain-btn" class="pill-btn" onclick="toggleRainNoise()">
+          <span id="rain-icon">🌧️</span> <span id="rain-label">窗外雨声: 关</span>
+        </button>
+        <a href="#projects" class="pill-btn">工具小铺 ↙</a>
+        <a href="https://github.com/linrol" target="_blank" class="pill-btn">GitHub ↗</a>
+      </div>
+    </header>
+
+    <!-- 核心互动区：咖啡吧台 -->
+    <section class="bar-section">
+      <div class="bar-header">
+        <h1>工作累了吗？在吧台冲杯咖啡放空一分钟。</h1>
+        <p>可调制、真能喝、带白噪音。在这个紧绷的世界里，给思路留一点摸鱼时间。</p>
+      </div>
+
+      <!-- 咖啡控制台 -->
+      <div class="brew-shelf">
+        <button class="brew-btn" onclick="brewLiquid('espresso')">🫘 萃取浓缩 (Espresso)</button>
+        <button class="brew-btn" onclick="addIce()">🧊 加颗冰块 (On the Rocks)</button>
+        <button class="brew-btn" onclick="addMilk()">🥛 注入奶泡 (Latte)</button>
+        <button class="brew-btn reset" onclick="resetCup()">↺ 换个新杯子</button>
+      </div>
+
+      <!-- 互动咖啡杯 -->
+      <div class="cup-stage">
+        <div class="cup-wrap" onclick="sipCoffee()" title="点击啜饮一口">
+          <!-- 蒸汽 -->
+          <div id="steam" class="steam-container">
+            <div class="steam-line"></div>
+            <div class="steam-line"></div>
+            <div class="steam-line"></div>
+          </div>
+          <!-- 杯身 -->
+          <div class="cup-body">
+            <div id="liquid" class="liquid">
+              <div id="foam" class="foam-layer"></div>
+            </div>
+            <div class="ice-wrapper">
+              <div id="cube-1" class="ice-cube cube-1"></div>
+              <div id="cube-2" class="ice-cube cube-2"></div>
+            </div>
+          </div>
+          <!-- 杯把手 -->
+          <div class="cup-handle"></div>
+          <!-- 杯垫 -->
+          <div class="cup-saucer"></div>
+        </div>
+
+        <!-- 啜饮提示 -->
+        <div id="sip-hint" class="sip-tip">
+          <span>先点上方按钮冲一杯咖啡 ☝️</span>
+        </div>
+
+        <!-- 杯底彩蛋便签 -->
+        <div id="fortune-box" class="fortune-slip">
+          <div class="fortune-title">✦ 杯底悄悄话 ✦</div>
+          <div id="fortune-content" class="fortune-text"></div>
+        </div>
+      </div>
+
+      <!-- 出杯水表 -->
+      <div class="counter-bar">
+        今日已为到店访客送出 <span id="cup-count" class="counter-num">3,428</span> 杯咖啡 · 正在摸鱼的你 +1
+      </div>
+    </section>
+
+    <!-- 产品矩阵：xyptkd 风格的痛点叙事卡片 -->
+    <section id="projects">
+      <div class="section-title-wrap">
+        <div>
+          <div class="section-eyebrow">小工具烘焙坊 / 01</div>
+          <h2 class="section-heading">先有一个小麻烦，再手搓一个顺手小工具。</h2>
+        </div>
+      </div>
+
+      <div class="tool-list">
+
+        <!-- 明星作品 01: SwaprTrans -->
+        <div class="tool-card">
+          <div class="tool-pain">“在外企聊天写邮件，打完中文必须切屏去翻译，太折腾了？”</div>
+          <div class="tool-body">
+            <div class="tool-icon-box">⇄</div>
+            <div class="tool-info">
+              <div class="tool-name-row">
+                <h3 class="tool-name">SwaprTrans · macOS 原地瞬译</h3>
+              </div>
+              <p class="tool-desc">
+                在任何 App 输入框打完中文，划选敲 <strong>Enter 回车</strong>瞬间原地替换为地道英文；敲 <strong>Space 空格</strong>极简 HUD 查词。拒绝 Electron 臃肿，基于 Apple 本地端侧模型，体积小于 2MB，断网离线可用，敏感聊天绝不上云。
+              </p>
+              <div class="tool-tags">
+                <span class="tag">macOS 菜单栏</span>
+                <span class="tag">&lt; 2MB 纯原生</span>
+                <span class="tag">Apple 端侧离线</span>
+                <span class="tag highlight">★ 已入选 11.7w星 awesome-mac</span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-code-snippet">brew install linrol/tap/swapr-trans</div>
+            <div class="tool-links">
+              <a href="https://linrol.github.io/swapr-trans/" target="_blank" class="action-link">体验官方主页 ↗</a>
+              <a href="https://github.com/linrol/swapr-trans" target="_blank" class="action-link">GitHub 源码 ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 即将到来的作品 02 -->
+        <div class="coming-card">
+          <div class="coming-icon">🍞</div>
+          <div class="coming-text">
+            <h4>下一个想法正在烤箱里烘焙…</h4>
+            <p>“受够了剪贴板工具动辄占几百兆内存还在后台偷偷联网？”—— 另一个原生、纯净的小工具正在打磨中。</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 投递小麻烦（留言箱） -->
+    <section class="dropbox-section">
+      <h3>“你有没有一个在电脑前反复遇到、觉得特别烦的小事？”</h3>
+      <p>市面上找不到顺手的工具，或者现有软件又笨又重？你说说，如果我觉得有意思，就用原生手搓一个免费放出来。</p>
+      <div class="contact-chips">
+        <a href="https://github.com/linrol/swapr-trans/issues" target="_blank" class="pill-btn">在 GitHub 留个 Issue ↗</a>
+        <a href="mailto:linrol@foxmail.com" class="pill-btn">发封邮件聊聊 ✉️</a>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+      <p>由 <a href="https://github.com/linrol" target="_blank">Linrol</a> 手作 · 部署于 GitHub Pages · 纯原生零外部重型库 · 保持轻量与克制</p>
+    </footer>
+
+  </div>
+
+  <script>
+    /* 咖啡状态机 */
+    let coffee = {
+      level: 0,        // 0% - 85%
+      type: 'empty',   // espresso, latte
+      hasIce: false,
+      hasMilk: false,
+      sipsLeft: 0,
+      totalSips: 4
+    };
+
+    const fortunes = [
+      "今日宜：敲个回车原地覆写；忌：打开占用 1GB 内存的巨无霸软件。",
+      "恭喜你慢下来喝完了一杯咖啡，愿接下来的代码丝滑如拿铁，没有奇怪的 Bug。",
+      "在浮躁的互联网里能专注冲一杯咖啡的人，写出来的代码也一定优雅且克制。",
+      "“少即是多”—— 就像不到 2MB 的原生工具，比几百兆的套壳好用得多。",
+      "离开前，要不要带走一个不用切屏的翻译小工具？👉 试试 SwaprTrans 吧！"
+    ];
+
+    const liquidEl = document.getElementById('liquid');
+    const foamEl = document.getElementById('foam');
+    const steamEl = document.getElementById('steam');
+    const cube1El = document.getElementById('cube-1');
+    const cube2El = document.getElementById('cube-2');
+    const hintEl = document.getElementById('sip-hint');
+    const fortuneBox = document.getElementById('fortune-box');
+    const fortuneText = document.getElementById('fortune-content');
+    const cupCountEl = document.getElementById('cup-count');
+
+    // 仿真的本地每日累加出杯量
+    let baseCount = 3428 + (new Date().getHours() * 12) + Math.floor(new Date().getMinutes() / 3);
+    cupCountEl.innerText = baseCount.toLocaleString();
+
+    function brewLiquid(type) {
+      coffee.type = type;
+      coffee.level = 80;
+      coffee.sipsLeft = 4;
+      coffee.hasMilk = false;
+      
+      fortuneBox.style.display = 'none';
+      liquidEl.style.height = coffee.level + '%';
+      liquidEl.style.backgroundColor = 'var(--coffee-dark)';
+      foamEl.style.opacity = '0.35';
+      steamEl.classList.add('active');
+
+      playTone(320, 0.15, 'triangle');
+      updateHint();
+      incrementCupCount();
+    }
+
+    function addIce() {
+      if (coffee.level === 0) {
+        brewLiquid('espresso');
+      }
+      coffee.hasIce = true;
+      cube1El.classList.add('show');
+      cube2El.classList.add('show');
+      playTone(580, 0.08, 'sine');
+      setTimeout(() => playTone(720, 0.06, 'sine'), 80);
+      updateHint();
+    }
+
+    function addMilk() {
+      if (coffee.level === 0) {
+        brewLiquid('espresso');
+      }
+      coffee.hasMilk = true;
+      coffee.type = 'latte';
+      liquidEl.style.backgroundColor = 'var(--coffee-latte)';
+      foamEl.style.opacity = '0.85';
+      playTone(280, 0.2, 'sine');
+      updateHint();
+    }
+
+    function sipCoffee() {
+      if (coffee.level <= 0) {
+        hintEl.innerHTML = "<span>杯子已经空了，再冲一杯吧 ↺</span>";
+        return;
+      }
+
+      coffee.sipsLeft--;
+      coffee.level = Math.max(0, (coffee.sipsLeft / coffee.totalSips) * 80);
+      liquidEl.style.height = coffee.level + '%';
+
+      playTone(240 - (4 - coffee.sipsLeft) * 20, 0.1, 'sine');
+
+      if (coffee.sipsLeft > 0) {
+        hintEl.innerHTML = `<span>咕嘟~ 味道不错！还能喝 ${coffee.sipsLeft} 口 😋</span>`;
+      } else {
+        // 见底彩蛋
+        steamEl.classList.remove('active');
+        cube1El.classList.remove('show');
+        cube2El.classList.remove('show');
+        hintEl.innerHTML = `<span>🎉 喝到底了！看看杯底发现了什么 ▾</span>`;
+        
+        const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+        fortuneText.innerText = randomFortune;
+        fortuneBox.style.display = 'block';
+      }
+    }
+
+    function resetCup() {
+      coffee.level = 0;
+      coffee.sipsLeft = 0;
+      coffee.hasIce = false;
+      coffee.hasMilk = false;
+      liquidEl.style.height = '0%';
+      steamEl.classList.remove('active');
+      cube1El.classList.remove('show');
+      cube2El.classList.remove('show');
+      foamEl.style.opacity = '0';
+      fortuneBox.style.display = 'none';
+      hintEl.innerHTML = "<span>先点上方按钮冲一杯咖啡 ☝️</span>";
+    }
+
+    function updateHint() {
+      hintEl.innerHTML = "<span>👈 点击杯子啜饮一口 (Sip)</span>";
+    }
+
+    function incrementCupCount() {
+      baseCount++;
+      cupCountEl.innerText = baseCount.toLocaleString();
+    }
+
+    /* 原生 Web Audio 模拟轻微音效 */
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, duration, type='sine') {
+      try {
+        const ctx = getAudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.05, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    /* 雨声白噪音生成器（纯代码合成，无需外部 MP3） */
+    let isRaining = false;
+    let rainNode = null;
+    let rainGain = null;
+
+    function toggleRainNoise() {
+      const btn = document.getElementById('rain-btn');
+      const label = document.getElementById('rain-label');
+
+      if (!isRaining) {
+        startRain();
+        isRaining = true;
+        btn.classList.add('active');
+        label.innerText = '窗外雨声: 正在下雨';
+      } else {
+        stopRain();
+        isRaining = false;
+        btn.classList.remove('active');
+        label.innerText = '窗外雨声: 关';
+      }
+    }
+
+    function startRain() {
+      const ctx = getAudioCtx();
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
+
+      // 生成粉红噪音 (Pink noise buffer)
+      const bufferSize = ctx.sampleRate * 2;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99886 * b0 + white * 0.0555179;
+        b1 = 0.99332 * b1 + white * 0.0750759;
+        b2 = 0.96900 * b2 + white * 0.1538520;
+        b3 = 0.86650 * b3 + white * 0.3104856;
+        b4 = 0.55000 * b4 + white * 0.5329522;
+        b5 = -0.7616 * b5 - white * 0.0168980;
+        data[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+        data[i] *= 0.04;
+        b6 = white * 0.115926;
+      }
+
+      rainNode = ctx.createBufferSource();
+      rainNode.buffer = buffer;
+      rainNode.loop = true;
+
+      // 低通滤波模拟窗外细雨朦胧感
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800, ctx.currentTime);
+
+      rainGain = ctx.createGain();
+      rainGain.gain.setValueAtTime(0.01, ctx.currentTime);
+      rainGain.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 1.2);
+
+      rainNode.connect(filter);
+      filter.connect(rainGain);
+      rainGain.connect(ctx.destination);
+      rainNode.start();
+    }
+
+    function stopRain() {
+      if (rainGain && audioCtx) {
+        rainGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+        setTimeout(() => {
+          if (rainNode) {
+            rainNode.stop();
+            rainNode.disconnect();
+            rainNode = null;
+          }
+        }, 700);
+      }
+    }
+  </script>
+</body>
+</html>
