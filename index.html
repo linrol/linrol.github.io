@@ -687,53 +687,93 @@
       50% { opacity: 1; transform: scale(1.15); }
     }
 
-    /* 冲煮主舞台道具容器 */
+    /* 冲煮主舞台道具容器 (Brew Apparatus) */
     .brew-apparatus {
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: 40px;
+      gap: 52px;
       min-height: 250px;
       width: 100%;
       position: relative;
+      padding-bottom: 12px;
     }
 
-    /* 手冲细嘴壶 (Kettle) */
+    /* 手冲细嘴壶工位 (Kettle Station) */
     .kettle-station {
-      position: absolute;
-      left: 15%;
-      top: 10px;
-      width: 80px;
-      height: 90px;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      transform-origin: 85% 85%;
-      pointer-events: none;
+      position: relative;
+      width: 116px;
+      height: 125px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      user-select: none;
+      z-index: 15;
     }
 
-    .kettle-station.pouring {
-      transform: rotate(-35deg) translate(-10px, 20px);
+    /* 极简哑光电子温控底座 (Fellow Stagg Base) */
+    .kettle-base-stand {
+      width: 86px;
+      height: 12px;
+      background: #221f1d;
+      border: 1.5px solid #141211;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      z-index: 1;
     }
 
-    /* 水流注水动画线 */
+    .base-temp-display {
+      font-size: 8px;
+      font-family: monospace;
+      color: #58cbfb;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      text-shadow: 0 0 4px rgba(88,203,251,0.6);
+    }
+
+    .kettle-body-wrap {
+      position: relative;
+      width: 116px;
+      height: 106px;
+      margin-bottom: -3px;
+      transform-origin: 58px 80px;
+      transition: transform 0.42s cubic-bezier(0.22, 0.9, 0.32, 1);
+    }
+
+    /* 注水动作：壶体精准抬升、平移并倾斜，壶嘴垂直居中对准上方滤杯中心 */
+    .kettle-station.pouring .kettle-body-wrap {
+      transform: translate(168px, -82px) rotate(-30deg);
+    }
+
+    /* 细嘴尖端喷涌注出的晶莹水流 (直冲滤杯中心) */
     .water-stream {
       position: absolute;
-      top: 85px;
-      right: 12px;
-      width: 3px;
+      top: 14px;
+      left: 112px;
+      width: 2.5px;
       height: 0px;
-      background: linear-gradient(to bottom, rgba(230, 245, 255, 0.8), rgba(200, 230, 255, 0.95));
+      background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(190,230,255,0.9) 60%, rgba(160,215,255,0.7) 100%);
       border-radius: 2px;
-      transition: height 0.1s linear;
+      transform-origin: top center;
+      transform: rotate(30deg);
       opacity: 0;
-      filter: drop-shadow(0 0 2px rgba(255,255,255,0.8));
+      pointer-events: none;
+      transition: height 0.12s linear, opacity 0.15s ease;
+      filter: drop-shadow(0 0 3px rgba(210,240,255,0.85));
+      z-index: 20;
     }
 
     .water-stream.flowing {
-      height: 100px;
+      height: 72px;
       opacity: 1;
     }
 
-    /* 核心分享壶与咖啡杯 */
+    /* 核心分享壶与咖啡杯容器 */
     .cup-interactive-box {
       display: flex;
       flex-direction: column;
@@ -741,6 +781,7 @@
       position: relative;
       cursor: pointer;
       user-select: none;
+      z-index: 10;
     }
 
     /* 蒸汽效果 */
@@ -756,10 +797,11 @@
       justify-content: space-around;
       opacity: 0;
       transition: opacity 0.5s ease;
+      z-index: 12;
     }
 
     .steam-plume.active {
-      opacity: 0.8;
+      opacity: 0.85;
     }
 
     .steam-trace {
@@ -787,16 +829,16 @@
       100% { transform: translateY(-24px) scaleX(2.6) rotate(-5deg); opacity: 0; }
     }
 
-    /* 陶瓷咖啡杯身 */
+    /* 北欧极简陶瓷咖啡杯身 */
     .real-cup {
-      width: 140px;
-      height: 115px;
-      border: 4px solid var(--ink-primary);
-      border-radius: 6px 6px 54px 54px;
-      background: var(--bg-card);
+      width: 146px;
+      height: 112px;
+      border: 2.5px solid #3c2a1e;
+      border-radius: 4px 4px 50px 50px;
+      background: linear-gradient(145deg, #fefdfb 0%, #f7f2ea 55%, #eae1d2 100%);
       position: relative;
       overflow: hidden;
-      box-shadow: inset 0 -6px 14px rgba(0,0,0,0.06), 0 10px 24px rgba(0,0,0,0.08);
+      box-shadow: inset 0 -8px 20px rgba(50,30,15,0.08), 0 10px 24px rgba(0,0,0,0.07);
       transition: transform var(--transition-fast);
     }
 
@@ -808,25 +850,29 @@
       transform: scale(0.97);
     }
 
+    /* 陶瓷一体把手 (圆润贴合) */
     .real-cup-handle {
       position: absolute;
-      right: -24px;
-      top: 24px;
-      width: 32px;
-      height: 52px;
-      border: 4px solid var(--ink-primary);
-      border-radius: 0 20px 28px 0;
-      background: transparent;
+      right: -26px;
+      top: 22px;
+      width: 34px;
+      height: 56px;
+      border: 3.5px solid #3c2a1e;
+      border-left: none;
+      border-radius: 0 24px 34px 0;
+      background: linear-gradient(90deg, transparent 0%, #f7f2ea 65%);
+      box-shadow: 2px 4px 8px rgba(0,0,0,0.06);
     }
 
+    /* 原木质感底垫 (Walnut/Birch Saucer) */
     .real-cup-saucer {
-      width: 176px;
+      width: 178px;
       height: 14px;
-      background: var(--bg-desk);
-      border: 3px solid var(--ink-primary);
-      border-radius: 14px;
-      margin-top: -6px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      background: linear-gradient(180deg, #d8bc98 0%, #ba9768 100%);
+      border: 2px solid #543924;
+      border-radius: 8px;
+      margin-top: -3px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
     }
 
     /* 咖啡液体与浮沫 */
@@ -838,7 +884,7 @@
       height: 0%;
       background: var(--coffee-dark);
       transition: height 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.5s ease;
-      border-top: 3px solid rgba(255, 255, 255, 0.25);
+      border-top: 2.5px solid rgba(255, 235, 210, 0.4);
     }
 
     .crema-foam {
@@ -913,7 +959,7 @@
       white-space: nowrap;
     }
 
-    /* 冲煮完成后的品尝便签 (Fortune / Insight Note) */
+    /* 冲煮完成后的品尝便签/* 冲煮完成后的品尝便签 (Fortune / Insight Note) */
     .tasting-note {
       margin-top: 24px;
       background: #fff8e6;
@@ -1692,45 +1738,60 @@
 
   
     /* ==========================================================================
-       V60 手冲滤杯组件与研磨落粉粒子系统
+       V60 经典滤杯组件与研磨落粉粒子系统
        ========================================================================== */
     .dripper-assembly {
       position: absolute;
-      top: -70px;
+      top: -72px;
       left: 50%;
       transform: translateX(-50%);
-      width: 104px;
-      height: 70px;
+      width: 112px;
+      height: 74px;
       z-index: 10;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .dripper-assembly.hidden {
       opacity: 0;
-      transform: translateX(-50%) translateY(-20px) scale(0.9);
+      transform: translateX(-50%) translateY(-24px) scale(0.92);
       pointer-events: none;
     }
 
-    /* V60 滤杯外轮廓 */
+    /* 优雅陶瓷白锥形 V60 滤杯外轮廓 */
     .v60-cone {
-      width: 104px;
-      height: 62px;
+      width: 112px;
+      height: 64px;
       position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(240,240,240,0.3) 100%);
-      border: 2.5px solid var(--ink-primary);
-      clip-path: polygon(0% 0%, 100% 0%, 65% 100%, 35% 100%);
-      box-shadow: inset 0 2px 6px rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.06);
+      background: linear-gradient(135deg, #ffffff 0%, #f6efe7 50%, #e2d7c8 100%);
+      border: 2px solid #4a3628;
+      clip-path: polygon(4% 0%, 96% 0%, 64% 100%, 36% 100%);
+      box-shadow: inset 0 3px 8px rgba(255,255,255,0.9), 0 4px 12px rgba(0,0,0,0.08);
       display: flex;
       justify-content: center;
       overflow: hidden;
     }
 
+    /* 稳坐于杯口的滤杯卡座圈 (Base Collar) */
+    .v60-base-ring {
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 78px;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #eae0d2 0%, #c8bbaa 100%);
+      border: 1.5px solid #4a3628;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      z-index: 2;
+    }
+
     /* 白色锥形滤纸 */
     .filter-paper {
-      width: 86px;
-      height: 52px;
-      background: #ffffff;
-      border: 1px solid #e2dac9;
+      width: 92px;
+      height: 54px;
+      background: linear-gradient(180deg, #fffcf5 0%, #f4ecdc 100%);
+      border: 1px solid #d9cdbd;
       clip-path: polygon(0% 0%, 100% 0%, 62% 100%, 38% 100%);
       position: relative;
       display: flex;
@@ -1788,9 +1849,9 @@
     .bubble-dot:nth-child(3) { animation-delay: 0.5s; width: 6px; height: 6px; }
 
     @keyframes bubbleRise {
-      0% { transform: scale(0.6) translateY(4px); opacity: 0; }
-      50% { transform: scale(1.15) translateY(-2px); opacity: 0.9; }
-      100% { transform: scale(0.9) translateY(-8px); opacity: 0; }
+      0% { transform: translateY(6px) scale(0.6); opacity: 0; }
+      50% { transform: translateY(-2px) scale(1.1); opacity: 0.9; }
+      100% { transform: translateY(-10px) scale(1.4); opacity: 0; }
     }
 
     /* 研磨时的落粉粒子雨 (Falling Coffee Grounds Cascade) */
@@ -1839,39 +1900,42 @@
       font-size: 16px;
       opacity: 0;
       transition: opacity 0.2s ease;
+      pointer-events: none;
     }
 
     .grinder-gear-icon.spinning {
       opacity: 1;
-      animation: gearSpin 0.25s infinite linear;
+      animation: gearSpin 0.35s infinite linear;
     }
 
     @keyframes gearSpin {
-      from { transform: translateX(-50%) rotate(0deg); }
-      to { transform: translateX(-50%) rotate(360deg); }
+      100% { transform: translateX(-50%) rotate(360deg); }
     }
 
     /* 滤杯底部的滴漏水滴 */
     .dripping-stream {
       position: absolute;
-      bottom: -16px;
+      bottom: -18px;
       left: 50%;
       transform: translateX(-50%);
-      width: 2.5px;
+      width: 3px;
       height: 18px;
       background: var(--coffee-dark);
       border-radius: 2px;
       opacity: 0;
       transition: opacity 0.2s ease;
+      box-shadow: 0 0 3px rgba(74, 40, 16, 0.4);
     }
 
     .dripping-stream.active {
-      opacity: 0.85;
-      animation: dripPulse 0.5s infinite ease-in-out;
+      opacity: 0.9;
+      animation: dripPulse 0.35s infinite ease-in-out;
     }
 
     @keyframes dripPulse {
       0%, 100% { transform: translateX(-50%) scaleY(0.7); }
+      50% { transform: translateX(-50%) scaleY(1.3); }
+    }
       50% { transform: translateX(-50%) scaleY(1.2); }
     }
 
@@ -2061,20 +2125,45 @@
           <!-- 冲煮主舞台道具 -->
           <div class="brew-apparatus">
             
-            <!-- 手冲壶 (带注水倾斜动画) -->
+            <!-- 手冲细嘴壶工位 (精致温控底座 + 优雅天鹅颈手冲壶) -->
             <div id="kettle" class="kettle-station">
-              <svg width="80" height="90" viewBox="0 0 100 110" fill="none">
-                <!-- 壶身 -->
-                <path d="M25 35 L75 35 L85 95 L15 95 Z" fill="var(--ink-secondary)" stroke="var(--ink-primary)" stroke-width="3" stroke-linejoin="round"/>
-                <!-- 壶盖与手柄 -->
-                <rect x="35" y="27" width="30" height="8" rx="3" fill="var(--accent-warm)"/>
-                <circle cx="50" cy="24" r="5" fill="var(--accent-warm)"/>
-                <path d="M15 45 C-5 50, -5 85, 18 90" stroke="var(--ink-primary)" stroke-width="5" stroke-linecap="round"/>
-                <!-- 鹅颈细嘴 -->
-                <path d="M78 80 C95 75, 95 30, 88 22" stroke="var(--ink-primary)" stroke-width="4" stroke-linecap="round" fill="none"/>
-              </svg>
-              <!-- 水流 -->
-              <div id="water-stream" class="water-stream"></div>
+              <div class="kettle-base-stand">
+                <div class="base-temp-display">93°C</div>
+              </div>
+              <div class="kettle-body-wrap">
+                <svg width="116" height="106" viewBox="0 0 116 106" fill="none">
+                  <defs>
+                    <linearGradient id="kettleBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#3c3836"/>
+                      <stop offset="50%" stop-color="#2a2624"/>
+                      <stop offset="100%" stop-color="#181514"/>
+                    </linearGradient>
+                    <linearGradient id="walnutGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#af794d"/>
+                      <stop offset="100%" stop-color="#6f4021"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- 壶底阴影 -->
+                  <ellipse cx="58" cy="98" rx="30" ry="4" fill="rgba(0,0,0,0.18)"/>
+                  <!-- 壶身 (Stagg EKG 极简倒梯形) -->
+                  <path d="M36 32 L80 32 C82 32, 83.5 33, 84 35 L94 92 C94.5 94.5, 92.5 96.5, 90 96.5 L26 96.5 C23.5 96.5, 21.5 94.5, 22 92 L32 35 C32.5 33, 34 32, 36 32 Z" 
+                        fill="url(#kettleBodyGrad)" stroke="#161413" stroke-width="2"/>
+                  <!-- 壶身边缘金属质感微反光 -->
+                  <path d="M35 36 L27 92" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" stroke-linecap="round"/>
+                  <!-- 胡桃木质壶盖与提钮 -->
+                  <path d="M40 32 L76 32 L73 25 L43 25 Z" fill="url(#walnutGrad)" stroke="#4a2a14" stroke-width="1.5"/>
+                  <ellipse cx="58" cy="22" rx="7" ry="4.5" fill="url(#walnutGrad)" stroke="#4a2a14" stroke-width="1.5"/>
+                  <!-- 人体工学反重力手柄 (Walnut + Matte Black) -->
+                  <path d="M24 44 C9 44, -1 52, 1 68 C3 82, 13 90, 24 92" stroke="#1f1c1b" stroke-width="7" stroke-linecap="round" fill="none"/>
+                  <path d="M24 44 C9 44, -1 52, 1 68 C3 82, 13 90, 24 92" stroke="url(#walnutGrad)" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <!-- 优雅天鹅颈细嘴 (Gooseneck Spout) 尖端精确到达 (112, 16) -->
+                  <path d="M86 86 C103 82, 112 60, 106 32 C104 22, 107 16, 112 16" stroke="#161413" stroke-width="5" stroke-linecap="round" fill="none"/>
+                  <path d="M86 86 C103 82, 112 60, 106 32 C104 22, 107 16, 112 16" stroke="#3c3836" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                  <ellipse cx="112" cy="16" rx="2" ry="1.2" fill="#555"/>
+                </svg>
+                <!-- 从细嘴尖端精准注出的晶莹水流 (直冲滤杯中心) -->
+                <div id="water-stream" class="water-stream"></div>
+              </div>
             </div>
 
             <!-- 咖啡杯主体 (配备上方手冲滤杯 V60) -->
@@ -2114,12 +2203,14 @@
                     </div>
                   </div>
                 </div>
+                <!-- 稳坐于杯口的滤杯卡座圈 -->
+                <div class="v60-base-ring"></div>
 
                 <!-- 滤杯底部滴漏水滴 -->
                 <div id="dripping-stream" class="dripping-stream"></div>
               </div>
 
-              <!-- ② 杯身 (接收滤杯滴落的咖啡液) -->
+              <!-- ② 北欧极简陶瓷杯身 (接收滤杯滴落的咖啡液) -->
               <div class="real-cup">
                 <div id="cup-liquid" class="cup-liquid">
                   <div id="crema-foam" class="crema-foam"></div>
@@ -2887,6 +2978,9 @@
           pourProg.innerText = "萃取完成 ✓";
           steamWrap.classList.add('active');
           brewState.sipsLeft = brewState.totalSips;
+          if (dripperUnit) dripperUnit.classList.add('hidden');
+          ticker.innerText = "✨ 萃取完美出杯！滤杯已移开，温热现冲咖啡已盛满杯中，快点击杯子啜饮一口 ☕";
+          sipLabel.innerText = "手冲已出杯 ➔ 点击杯子享受现磨风味 ☕";
           ticker.innerText = "手冲萃取完成！满室飘香，快点击杯子啜饮品尝吧 ✨";
           sipLabel.innerText = "👈 点击咖啡杯啜饮 (还有 4 口)";
           
