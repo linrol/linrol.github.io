@@ -1412,6 +1412,191 @@
       flex: 1;
     }
 
+  
+    /* ==========================================================================
+       V60 手冲滤杯组件与研磨落粉粒子系统
+       ========================================================================== */
+    .dripper-assembly {
+      position: absolute;
+      top: -70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 104px;
+      height: 70px;
+      z-index: 10;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dripper-assembly.hidden {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px) scale(0.9);
+      pointer-events: none;
+    }
+
+    /* V60 滤杯外轮廓 */
+    .v60-cone {
+      width: 104px;
+      height: 62px;
+      position: relative;
+      background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(240,240,240,0.3) 100%);
+      border: 2.5px solid var(--ink-primary);
+      clip-path: polygon(0% 0%, 100% 0%, 65% 100%, 35% 100%);
+      box-shadow: inset 0 2px 6px rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* 白色锥形滤纸 */
+    .filter-paper {
+      width: 86px;
+      height: 52px;
+      background: #ffffff;
+      border: 1px solid #e2dac9;
+      clip-path: polygon(0% 0%, 100% 0%, 62% 100%, 38% 100%);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    /* 滤纸内的现磨咖啡粉层 (Coffee Grounds Bed) */
+    .grounds-bed {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 0%;
+      background: #9e6b47;
+      transition: height 0.15s ease-out, background-color 0.4s ease, transform 0.3s ease;
+      clip-path: polygon(0% 25%, 100% 25%, 70% 100%, 30% 100%);
+      box-shadow: inset 0 3px 6px rgba(0,0,0,0.35);
+    }
+
+    /* 闷蒸膨胀动效 */
+    .grounds-bed.blooming {
+      transform: scaleY(1.25);
+      filter: drop-shadow(0 0 4px rgba(200, 104, 53, 0.4));
+    }
+
+    /* 闷蒸排气气泡 */
+    .bloom-bubble-wrap {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 20px;
+      pointer-events: none;
+      display: none;
+    }
+
+    .bloom-bubble-wrap.active {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .bubble-dot {
+      width: 7px;
+      height: 7px;
+      background: rgba(240, 220, 190, 0.85);
+      border-radius: 50%;
+      border: 1px solid rgba(160, 90, 40, 0.4);
+      animation: bubbleRise 0.8s infinite ease-in-out;
+    }
+
+    .bubble-dot:nth-child(2) { animation-delay: 0.25s; width: 9px; height: 9px; }
+    .bubble-dot:nth-child(3) { animation-delay: 0.5s; width: 6px; height: 6px; }
+
+    @keyframes bubbleRise {
+      0% { transform: scale(0.6) translateY(4px); opacity: 0; }
+      50% { transform: scale(1.15) translateY(-2px); opacity: 0.9; }
+      100% { transform: scale(0.9) translateY(-8px); opacity: 0; }
+    }
+
+    /* 研磨时的落粉粒子雨 (Falling Coffee Grounds Cascade) */
+    .grind-particle-cascade {
+      position: absolute;
+      top: -46px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 48px;
+      pointer-events: none;
+      overflow: hidden;
+      display: none;
+    }
+
+    .grind-particle-cascade.active {
+      display: block;
+    }
+
+    .falling-dust {
+      position: absolute;
+      width: 3.5px;
+      height: 3.5px;
+      border-radius: 50%;
+      background: #3b2317;
+      animation: dustFall 0.35s infinite linear;
+    }
+
+    .dust-1 { left: 20%; animation-delay: 0.05s; }
+    .dust-2 { left: 35%; animation-delay: 0.12s; width: 4px; height: 4px; }
+    .dust-3 { left: 50%; animation-delay: 0.02s; }
+    .dust-4 { left: 65%; animation-delay: 0.18s; width: 3px; height: 3px; }
+    .dust-5 { left: 80%; animation-delay: 0.09s; }
+
+    @keyframes dustFall {
+      0% { transform: translateY(-5px) scale(0.8); opacity: 0.9; }
+      100% { transform: translateY(48px) scale(1.2); opacity: 0.4; }
+    }
+
+    /* 磨豆机飞速自转的小磨盘齿轮 */
+    .grinder-gear-icon {
+      position: absolute;
+      top: -48px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .grinder-gear-icon.spinning {
+      opacity: 1;
+      animation: gearSpin 0.25s infinite linear;
+    }
+
+    @keyframes gearSpin {
+      from { transform: translateX(-50%) rotate(0deg); }
+      to { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    /* 滤杯底部的滴漏水滴 */
+    .dripping-stream {
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2.5px;
+      height: 18px;
+      background: var(--coffee-dark);
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .dripping-stream.active {
+      opacity: 0.85;
+      animation: dripPulse 0.5s infinite ease-in-out;
+    }
+
+    @keyframes dripPulse {
+      0%, 100% { transform: translateX(-50%) scaleY(0.7); }
+      50% { transform: translateX(-50%) scaleY(1.2); }
+    }
+
   </style>
 </head>
 <body>
@@ -1648,8 +1833,9 @@
               <div id="water-stream" class="water-stream"></div>
             </div>
 
-            <!-- 咖啡杯主体 -->
+            <!-- 咖啡杯主体 (配备上方手冲滤杯 V60) -->
             <div class="cup-interactive-box" onclick="sipCoffee()" title="点击啜饮一口">
+              
               <!-- 蒸汽 -->
               <div id="steam-wrap" class="steam-plume">
                 <div class="steam-trace"></div>
@@ -1657,7 +1843,39 @@
                 <div class="steam-trace"></div>
               </div>
 
-              <!-- 杯身 -->
+              <!-- ① 架在杯口上方的 V60 手冲滤杯与落粉系统 -->
+              <div id="dripper-unit" class="dripper-assembly" title="V60手冲滤杯 · 现磨咖啡粉盛装处">
+                <!-- 研磨时飞旋的小齿轮 -->
+                <div id="grinder-gear" class="grinder-gear-icon">⚙️</div>
+
+                <!-- 研磨时的落粉粒子雨 -->
+                <div id="grind-particles" class="grind-particle-cascade">
+                  <div class="falling-dust dust-1"></div>
+                  <div class="falling-dust dust-2"></div>
+                  <div class="falling-dust dust-3"></div>
+                  <div class="falling-dust dust-4"></div>
+                  <div class="falling-dust dust-5"></div>
+                </div>
+
+                <!-- V60 滤杯外壳与白色滤纸 -->
+                <div class="v60-cone">
+                  <div class="filter-paper">
+                    <!-- 研磨堆积的咖啡粉层 -->
+                    <div id="grounds-bed" class="grounds-bed"></div>
+                    <!-- 注水时的闷蒸膨胀气泡 -->
+                    <div id="bloom-bubbles" class="bloom-bubble-wrap">
+                      <div class="bubble-dot"></div>
+                      <div class="bubble-dot"></div>
+                      <div class="bubble-dot"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 滤杯底部滴漏水滴 -->
+                <div id="dripping-stream" class="dripping-stream"></div>
+              </div>
+
+              <!-- ② 杯身 (接收滤杯滴落的咖啡液) -->
               <div class="real-cup">
                 <div id="cup-liquid" class="cup-liquid">
                   <div id="crema-foam" class="crema-foam"></div>
@@ -1932,6 +2150,8 @@
         roastPill.style.color = profile.roastColor;
 
         document.getElementById('showcase-jar-beans').style.backgroundColor = profile.beanColor;
+        const gBed = document.getElementById('grounds-bed');
+        if (gBed) gBed.style.backgroundColor = profile.beanColor;
         document.querySelectorAll('.bean-fill').forEach(el => el.setAttribute('fill', profile.beanColor));
         document.querySelectorAll('.bean-crease').forEach(el => el.setAttribute('stroke', profile.creaseColor));
 
@@ -1953,15 +2173,30 @@
       }
     }
 
+        // ① 磨豆交互 (右侧滤杯同步落粉飞旋)
+    const grinderGear = document.getElementById('grinder-gear');
+    const grindParticles = document.getElementById('grind-particles');
+    const groundsBed = document.getElementById('grounds-bed');
+    const bloomBubbles = document.getElementById('bloom-bubbles');
+    const drippingStream = document.getElementById('dripping-stream');
+    const dripperUnit = document.getElementById('dripper-unit');
+
     function startGrinding() {
       if (brewState.grindProgress >= 100) return;
       brewState.isGrinding = true;
       grindBtn.classList.add('holding');
-      ticker.innerText = "正在研磨咖啡豆… 细密香气开始散发 🫘";
+      
+      // 右侧视觉动效：齿轮旋转 + 落粉粒子飞洒
+      grinderGear.classList.add('spinning');
+      grindParticles.classList.add('active');
+      ticker.innerText = "⚙️ 磨盘飞速研磨中… 细腻咖啡粉正纷纷落入滤杯 🫘";
 
       grindTimer = setInterval(() => {
         brewState.grindProgress = Math.min(100, brewState.grindProgress + 5);
         grindProg.innerText = brewState.grindProgress + '%';
+        
+        // 右侧滤杯中的咖啡粉层逐渐堆积厚实 (0% ➔ 80%)
+        groundsBed.style.height = (brewState.grindProgress * 0.8) + '%';
         playNoiseClick(0.04);
 
         if (brewState.grindProgress >= 100) {
@@ -1969,8 +2204,10 @@
           grindProg.innerText = "研磨完毕 ✓";
           pourBtn.disabled = false;
           pourProg.innerText = "0%";
-          ticker.innerText = "咖啡粉已装入滤杯，请长按细嘴壶注水 💧";
+          ticker.innerText = "✨ 研磨完毕！滤杯中已盛满新鲜干香咖啡粉，请长按细嘴壶注水 💧";
+          sipLabel.innerText = "滤杯已备好咖啡粉 ➔ 接下来长按注水 💧";
           playTone(660, 0.15, 'sine');
+          setTimeout(() => playTone(880, 0.1, 'sine'), 100);
         }
       }, 70);
     }
@@ -1978,23 +2215,32 @@
     function stopGrinding() {
       brewState.isGrinding = false;
       grindBtn.classList.remove('holding');
+      grinderGear.classList.remove('spinning');
+      grindParticles.classList.remove('active');
       if (grindTimer) clearInterval(grindTimer);
     }
 
-    // ② 注水交互
+    // ② 注水交互 (粉层闷蒸膨胀冒泡 + 滴漏落入咖啡杯)
     function startPouring() {
       if (brewState.pourProgress >= 100 || brewState.grindProgress < 100) return;
       brewState.isPouring = true;
       pourBtn.classList.add('holding');
       kettle.classList.add('pouring');
       waterStream.classList.add('flowing');
-      ticker.innerText = "细水流缓慢绕圈注水… 粉层闷蒸膨胀中 ☕";
+      
+      // 动效：粉层闷蒸膨胀 + 冒出气泡 + 滤杯底部开始滴水
+      groundsBed.classList.add('blooming');
+      bloomBubbles.classList.add('active');
+      drippingStream.classList.add('active');
+      ticker.innerText = "细水流轻柔注水… 咖啡粉层闷蒸膨胀释放香气 ☕";
 
       pourTimer = setInterval(() => {
         brewState.pourProgress = Math.min(100, brewState.pourProgress + 4);
         pourProg.innerText = brewState.pourProgress + '%';
+        
+        // 咖啡液面在下方咖啡杯中缓缓上升
         cupLiquid.style.height = (brewState.pourProgress * 0.8) + '%';
-        cremaFoam.style.opacity = (brewState.pourProgress / 100) * 0.8;
+        cremaFoam.style.opacity = (brewState.pourProgress / 100) * 0.85;
         playPourSound();
 
         if (brewState.pourProgress >= 100) {
@@ -2002,8 +2248,14 @@
           pourProg.innerText = "萃取完成 ✓";
           steamWrap.classList.add('active');
           brewState.sipsLeft = brewState.totalSips;
-          ticker.innerText = "手冲萃取完成！满室飘香，快点击杯子品尝吧 ✨";
+          ticker.innerText = "手冲萃取完成！满室飘香，快点击杯子啜饮品尝吧 ✨";
           sipLabel.innerText = "👈 点击咖啡杯啜饮 (还有 4 口)";
+          
+          // 萃取完成后，滤杯完成使命，优雅淡出移开
+          setTimeout(() => {
+            dripperUnit.classList.add('hidden');
+          }, 800);
+
           playTone(520, 0.2, 'triangle');
           incrementCounter();
         }
@@ -2015,6 +2267,8 @@
       pourBtn.classList.remove('holding');
       kettle.classList.remove('pouring');
       waterStream.classList.remove('flowing');
+      bloomBubbles.classList.remove('active');
+      drippingStream.classList.remove('active');
       if (pourTimer) clearInterval(pourTimer);
     }
 
@@ -2094,6 +2348,13 @@
     function resetBar() {
       brewState.grindProgress = 0;
       brewState.pourProgress = 0;
+      if (groundsBed) {
+        groundsBed.style.height = '0%';
+        groundsBed.classList.remove('blooming');
+      }
+      if (dripperUnit) dripperUnit.classList.remove('hidden');
+      if (bloomBubbles) bloomBubbles.classList.remove('active');
+      if (drippingStream) drippingStream.classList.remove('active');
       brewState.sipsLeft = 0;
       brewState.hasIce = false;
       brewState.hasMilk = false;
