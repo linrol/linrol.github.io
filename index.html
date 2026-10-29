@@ -710,11 +710,6 @@
       justify-content: flex-end;
       user-select: none;
       z-index: 15;
-      cursor: grab;
-    }
-
-    .kettle-station:active {
-      cursor: grabbing;
     }
 
     .kettle-body-wrap {
@@ -723,14 +718,21 @@
       height: 106px;
       z-index: 2;
       transform-origin: 58px 80px;
-      transition: transform 0.42s cubic-bezier(0.22, 0.9, 0.32, 1);
+      cursor: grab;
+      transition: transform 0.42s cubic-bezier(0.22, 0.9, 0.32, 1), filter var(--transition-fast);
+      margin-bottom: -5px;
     }
 
-    .kettle-station:hover .kettle-body-wrap {
-      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.22));
+    .kettle-body-wrap:hover {
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
     }
 
-    /* 极简哑光电子温控底座 (Fellow Stagg Base - 稳稳托在壶底正下方，支持拖拽调温) */
+    .kettle-station.pouring .kettle-body-wrap {
+      cursor: grabbing;
+      transform: translate(168px, -82px) rotate(-30deg);
+    }
+
+    /* 极简哑光电子温控底座 (Fellow Stagg Base - 稳稳托在壶底正下方) */
     .kettle-base-stand {
       position: relative;
       width: 96px;
@@ -743,7 +745,6 @@
       justify-content: space-between;
       padding: 0 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.22);
-      margin-top: -6px;
       z-index: 1;
       cursor: ew-resize;
       transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
@@ -752,7 +753,7 @@
 
     .kettle-base-stand:hover {
       border-color: #58cbfb;
-      box-shadow: 0 0 10px rgba(88,203,251,0.25), 0 4px 12px rgba(0,0,0,0.22);
+      box-shadow: 0 0 10px rgba(88,203,251,0.3), 0 4px 12px rgba(0,0,0,0.22);
     }
 
     /* 物理金属旋钮小拨盘 (Rotary Knob) */
@@ -810,16 +811,29 @@
       z-index: 30;
     }
 
-    .kettle-station:hover .kettle-hint,
-    .dripper-assembly:hover .dripper-hint,
-    .kettle-base-stand:hover .base-hint {
+    /* 独立激活：手冲壶悬停只显示注水提示，不会波及底座 */
+    .kettle-body-wrap:hover .kettle-hint {
       opacity: 1;
       transform: translateX(-50%) translateY(-3px);
     }
 
-    /* 注水动作：壶体精准抬升、平移并倾斜，壶嘴垂直居中对准上方滤杯中心 */
-    .kettle-station.pouring .kettle-body-wrap {
-      transform: translate(168px, -82px) rotate(-30deg);
+    .dripper-assembly:hover .dripper-hint {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-3px);
+    }
+
+    /* 底座提示显示在底座下方，绝不挡住壶身 */
+    .base-hint {
+      top: auto !important;
+      bottom: -24px !important;
+      background: rgba(24, 20, 18, 0.92);
+      border: 1px solid rgba(88, 203, 251, 0.4);
+      color: #e4f4ff;
+    }
+
+    .kettle-base-stand:hover .base-hint {
+      opacity: 1;
+      transform: translateX(-50%) translateY(3px);
     }
 
     /* 细嘴尖端喷涌注出的晶莹水流 (直冲滤杯中心) */
@@ -2209,12 +2223,13 @@
           <div class="brew-apparatus">
             
             <!-- 手冲细嘴壶工位 (精致温控底座 + 优雅天鹅颈手冲壶) -->
-            <div id="kettle" class="kettle-station"
-                 onmousedown="handleKettleStart(event)" onmouseup="handleKettleEnd(event)"
-                 ontouchstart="handleKettleStart(event)" ontouchend="handleKettleEnd(event)"
-                 title="按住手冲壶直接注水">
-              <div class="prop-hint kettle-hint">按住注水 💧</div>
-              <div class="kettle-body-wrap">
+            <div id="kettle" class="kettle-station">
+              <!-- 壶体：直接按住壶身注水 -->
+              <div id="kettle-body" class="kettle-body-wrap"
+                   onmousedown="handleKettleStart(event)" onmouseup="handleKettleEnd(event)"
+                   ontouchstart="handleKettleStart(event)" ontouchend="handleKettleEnd(event)"
+                   title="按住手冲壶直接注水">
+                <div class="prop-hint kettle-hint">按住注水 💧</div>
                 <svg width="116" height="106" viewBox="0 0 116 106" fill="none">
                   <defs>
                     <linearGradient id="kettleBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -2248,17 +2263,18 @@
                 <!-- 从细嘴尖端精准注出的晶莹水流 (直冲滤杯中心) -->
                 <div id="water-stream" class="water-stream"></div>
               </div>
-              <!-- 电子温控底座 (支持左右拖拽、滚轮或点击调节水温 80°C~99°C) -->
+
+              <!-- 电子温控底座 (处于壶底正下方，左右拖拽、滚轮或点击微调水温) -->
               <div id="kettle-base" class="kettle-base-stand"
                    onmousedown="startTempDrag(event)" ontouchstart="startTempDrag(event)"
                    onwheel="handleTempWheel(event)"
                    onclick="handleTempClick(event)"
-                   title="↔ 左右拖动、滚动滑轮或点击调节冲煮水温 (80°C ~ 99°C)">
-                <div class="prop-hint base-hint">↔ 拖拽/滚轮调水温</div>
+                   title="↔ 左右拖动、滑动滚轮或点击微调水温 (80°C ~ 99°C)">
                 <div class="base-knob" id="base-knob">
                   <div class="knob-dot"></div>
                 </div>
                 <div id="base-temp" class="base-temp-display">93°C</div>
+                <div class="prop-hint base-hint">↔ 拖拽/滚轮调水温</div>
               </div>
             </div>
 
