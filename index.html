@@ -730,30 +730,63 @@
       filter: drop-shadow(0 6px 14px rgba(0,0,0,0.22));
     }
 
-    /* 极简哑光电子温控底座 (Fellow Stagg Base - 稳稳托在壶底正下方) */
+    /* 极简哑光电子温控底座 (Fellow Stagg Base - 稳稳托在壶底正下方，支持拖拽调温) */
     .kettle-base-stand {
       position: relative;
-      width: 90px;
-      height: 12px;
-      background: #201d1b;
-      border: 1.5px solid #141211;
-      border-radius: 6px;
+      width: 96px;
+      height: 16px;
+      background: #1c1918;
+      border: 1.5px solid #100e0d;
+      border-radius: 7px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      padding-right: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      justify-content: space-between;
+      padding: 0 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.22);
       margin-top: -6px;
       z-index: 1;
+      cursor: ew-resize;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      user-select: none;
+    }
+
+    .kettle-base-stand:hover {
+      border-color: #58cbfb;
+      box-shadow: 0 0 10px rgba(88,203,251,0.25), 0 4px 12px rgba(0,0,0,0.22);
+    }
+
+    /* 物理金属旋钮小拨盘 (Rotary Knob) */
+    .base-knob {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #363230;
+      border: 1px solid #181514;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 1px 3px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      transition: transform 0.08s linear;
+      flex-shrink: 0;
+    }
+
+    .knob-dot {
+      width: 2px;
+      height: 3px;
+      background: #d49a6a;
+      border-radius: 1px;
+      margin-top: 1px;
     }
 
     .base-temp-display {
-      font-size: 8px;
+      font-size: 9px;
       font-family: monospace;
       color: #58cbfb;
       letter-spacing: 0.5px;
       font-weight: 700;
-      text-shadow: 0 0 4px rgba(88,203,251,0.6);
+      text-shadow: 0 0 5px rgba(88,203,251,0.7);
+      user-select: none;
+      line-height: 1;
     }
 
     /* 悬浮互动指引标签 (Prop Tooltips) */
@@ -778,7 +811,8 @@
     }
 
     .kettle-station:hover .kettle-hint,
-    .dripper-assembly:hover .dripper-hint {
+    .dripper-assembly:hover .dripper-hint,
+    .kettle-base-stand:hover .base-hint {
       opacity: 1;
       transform: translateX(-50%) translateY(-3px);
     }
@@ -2214,9 +2248,17 @@
                 <!-- 从细嘴尖端精准注出的晶莹水流 (直冲滤杯中心) -->
                 <div id="water-stream" class="water-stream"></div>
               </div>
-              <!-- 电子温控底座 (稳稳托在壶底正下方) -->
-              <div class="kettle-base-stand">
-                <div class="base-temp-display">93°C</div>
+              <!-- 电子温控底座 (支持左右拖拽、滚轮或点击调节水温 80°C~99°C) -->
+              <div id="kettle-base" class="kettle-base-stand"
+                   onmousedown="startTempDrag(event)" ontouchstart="startTempDrag(event)"
+                   onwheel="handleTempWheel(event)"
+                   onclick="handleTempClick(event)"
+                   title="↔ 左右拖动、滚动滑轮或点击调节冲煮水温 (80°C ~ 99°C)">
+                <div class="prop-hint base-hint">↔ 拖拽/滚轮调水温</div>
+                <div class="base-knob" id="base-knob">
+                  <div class="knob-dot"></div>
+                </div>
+                <div id="base-temp" class="base-temp-display">93°C</div>
               </div>
             </div>
 
@@ -2462,6 +2504,7 @@
        -------------------------------------------------------------------------- */
     const brewState = {
       bean: 'yirgacheffe',
+      waterTemp: 93,
       grindProgress: 0,
       pourProgress: 0,
       isGrinding: false,
@@ -2919,6 +2962,14 @@
       ticker.innerText = `已选用：${profile.name} (${profile.notes || profile.roast})`;
       playTone(420, 0.08, 'sine');
 
+      // 根据豆款烘焙度智能推荐温控底座预设温度
+      let recTemp = 93;
+      if (profile.roast.includes('深烘') || profile.roast.includes('Dark')) recTemp = 88;
+      else if (profile.roast.includes('浅烘') || profile.roast.includes('Light')) recTemp = 93;
+      else if (profile.roast.includes('脱因') || profile.roast.includes('Decaf')) recTemp = 90;
+      else recTemp = 91;
+      setWaterTemp(recTemp);
+
       // 联动更新右侧中央核心展台
       const titleEl = document.getElementById('showcase-bean-title');
       if (titleEl) titleEl.innerText = profile.name;
@@ -3105,6 +3156,122 @@
       if (brewState.isGrinding) stopGrinding();
       if (brewState.isPouring) stopPouring();
     });
+    // --------------------------------------------------------------------------
+    // 电子温控底座拖拽与旋钮调节水温交互 (80°C - 99°C)
+    // --------------------------------------------------------------------------
+    let isDraggingTemp = false;
+    let tempDragStartX = 0;
+    let tempDragStartVal = 93;
+    let didDragTemp = false;
+
+    function startTempDrag(e) {
+      e.stopPropagation();
+      isDraggingTemp = true;
+      didDragTemp = false;
+      tempDragStartX = e.touches ? e.touches[0].clientX : e.clientX;
+      tempDragStartVal = brewState.waterTemp || 93;
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDraggingTemp) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const deltaX = clientX - tempDragStartX;
+      if (Math.abs(deltaX) > 2) {
+        didDragTemp = true;
+        // 每 4px 调整 1°C
+        const newTemp = Math.max(80, Math.min(99, Math.round(tempDragStartVal + deltaX / 4)));
+        setWaterTemp(newTemp);
+      }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDraggingTemp) return;
+      const clientX = e.touches[0].clientX;
+      const deltaX = clientX - tempDragStartX;
+      if (Math.abs(deltaX) > 2) {
+        didDragTemp = true;
+        const newTemp = Math.max(80, Math.min(99, Math.round(tempDragStartVal + deltaX / 4)));
+        setWaterTemp(newTemp);
+      }
+    }, { passive: false });
+
+    window.addEventListener('mouseup', () => {
+      if (isDraggingTemp) isDraggingTemp = false;
+    });
+    window.addEventListener('touchend', () => {
+      if (isDraggingTemp) isDraggingTemp = false;
+    });
+
+    function handleTempClick(e) {
+      e.stopPropagation();
+      if (didDragTemp) return;
+      // 点击循环精选预设温度: 88°C ➔ 91°C ➔ 93°C ➔ 95°C ➔ 98°C
+      const presets = [88, 91, 93, 95, 98];
+      let cur = brewState.waterTemp || 93;
+      let nextIdx = presets.findIndex(p => p > cur);
+      if (nextIdx === -1) nextIdx = 0;
+      setWaterTemp(presets[nextIdx]);
+    }
+
+    function handleTempWheel(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let step = e.deltaY < 0 ? 1 : -1;
+      let newTemp = Math.max(80, Math.min(99, (brewState.waterTemp || 93) + step));
+      setWaterTemp(newTemp);
+    }
+
+    function setWaterTemp(temp) {
+      if (brewState.waterTemp === temp && document.getElementById('base-temp')?.innerText === temp + '°C') return;
+      brewState.waterTemp = temp;
+      
+      const tempEl = document.getElementById('base-temp');
+      if (tempEl) tempEl.innerText = temp + '°C';
+
+      // 旋钮物理旋转动效 (-60deg 到 +60deg)
+      const knob = document.getElementById('base-knob');
+      if (knob) {
+        const deg = ((temp - 80) / (99 - 80)) * 240 - 120;
+        knob.style.transform = `rotate(${deg}deg)`;
+      }
+
+      // 机械刻度清脆声
+      playTone(600 + (temp - 80) * 20, 0.018, 'sawtooth');
+
+      // 咖啡师根据当前选豆烘焙度的智能水温点评
+      evaluateTempTip(temp);
+    }
+
+    function evaluateTempTip(temp) {
+      const profile = beanProfiles[brewState.bean];
+      const roast = profile ? profile.roast : '';
+      const beanName = profile ? profile.name : '咖啡豆';
+
+      if (roast.includes('深烘') || roast.includes('Dark')) {
+        if (temp <= 88) {
+          ticker.innerText = `🌡️ 调整至 ${temp}°C：绝配深烘！低温有效抑制焦苦杂味，萃取出【${beanName}】浓郁坚果与黑巧厚重醇甜 ✨`;
+        } else if (temp >= 94) {
+          ticker.innerText = `🌡️ 调整至 ${temp}°C：高温萃取深烘豆，风味浓烈厚实、苦甜交织。`;
+        } else {
+          ticker.innerText = `🌡️ 水温设定为 ${temp}°C，底座正在精密恒温加热。`;
+        }
+      } else if (roast.includes('浅烘') || roast.includes('Light')) {
+        if (temp >= 92 && temp <= 95) {
+          ticker.innerText = `🌡️ 调整至 ${temp}°C：黄金手冲水温！充分激活【${beanName}】高海拔花果香气与优雅明亮果酸 🌸`;
+        } else if (temp < 88) {
+          ticker.innerText = `🌡️ 调整至 ${temp}°C：低温可能导致浅烘豆花果酸香萃取不足哦，推荐调高至 92°C~95°C。`;
+        } else {
+          ticker.innerText = `🌡️ 水温设定为 ${temp}°C，底座正在精密恒温加热。`;
+        }
+      } else {
+        if (temp >= 90 && temp <= 92) {
+          ticker.innerText = `🌡️ 调整至 ${temp}°C：中烘豆黄金水温，平衡纯净甜感与醇厚度 ✨`;
+        } else {
+          ticker.innerText = `🌡️ 水温设定为 ${temp}°C，底座正在精密恒温加热。`;
+        }
+      }
+    }
+
 
     // ③ 品尝咖啡 (Sip)
     function sipCoffee() {
