@@ -647,12 +647,13 @@
       color: #ffffff;
     }
 
-    /* 右侧：沉浸式手冲台视觉核心 */
+    /* 右侧：沉浸式手冲台视觉核心 (稳定布局 · 杜绝窗口拉伸变形) */
     .workbench-right {
-      padding: 30px;
+      padding: 24px 24px 20px 24px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-start;
+      gap: 16px;
       align-items: center;
       position: relative;
       background-image: 
@@ -1203,22 +1204,58 @@
       border-color: #554438;
     }
 
-    /* 精品手冲萃取小票 (Brew Receipt Card) */
+    /* 精品手冲萃取小票弹窗 (Receipt Modal Overlay · Zero Layout Shift) */
+    .receipt-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 22, 16, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: modalFadeIn 0.25s ease-out;
+    }
+
     .brew-receipt-card {
-      margin-top: 20px;
-      max-width: 440px;
-      background: #fdfcf7;
-      border: 1px dashed #d5c8b5;
-      border-radius: var(--radius-md);
-      padding: 18px 24px;
-      box-shadow: 0 8px 24px rgba(45,30,20,0.08);
+      margin-top: 0;
+      width: 100%;
+      max-width: 430px;
+      background: #fdfbf7;
+      border: 1.5px dashed #cfbeaa;
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      box-shadow: 0 24px 60px rgba(25, 15, 8, 0.4);
       font-family: var(--font-sans);
-      animation: receiptDrop 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+      position: relative;
+      animation: receiptDrop 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
 
     @keyframes receiptDrop {
-      from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+      from { opacity: 0; transform: translateY(-16px) scale(0.96); }
       to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .receipt-close-x {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--ink-subtle);
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 6px;
+      border-radius: 50%;
+      transition: all var(--transition-fast);
+    }
+
+    .receipt-close-x:hover {
+      color: var(--ink-primary);
+      background: rgba(0,0,0,0.06);
     }
 
     .receipt-header {
@@ -1226,28 +1263,36 @@
       margin-bottom: 12px;
     }
 
+    .receipt-brand {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--accent-warm);
+      margin-bottom: 3px;
+    }
+
     .receipt-title {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       color: var(--ink-primary);
     }
 
     .receipt-sub {
       font-size: 11px;
       color: var(--ink-subtle);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .receipt-tear-line {
-      border-top: 1px dashed #e0d5c5;
-      margin: 10px 0;
+      border-top: 1px dashed #decbb6;
+      margin: 12px 0;
     }
 
     .receipt-info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px 16px;
+      gap: 10px 16px;
       font-size: 11px;
     }
 
@@ -1266,11 +1311,50 @@
       color: var(--ink-subtle);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      font-weight: 600;
     }
 
     .receipt-item .r-val {
       font-weight: 700;
       color: var(--ink-primary);
+      font-size: 12px;
+    }
+
+    .receipt-quote-box {
+      margin-top: 4px;
+      padding: 8px 12px;
+      background: #f6eee3;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent-warm);
+    }
+
+    .r-quote {
+      font-size: 11px;
+      font-style: italic;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+
+    .receipt-footer-notes {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--ink-subtle);
+      margin-top: -4px;
+      margin-bottom: 6px;
+    }
+
+    .receipt-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      background: rgba(200, 104, 53, 0.1);
+      color: var(--accent-warm);
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 0.5px;
     }
 
     .receipt-actions {
@@ -1281,22 +1365,22 @@
     }
 
     .receipt-btn {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 14px;
+      padding: 6px 16px;
+      border-radius: 16px;
       cursor: pointer;
       transition: all var(--transition-fast);
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
     .receipt-btn.pin-btn {
       background: var(--accent-warm);
       color: #fff;
       border: 1px solid var(--accent-warm);
-      box-shadow: 0 2px 6px rgba(200, 104, 53, 0.25);
+      box-shadow: 0 2px 8px rgba(200, 104, 53, 0.28);
     }
 
     .receipt-btn.pin-btn:hover {
@@ -1306,31 +1390,92 @@
 
     .receipt-btn.close-btn {
       background: transparent;
-      color: var(--ink-secondary);
+      color: var(--ink-primary);
       border: 1px solid var(--border-line);
     }
 
     .receipt-btn.close-btn:hover {
       border-color: var(--ink-secondary);
+      background: rgba(0,0,0,0.03);
     }
 
-    /* 冲煮完成后的品尝便签 (Fortune / Insight Note) */
-    .tasting-note {
-      margin-top: 24px;
+    /* 重新打开小票的精致按钮 */
+    .reopen-receipt-btn {
+      margin-left: 8px;
+      font-size: 11px;
+      background: #f5eee6;
+      border: 1px solid #d5c0aa;
+      border-radius: 12px;
+      padding: 2px 10px;
+      cursor: pointer;
+      color: var(--accent-warm);
+      font-weight: 600;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .reopen-receipt-btn:hover {
+      background: var(--accent-warm);
+      color: #fff;
+      border-color: var(--accent-warm);
+    }
+
+    /* 见底时的内联手写签 (Zero Layout Shift) */
+    .fortune-note-inline {
+      margin-top: 10px;
       background: #fff8e6;
       border: 1px dashed #d5b88f;
       border-radius: var(--radius-md);
-      padding: 16px 22px;
-      max-width: 460px;
+      padding: 10px 16px;
+      max-width: 380px;
       text-align: center;
-      box-shadow: var(--shadow-sm);
-      display: none;
-      animation: noteAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: noteAppear 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      box-shadow: 0 4px 12px rgba(45,30,20,0.06);
     }
 
     @keyframes noteAppear {
-      from { opacity: 0; transform: translateY(10px) scale(0.96); }
+      from { opacity: 0; transform: translateY(8px) scale(0.97); }
       to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .fortune-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-warm);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .fortune-quote {
+      font-size: 12px;
+      color: var(--ink-primary);
+      line-height: 1.45;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .fortune-actions {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .cork-sticky-note.receipt-pin-style {
+      background: #fffdf5;
+      border: 1px solid #d8caa7;
+      position: relative;
+    }
+
+    .cork-pin-head {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      line-height: 1;
     }
 
     .note-header {
@@ -2632,50 +2777,6 @@
 
           </div>
 
-                    <!-- 冲煮完成生成的精品手冲萃取小票 (Brew Receipt) -->
-          <div id="brew-receipt" class="brew-receipt-card" style="display:none;">
-            <div class="receipt-inner">
-              <div class="receipt-header">
-                <div class="receipt-title">☕ LINROL SPECIALTY BREW BAR</div>
-                <div class="receipt-sub">精品手冲出品单 · RECEIPT</div>
-              </div>
-              <div class="receipt-tear-line"></div>
-              <div class="receipt-info-grid">
-                <div class="receipt-item">
-                  <span class="r-label">选用豆种</span>
-                  <span id="r-bean-name" class="r-val">Ethiopia 耶加雪菲</span>
-                </div>
-                <div class="receipt-item">
-                  <span class="r-label">烘焙程度</span>
-                  <span id="r-bean-roast" class="r-val">浅烘 Medium-Light</span>
-                </div>
-                <div class="receipt-item">
-                  <span class="r-label">设定水温</span>
-                  <span id="r-water-temp" class="r-val">93°C 恒温</span>
-                </div>
-                <div class="receipt-item">
-                  <span class="r-label">萃取手法</span>
-                  <span class="r-val">V60 螺旋三段手冲</span>
-                </div>
-                <div class="receipt-item full-width">
-                  <span class="r-label">杯测风味</span>
-                  <span id="r-bean-notes" class="r-val">🌸 茉莉白花 · 🍋 佛手柑 · 🫖 伯爵红茶</span>
-                </div>
-              </div>
-              <div class="receipt-tear-line"></div>
-              <div class="receipt-actions">
-                <button class="receipt-btn pin-btn" onclick="pinReceiptToCorkboard()">📌 钉在吧台软木板</button>
-                <button class="receipt-btn close-btn" onclick="closeReceipt()">收起小票 ✕</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 喝完见底掉落的【杯底手写签】 -->
-          <div id="tasting-card" class="tasting-note">
-            <div class="note-header">✦ 咖啡师杯底碎碎念 ✦</div>
-            <div id="note-body-text" class="note-body"></div>
-          </div>
-
         </div>
 
       </div>
@@ -2871,8 +2972,6 @@
     const steamWrap = document.getElementById('steam-wrap');
     const ticker = document.getElementById('ticker-status');
     const sipLabel = document.getElementById('sip-action-label');
-    const tastingCard = document.getElementById('tasting-card');
-    const noteText = document.getElementById('note-body-text');
     const counterVal = document.getElementById('counter-val');
 
     let grindTimer = null;
@@ -3436,17 +3535,15 @@
           pourProg.innerText = "萃取完成 ✓";
           steamWrap.classList.add('active');
           brewState.sipsLeft = brewState.totalSips;
-          if (dripperUnit) dripperUnit.classList.add('hidden');
-          showBrewReceipt();
-          ticker.innerText = "✨ 萃取完美出杯！已为您打印出品手卡，点击杯子啜饮享受现磨风味 ☕";
-          sipLabel.innerText = "手冲已出杯 ➔ 点击杯子享受现磨风味 ☕";
-          ticker.innerText = "手冲萃取完成！满室飘香，快点击杯子啜饮品尝吧 ✨";
-          sipLabel.innerText = "👈 点击咖啡杯啜饮 (还有 4 口)";
           
           // 萃取完成后，滤杯完成使命，优雅淡出移开
           setTimeout(() => {
-            dripperUnit.classList.add('hidden');
-          }, 800);
+            if (dripperUnit) dripperUnit.classList.add('hidden');
+          }, 500);
+
+          showBrewReceipt();
+          ticker.innerText = "✨ 手冲萃取完成！已为您打印出品手单，点击杯子啜饮品尝吧 ☕";
+          sipLabel.innerHTML = '👉 点击咖啡杯啜饮（还有 4 口） <button onclick="showBrewReceipt()" class="reopen-receipt-btn">🧾 查看小票</button>';
 
           playTone(520, 0.2, 'triangle');
           incrementCounter();
@@ -3549,37 +3646,69 @@
       }
     }
 
-    // 手冲出品小票 (Brew Receipt)
+    // 手冲出品小票 (Brew Receipt · Fixed Modal)
     function showBrewReceipt() {
-      const receipt = document.getElementById('brew-receipt');
+      const modal = document.getElementById('receipt-modal');
       const profile = beanProfiles[brewState.bean];
-      if (!receipt || !profile) return;
+      if (!modal || !profile) return;
 
-      document.getElementById('r-bean-name').innerText = profile.name;
-      document.getElementById('r-bean-roast').innerText = profile.roast;
-      document.getElementById('r-water-temp').innerText = (brewState.waterTemp || 93) + '°C 精密恒温';
-      document.getElementById('r-bean-notes').innerText = profile.flavors.join(' · ');
-      receipt.style.display = 'block';
+      const nameEl = document.getElementById('r-bean-name');
+      const roastEl = document.getElementById('r-bean-roast');
+      const tempEl = document.getElementById('r-water-temp');
+      const notesEl = document.getElementById('r-bean-notes');
+      const quoteEl = document.getElementById('r-barista-quote');
+      const timeEl = document.getElementById('r-timestamp');
+
+      if (nameEl) nameEl.innerText = profile.name;
+      if (roastEl) roastEl.innerText = profile.roast;
+      if (tempEl) tempEl.innerText = (brewState.waterTemp || 93) + '°C 精密恒温';
+      if (notesEl) notesEl.innerText = profile.flavors.join(' · ');
+
+      const randQuote = fortunes[Math.floor(Math.random() * fortunes.length)];
+      if (quoteEl) quoteEl.innerText = `“${randQuote}”`;
+
+      if (timeEl) {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        timeEl.innerText = `${timeStr} · 现磨现萃 · 保持克制与温度`;
+      }
+
+      modal.style.display = 'flex';
+      playTone(560, 0.08, 'sine');
     }
 
     function closeReceipt() {
-      const receipt = document.getElementById('brew-receipt');
-      if (receipt) receipt.style.display = 'none';
+      const modal = document.getElementById('receipt-modal');
+      if (modal) modal.style.display = 'none';
       playTone(400, 0.06, 'sine');
+
+      if (brewState.pourProgress >= 100 && brewState.sipsLeft > 0) {
+        sipLabel.innerHTML = `👉 点击咖啡杯啜饮（还有 ${brewState.sipsLeft} 口） <button onclick="showBrewReceipt()" class="reopen-receipt-btn">🧾 查看小票</button>`;
+      }
+    }
+
+    function handleReceiptBackdrop(e) {
+      if (e.target.id === 'receipt-modal') {
+        closeReceipt();
+      }
     }
 
     function pinReceiptToCorkboard() {
       const profile = beanProfiles[brewState.bean];
       if (!profile) return;
 
+      const quoteEl = document.getElementById('r-barista-quote');
+      const quote = quoteEl ? quoteEl.innerText : '“在浮躁的互联网里能专注冲完一杯咖啡的人，写出的架构也必定克制而优雅。”';
+
       const wall = document.getElementById('sticky-wall');
       if (wall) {
         const note = document.createElement('div');
-        note.className = 'cork-sticky-note';
+        note.className = 'cork-sticky-note receipt-pin-style';
         const rot = (Math.random() * 6 - 3).toFixed(1);
         note.style.transform = `rotate(${rot}deg)`;
         note.innerHTML = `
-          <div class="sticky-text">“☕ 刚刚品尝了手冲【${escapeHtml(profile.name)}】（水温 ${brewState.waterTemp || 93}°C），风味呈现 ${escapeHtml(profile.flavors.join(' / '))}！”</div>
+          <div class="cork-pin-head">📌</div>
+          <div class="sticky-text">“☕ 刚刚品尝了手冲【${escapeHtml(profile.name)}】（水温 ${brewState.waterTemp || 93}°C），风味呈现 ${escapeHtml(profile.flavors.join(' / '))}！”<br><span style="font-size:11px; color:#8d6f50; margin-top:5px; display:inline-block;">${escapeHtml(quote)}</span></div>
           <div class="sticky-author">— 来自 吧台品鉴手卡 #${Math.floor(1000 + Math.random() * 9000)}</div>
         `;
         wall.prepend(note);
@@ -3708,7 +3837,7 @@
     }
 
 
-    // ③ 品尝咖啡 (Sip)
+    // ③ 品尝咖啡 (Sip · Zero Layout Shift)
     function sipCoffee() {
       if (brewState.pourProgress < 100) {
         ticker.innerText = "请先按住手柄完成研磨与注水出杯哦 ☝️";
@@ -3725,17 +3854,24 @@
       playTone(320 - (4 - brewState.sipsLeft) * 30, 0.12, 'sine');
 
       if (brewState.sipsLeft > 0) {
-        sipLabel.innerText = `咕嘟~ 纯净顺滑！还能喝 ${brewState.sipsLeft} 口 😋`;
+        sipLabel.innerHTML = `咕嘟~ 纯净顺滑！还能喝 ${brewState.sipsLeft} 口 😋 <button onclick="showBrewReceipt()" class="reopen-receipt-btn">🧾 查看小票</button>`;
         ticker.innerText = `品尝中… 口感醇厚，齿颊留香。剩余 ${brewState.sipsLeft} 口。`;
       } else {
-        // 见底彩蛋
+        // 见底彩蛋 (内联呈现，零高度撑破，零窗口拉长)
         steamWrap.classList.remove('active');
-        sipLabel.innerText = "🎉 见底了！掉落杯底悄悄话 ▾";
         ticker.innerText = "一杯好咖啡饮尽，愿你获得满满专注能量。";
-        
+
         const randNote = fortunes[Math.floor(Math.random() * fortunes.length)];
-        noteText.innerText = randNote;
-        tastingCard.style.display = 'block';
+        sipLabel.innerHTML = `
+          <div class="fortune-note-inline">
+            <span class="fortune-badge">✦ 咖啡师杯底碎碎念 ✦</span>
+            <div class="fortune-quote">“${escapeHtml(randNote)}”</div>
+            <div class="fortune-actions">
+              <button class="mini-tool-btn primary" onclick="resetBar()">↺ 洗杯换豆</button>
+              <button class="mini-tool-btn" onclick="showBrewReceipt()">🧾 查看手冲小票</button>
+            </div>
+          </div>
+        `;
       }
     }
 
@@ -3812,8 +3948,17 @@
     }
 
     function resetBar() {
+      closeReceipt();
+      if (grindTimer) clearInterval(grindTimer);
+      if (pourTimer) clearInterval(pourTimer);
+      brewState.isGrinding = false;
+      brewState.isPouring = false;
       brewState.grindProgress = 0;
       brewState.pourProgress = 0;
+      brewState.sipsLeft = 0;
+      brewState.hasIce = false;
+      brewState.hasMilk = false;
+
       if (groundsBed) {
         groundsBed.style.height = '0%';
         groundsBed.classList.remove('blooming');
@@ -3821,20 +3966,39 @@
       if (dripperUnit) dripperUnit.classList.remove('hidden');
       if (bloomBubbles) bloomBubbles.classList.remove('active');
       if (drippingStream) drippingStream.classList.remove('active');
-      brewState.sipsLeft = 0;
-      brewState.hasIce = false;
-      brewState.hasMilk = false;
-      grindBtn.disabled = false;
-      pourBtn.disabled = true;
-      grindProg.innerText = "0%";
-      pourProg.innerText = "等待研磨";
+
+      const crank = document.getElementById('grinder-crank');
+      if (crank) crank.classList.remove('active');
+      if (grinderGear) grinderGear.classList.remove('spinning');
+      if (grindParticles) grindParticles.classList.remove('active');
+
+      if (kettle) kettle.classList.remove('pouring');
+      if (waterStream) waterStream.classList.remove('flowing');
+
       cupLiquid.style.height = '0%';
+      cupLiquid.style.backgroundColor = 'var(--coffee-dark)';
       cremaFoam.style.opacity = '0';
       steamWrap.classList.remove('active');
+
+      const realCup = document.getElementById('real-cup');
+      if (realCup) realCup.classList.remove('frosted-glass');
+
+      const swirl = document.getElementById('milk-swirl');
+      if (swirl) swirl.classList.remove('active');
+      const latteArt = document.getElementById('latte-art');
+      if (latteArt) latteArt.classList.remove('show');
+
       document.getElementById('cube-1').classList.remove('show');
       document.getElementById('cube-2').classList.remove('show');
-      tastingCard.style.display = 'none';
-      sipLabel.innerText = "待注水出杯后，点击杯子啜饮 ☕";
+
+      grindBtn.disabled = false;
+      pourBtn.disabled = true;
+      grindBtn.classList.remove('holding');
+      pourBtn.classList.remove('holding');
+      grindProg.innerText = "0%";
+      pourProg.innerText = "等待研磨";
+
+      sipLabel.innerHTML = "待注水出杯后，点击杯子啜饮 ☕";
       ticker.innerText = "吧台已清洗，杯具如新。请选豆开启新的一杯 ✨";
       playTone(380, 0.1, 'sine');
     }
@@ -4184,6 +4348,13 @@
       } catch (e2) {}
     }
 
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeReceipt();
+        closeAddBeanModal();
+      }
+    });
+
     fetchLatestDmg();
     loadSavedBeans();
     refreshBeanBatch(false);
@@ -4245,6 +4416,56 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- 精品手冲萃取小票模态弹窗 (Specialty Coffee Receipt Modal · Fixed Overlay) -->
+  <div id="receipt-modal" class="receipt-modal-backdrop" onclick="handleReceiptBackdrop(event)">
+    <div id="brew-receipt" class="brew-receipt-card">
+      <button class="receipt-close-x" onclick="closeReceipt()" title="收起小票">×</button>
+      <div class="receipt-inner">
+        <div class="receipt-header">
+          <div class="receipt-brand">☕ LINROL SPECIALTY BREW BAR</div>
+          <div class="receipt-title">精品手冲出品单 · RECEIPT</div>
+          <div class="receipt-sub" id="r-timestamp">现磨现萃 · 纯前端纯原生算法</div>
+        </div>
+        <div class="receipt-tear-line"></div>
+        <div class="receipt-info-grid">
+          <div class="receipt-item">
+            <span class="r-label">选用豆种</span>
+            <span id="r-bean-name" class="r-val">Ethiopia 耶加雪菲</span>
+          </div>
+          <div class="receipt-item">
+            <span class="r-label">烘焙程度</span>
+            <span id="r-bean-roast" class="r-val">浅烘 Medium-Light</span>
+          </div>
+          <div class="receipt-item">
+            <span class="r-label">设定水温</span>
+            <span id="r-water-temp" class="r-val">93°C 精密恒温</span>
+          </div>
+          <div class="receipt-item">
+            <span class="r-label">萃取手法</span>
+            <span class="r-val">V60 螺旋三段手冲</span>
+          </div>
+          <div class="receipt-item full-width">
+            <span class="r-label">杯测风味特征</span>
+            <span id="r-bean-notes" class="r-val">🌸 茉莉白花 · 🍋 佛手柑 · 🫖 伯爵红茶</span>
+          </div>
+          <div class="receipt-item full-width receipt-quote-box">
+            <span class="r-label">✦ 咖啡师杯底寄语 ✦</span>
+            <div id="r-barista-quote" class="r-quote">“在浮躁的互联网里能专注冲完一杯咖啡的人，写出的架构也必定克制而优雅。”</div>
+          </div>
+        </div>
+        <div class="receipt-tear-line"></div>
+        <div class="receipt-footer-notes">
+          <span class="receipt-badge">SPECIALTY GRADE 100%</span>
+          <span>保持克制与温度 · Linrol 手作</span>
+        </div>
+        <div class="receipt-actions">
+          <button class="receipt-btn pin-btn" onclick="pinReceiptToCorkboard()">📌 钉在吧台软木板</button>
+          <button class="receipt-btn close-btn" onclick="closeReceipt()">☕ 享用咖啡</button>
+        </div>
+      </div>
     </div>
   </div>
 
