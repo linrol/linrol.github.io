@@ -710,20 +710,40 @@
       justify-content: flex-end;
       user-select: none;
       z-index: 15;
+      cursor: grab;
     }
 
-    /* 极简哑光电子温控底座 (Fellow Stagg Base) */
+    .kettle-station:active {
+      cursor: grabbing;
+    }
+
+    .kettle-body-wrap {
+      position: relative;
+      width: 116px;
+      height: 106px;
+      z-index: 2;
+      transform-origin: 58px 80px;
+      transition: transform 0.42s cubic-bezier(0.22, 0.9, 0.32, 1);
+    }
+
+    .kettle-station:hover .kettle-body-wrap {
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.22));
+    }
+
+    /* 极简哑光电子温控底座 (Fellow Stagg Base - 稳稳托在壶底正下方) */
     .kettle-base-stand {
-      width: 86px;
+      position: relative;
+      width: 90px;
       height: 12px;
-      background: #221f1d;
+      background: #201d1b;
       border: 1.5px solid #141211;
       border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       padding-right: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin-top: -6px;
       z-index: 1;
     }
 
@@ -736,13 +756,31 @@
       text-shadow: 0 0 4px rgba(88,203,251,0.6);
     }
 
-    .kettle-body-wrap {
-      position: relative;
-      width: 116px;
-      height: 106px;
-      margin-bottom: -3px;
-      transform-origin: 58px 80px;
-      transition: transform 0.42s cubic-bezier(0.22, 0.9, 0.32, 1);
+    /* 悬浮互动指引标签 (Prop Tooltips) */
+    .prop-hint {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(45, 30, 20, 0.88);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      z-index: 30;
+    }
+
+    .kettle-station:hover .kettle-hint,
+    .dripper-assembly:hover .dripper-hint {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-3px);
     }
 
     /* 注水动作：壶体精准抬升、平移并倾斜，壶嘴垂直居中对准上方滤杯中心 */
@@ -1748,7 +1786,18 @@
       width: 112px;
       height: 74px;
       z-index: 10;
+      cursor: pointer;
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dripper-assembly:hover .v60-cone {
+      filter: drop-shadow(0 4px 10px rgba(180, 110, 50, 0.35));
+      transform: scale(1.02);
+      transition: all var(--transition-fast);
+    }
+
+    .dripper-assembly:active .v60-cone {
+      transform: scale(0.98);
     }
 
     .dripper-assembly.hidden {
@@ -2126,10 +2175,11 @@
           <div class="brew-apparatus">
             
             <!-- 手冲细嘴壶工位 (精致温控底座 + 优雅天鹅颈手冲壶) -->
-            <div id="kettle" class="kettle-station">
-              <div class="kettle-base-stand">
-                <div class="base-temp-display">93°C</div>
-              </div>
+            <div id="kettle" class="kettle-station"
+                 onmousedown="handleKettleStart(event)" onmouseup="handleKettleEnd(event)"
+                 ontouchstart="handleKettleStart(event)" ontouchend="handleKettleEnd(event)"
+                 title="按住手冲壶直接注水">
+              <div class="prop-hint kettle-hint">按住注水 💧</div>
               <div class="kettle-body-wrap">
                 <svg width="116" height="106" viewBox="0 0 116 106" fill="none">
                   <defs>
@@ -2164,6 +2214,10 @@
                 <!-- 从细嘴尖端精准注出的晶莹水流 (直冲滤杯中心) -->
                 <div id="water-stream" class="water-stream"></div>
               </div>
+              <!-- 电子温控底座 (稳稳托在壶底正下方) -->
+              <div class="kettle-base-stand">
+                <div class="base-temp-display">93°C</div>
+              </div>
             </div>
 
             <!-- 咖啡杯主体 (配备上方手冲滤杯 V60) -->
@@ -2177,7 +2231,11 @@
               </div>
 
               <!-- ① 架在杯口上方的 V60 手冲滤杯与落粉系统 -->
-              <div id="dripper-unit" class="dripper-assembly" title="V60手冲滤杯 · 现磨咖啡粉盛装处">
+              <div id="dripper-unit" class="dripper-assembly"
+                   onmousedown="handleDripperStart(event)" onmouseup="handleDripperEnd(event)"
+                   ontouchstart="handleDripperStart(event)" ontouchend="handleDripperEnd(event)"
+                   title="按住滤杯直接研磨咖啡粉">
+                <div class="prop-hint dripper-hint">按住研磨 ⚙️</div>
                 <!-- 研磨时飞旋的小齿轮 -->
                 <div id="grinder-gear" class="grinder-gear-icon">⚙️</div>
 
@@ -3004,6 +3062,49 @@
       drippingStream.classList.remove('active');
       if (pourTimer) clearInterval(pourTimer);
     }
+
+    // 实体道具直接交互：直接按住手冲壶或滤杯
+    function handleKettleStart(e) {
+      if (e) e.preventDefault();
+      if (brewState.grindProgress < 100) {
+        ticker.innerText = "请先按住上方滤杯研磨好咖啡粉，再注水哦 ☝️";
+        playTone(280, 0.08, 'sawtooth');
+        return;
+      }
+      startPouring();
+    }
+
+    function handleKettleEnd(e) {
+      if (brewState.isPouring) {
+        stopPouring();
+      }
+    }
+
+    function handleDripperStart(e) {
+      if (e) e.preventDefault();
+      if (brewState.grindProgress >= 100) {
+        ticker.innerText = "滤杯已盛满咖啡粉！现在可以按住手冲壶注水啦 💧";
+        playTone(540, 0.08, 'sine');
+        return;
+      }
+      startGrinding();
+    }
+
+    function handleDripperEnd(e) {
+      if (brewState.isGrinding) {
+        stopGrinding();
+      }
+    }
+
+    // 全局防丢：在任何地方松开鼠标或手势时，自动终止长按
+    window.addEventListener('mouseup', () => {
+      if (brewState.isGrinding) stopGrinding();
+      if (brewState.isPouring) stopPouring();
+    });
+    window.addEventListener('touchend', () => {
+      if (brewState.isGrinding) stopGrinding();
+      if (brewState.isPouring) stopPouring();
+    });
 
     // ③ 品尝咖啡 (Sip)
     function sipCoffee() {
