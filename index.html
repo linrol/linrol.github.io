@@ -727,9 +727,17 @@
       filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
     }
 
+    @keyframes kettleSpiralPour {
+      0% { transform: translate(168px, -82px) rotate(-30deg); }
+      25% { transform: translate(164px, -85px) rotate(-31deg); }
+      50% { transform: translate(172px, -80px) rotate(-29deg); }
+      75% { transform: translate(170px, -84px) rotate(-30.5deg); }
+      100% { transform: translate(168px, -82px) rotate(-30deg); }
+    }
+
     .kettle-station.pouring .kettle-body-wrap {
       cursor: grabbing;
-      transform: translate(168px, -82px) rotate(-30deg);
+      animation: kettleSpiralPour 3.2s infinite ease-in-out;
     }
 
     /* 极简哑光电子温控底座 (Fellow Stagg Base - 稳稳托在壶底正下方) */
@@ -1045,7 +1053,268 @@
       white-space: nowrap;
     }
 
-    /* 冲煮完成后的品尝便签/* 冲煮完成后的品尝便签 (Fortune / Insight Note) */
+    /* 冲煮完成后的品尝便签
+    /* 手摇磨豆机木质旋转曲柄 (Grinder Crank) */
+    .grinder-crank-widget {
+      position: absolute;
+      top: -54px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 58px;
+      height: 58px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 25;
+    }
+
+    .grinder-crank-widget.active {
+      opacity: 1;
+      animation: crankSpin 0.32s infinite linear;
+    }
+
+    @keyframes crankSpin {
+      100% { transform: translateX(-50%) rotate(360deg); }
+    }
+
+    .crank-arm {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 28px;
+      height: 3.5px;
+      background: #4a3628;
+      border-radius: 2px;
+      transform-origin: left center;
+    }
+
+    .crank-center-nut {
+      position: absolute;
+      left: -5px;
+      top: -5px;
+      width: 12px;
+      height: 12px;
+      background: #8c6d48;
+      border: 1.5px solid #3c2617;
+      border-radius: 50%;
+    }
+
+    .crank-knob {
+      position: absolute;
+      right: -5px;
+      top: -6px;
+      width: 14px;
+      height: 14px;
+      background: #b5804e;
+      border-radius: 50%;
+      border: 1.5px solid #5a3818;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    /* 玻璃豆罐拔塞飘香气泡 (Jar Aroma Clouds) */
+    .apothecary-jar {
+      cursor: pointer;
+    }
+
+    .jar-cork.popped {
+      transform: translateY(-14px) rotate(-6deg);
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .jar-aroma-puff {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      transition: all 1s ease-out;
+      z-index: 20;
+    }
+
+    .jar-aroma-puff.floating {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-35px) scale(1.15);
+    }
+
+    /* 燕麦厚乳大理石云雾晕染层 (Oat Milk Marbling) */
+    .milk-swirl-layer {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 25%, rgba(255,255,255,0.92) 0%, rgba(245,232,212,0.7) 40%, transparent 75%);
+      mix-blend-mode: overlay;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+
+    .milk-swirl-layer.active {
+      opacity: 0.88;
+      animation: milkMarble 3.5s infinite ease-in-out alternate;
+    }
+
+    @keyframes milkMarble {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.12) rotate(6deg); }
+    }
+
+    /* 拿铁爱心拉花 (Latte Art) */
+    .latte-art-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 16px;
+      opacity: 0;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+      filter: drop-shadow(0 1px 2px rgba(90, 50, 20, 0.3));
+    }
+
+    .latte-art-icon.show {
+      opacity: 0.95;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* 冰球入杯水花波纹 & 杯壁冷凝水雾 */
+    .ice-ripple-ring {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      width: 50px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.7);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.5s ease-out;
+    }
+
+    .ice-ripple-ring.splashing {
+      opacity: 0.9;
+      transform: translateX(-50%) scale(1.8);
+    }
+
+    .real-cup.frosted-glass {
+      box-shadow: inset 0 -8px 20px rgba(50,30,15,0.08), 0 10px 24px rgba(0,0,0,0.07), 0 0 16px rgba(180, 225, 255, 0.35);
+      border-color: #554438;
+    }
+
+    /* 精品手冲萃取小票 (Brew Receipt Card) */
+    .brew-receipt-card {
+      margin-top: 20px;
+      max-width: 440px;
+      background: #fdfcf7;
+      border: 1px dashed #d5c8b5;
+      border-radius: var(--radius-md);
+      padding: 18px 24px;
+      box-shadow: 0 8px 24px rgba(45,30,20,0.08);
+      font-family: var(--font-sans);
+      animation: receiptDrop 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes receiptDrop {
+      from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .receipt-header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .receipt-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--ink-primary);
+    }
+
+    .receipt-sub {
+      font-size: 11px;
+      color: var(--ink-subtle);
+      margin-top: 2px;
+    }
+
+    .receipt-tear-line {
+      border-top: 1px dashed #e0d5c5;
+      margin: 10px 0;
+    }
+
+    .receipt-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+      font-size: 11px;
+    }
+
+    .receipt-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .receipt-item.full-width {
+      grid-column: span 2;
+    }
+
+    .receipt-item .r-label {
+      font-size: 10px;
+      color: var(--ink-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .receipt-item .r-val {
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .receipt-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .receipt-btn {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .receipt-btn.pin-btn {
+      background: var(--accent-warm);
+      color: #fff;
+      border: 1px solid var(--accent-warm);
+      box-shadow: 0 2px 6px rgba(200, 104, 53, 0.25);
+    }
+
+    .receipt-btn.pin-btn:hover {
+      background: #b25828;
+      transform: translateY(-1px);
+    }
+
+    .receipt-btn.close-btn {
+      background: transparent;
+      color: var(--ink-secondary);
+      border: 1px solid var(--border-line);
+    }
+
+    .receipt-btn.close-btn:hover {
+      border-color: var(--ink-secondary);
+    }
+
+    /* 冲煮完成后的品尝便签 (Fortune / Insight Note) */
     .tasting-note {
       margin-top: 24px;
       background: #fff8e6;
@@ -2150,10 +2419,11 @@
           <!-- 右侧中央核心展台：咖啡豆视觉特写与赏豆盘 (完美填充留白) -->
           <div id="bean-showcase" class="bean-showcase-zone">
             <!-- 1. 玻璃大豆罐 -->
-            <div class="apothecary-jar" title="密封玻璃豆罐 · 锁住鲜烘香气">
+            <div class="apothecary-jar" id="apothecary-jar" onclick="popJarAroma()" title="点击拔出木塞闻香 · 感受鲜烘干香气">
               <div class="jar-cork"></div>
               <div class="jar-tag">Single Origin</div>
               <div id="showcase-jar-beans" class="jar-beans-fill" style="background:#9e6b47;"></div>
+              <div id="jar-aroma-puff" class="jar-aroma-puff"></div>
             </div>
 
             <!-- 2. 赏豆陶瓷浅盘 -->
@@ -2295,6 +2565,14 @@
                    title="按住滤杯直接研磨咖啡粉">
                 <div class="prop-hint dripper-hint">按住研磨 ⚙️</div>
                 <!-- 研磨时飞旋的小齿轮 -->
+                <!-- 手摇磨豆机旋转曲柄 -->
+                <div id="grinder-crank" class="grinder-crank-widget">
+                  <div class="crank-arm">
+                    <div class="crank-center-nut"></div>
+                    <div class="crank-knob"></div>
+                  </div>
+                </div>
+                <!-- 研磨时飞旋的小齿轮 -->
                 <div id="grinder-gear" class="grinder-gear-icon">⚙️</div>
 
                 <!-- 研磨时的落粉粒子雨 -->
@@ -2327,10 +2605,14 @@
               </div>
 
               <!-- ② 北欧极简陶瓷杯身 (接收滤杯滴落的咖啡液) -->
-              <div class="real-cup">
+              <div id="real-cup" class="real-cup">
                 <div id="cup-liquid" class="cup-liquid">
-                  <div id="crema-foam" class="crema-foam"></div>
+                  <div id="crema-foam" class="crema-foam">
+                    <div id="latte-art" class="latte-art-icon">🤍</div>
+                  </div>
+                  <div id="milk-swirl" class="milk-swirl-layer"></div>
                 </div>
+                <div id="ice-ripple" class="ice-ripple-ring"></div>
                 <div id="cube-1" class="ice-cube-item cube-1"></div>
                 <div id="cube-2" class="ice-cube-item cube-2"></div>
               </div>
@@ -2348,6 +2630,44 @@
               <span id="cookie-status" class="cookie-hint">尝口曲奇</span>
             </div>
 
+          </div>
+
+                    <!-- 冲煮完成生成的精品手冲萃取小票 (Brew Receipt) -->
+          <div id="brew-receipt" class="brew-receipt-card" style="display:none;">
+            <div class="receipt-inner">
+              <div class="receipt-header">
+                <div class="receipt-title">☕ LINROL SPECIALTY BREW BAR</div>
+                <div class="receipt-sub">精品手冲出品单 · RECEIPT</div>
+              </div>
+              <div class="receipt-tear-line"></div>
+              <div class="receipt-info-grid">
+                <div class="receipt-item">
+                  <span class="r-label">选用豆种</span>
+                  <span id="r-bean-name" class="r-val">Ethiopia 耶加雪菲</span>
+                </div>
+                <div class="receipt-item">
+                  <span class="r-label">烘焙程度</span>
+                  <span id="r-bean-roast" class="r-val">浅烘 Medium-Light</span>
+                </div>
+                <div class="receipt-item">
+                  <span class="r-label">设定水温</span>
+                  <span id="r-water-temp" class="r-val">93°C 恒温</span>
+                </div>
+                <div class="receipt-item">
+                  <span class="r-label">萃取手法</span>
+                  <span class="r-val">V60 螺旋三段手冲</span>
+                </div>
+                <div class="receipt-item full-width">
+                  <span class="r-label">杯测风味</span>
+                  <span id="r-bean-notes" class="r-val">🌸 茉莉白花 · 🍋 佛手柑 · 🫖 伯爵红茶</span>
+                </div>
+              </div>
+              <div class="receipt-tear-line"></div>
+              <div class="receipt-actions">
+                <button class="receipt-btn pin-btn" onclick="pinReceiptToCorkboard()">📌 钉在吧台软木板</button>
+                <button class="receipt-btn close-btn" onclick="closeReceipt()">收起小票 ✕</button>
+              </div>
+            </div>
           </div>
 
           <!-- 喝完见底掉落的【杯底手写签】 -->
@@ -3044,6 +3364,8 @@
       // 右侧视觉动效：齿轮旋转 + 落粉粒子飞洒
       grinderGear.classList.add('spinning');
       grindParticles.classList.add('active');
+      const crank = document.getElementById('grinder-crank');
+      if (crank) crank.classList.add('active');
       ticker.innerText = "⚙️ 磨盘飞速研磨中… 细腻咖啡粉正纷纷落入滤杯 🫘";
 
       grindTimer = setInterval(() => {
@@ -3072,6 +3394,8 @@
       grindBtn.classList.remove('holding');
       grinderGear.classList.remove('spinning');
       grindParticles.classList.remove('active');
+      const crank = document.getElementById('grinder-crank');
+      if (crank) crank.classList.remove('active');
       if (grindTimer) clearInterval(grindTimer);
     }
 
@@ -3098,13 +3422,23 @@
         cremaFoam.style.opacity = (brewState.pourProgress / 100) * 0.85;
         playPourSound();
 
+        // 三段式专业手冲阶段感反馈
+        if (brewState.pourProgress <= 25) {
+          ticker.innerText = `💧 阶段一：低温润湿闷蒸 (Bloom) · 咖啡汉堡正在膨胀排气中... (${brewState.pourProgress}%)`;
+        } else if (brewState.pourProgress <= 80) {
+          ticker.innerText = `🌀 阶段二：中心画圈柔和注水 (${brewState.waterTemp || 93}°C) · 均匀萃取芳香醇厚风味... (${brewState.pourProgress}%)`;
+        } else {
+          ticker.innerText = `✨ 阶段三：芳香滤液完全滴落杯中，即将出杯... (${brewState.pourProgress}%)`;
+        }
+
         if (brewState.pourProgress >= 100) {
           stopPouring();
           pourProg.innerText = "萃取完成 ✓";
           steamWrap.classList.add('active');
           brewState.sipsLeft = brewState.totalSips;
           if (dripperUnit) dripperUnit.classList.add('hidden');
-          ticker.innerText = "✨ 萃取完美出杯！滤杯已移开，温热现冲咖啡已盛满杯中，快点击杯子啜饮一口 ☕";
+          showBrewReceipt();
+          ticker.innerText = "✨ 萃取完美出杯！已为您打印出品手卡，点击杯子啜饮享受现磨风味 ☕";
           sipLabel.innerText = "手冲已出杯 ➔ 点击杯子享受现磨风味 ☕";
           ticker.innerText = "手冲萃取完成！满室飘香，快点击杯子啜饮品尝吧 ✨";
           sipLabel.innerText = "👈 点击咖啡杯啜饮 (还有 4 口)";
@@ -3172,6 +3506,91 @@
       if (brewState.isGrinding) stopGrinding();
       if (brewState.isPouring) stopPouring();
     });
+
+    // 玻璃药剂豆罐：拔塞闻香动效
+    function popJarAroma() {
+      const cork = document.querySelector('.jar-cork');
+      const puff = document.getElementById('jar-aroma-puff');
+      const profile = beanProfiles[brewState.bean];
+      const aromaEmoji = profile && profile.flavors ? profile.flavors.map(f => f.split(' ')[0]).join(' ') : '🌸 🍋 🍑';
+
+      if (cork) cork.classList.add('popped');
+      playTone(720, 0.05, 'sine');
+      setTimeout(() => playTone(960, 0.04, 'sine'), 45);
+
+      if (puff) {
+        puff.innerText = aromaEmoji;
+        puff.classList.remove('floating');
+        void puff.offsetWidth;
+        puff.classList.add('floating');
+      }
+
+      const beanName = profile ? profile.name : '精品豆';
+      ticker.innerText = `✨ 拔出密封木塞，深吸一口【${beanName}】现烘干香：${aromaEmoji}`;
+
+      setTimeout(() => {
+        if (cork) cork.classList.remove('popped');
+      }, 1200);
+    }
+
+    // 赏豆盘自由拨弄熟豆碰撞
+    function tumbleBeans() {
+      const box = document.getElementById('big-bean-scatter');
+      if (box) {
+        playTone(540, 0.04, 'triangle');
+        setTimeout(() => playTone(680, 0.05, 'triangle'), 60);
+
+        document.querySelectorAll('.big-bean').forEach(b => {
+          const r = (Math.random() * 24 - 12).toFixed(1);
+          const tx = (Math.random() * 10 - 5).toFixed(1);
+          const ty = (Math.random() * 8 - 4).toFixed(1);
+          b.style.transform = `translate(${tx}px, ${ty}px) rotate(${r}deg)`;
+        });
+      }
+    }
+
+    // 手冲出品小票 (Brew Receipt)
+    function showBrewReceipt() {
+      const receipt = document.getElementById('brew-receipt');
+      const profile = beanProfiles[brewState.bean];
+      if (!receipt || !profile) return;
+
+      document.getElementById('r-bean-name').innerText = profile.name;
+      document.getElementById('r-bean-roast').innerText = profile.roast;
+      document.getElementById('r-water-temp').innerText = (brewState.waterTemp || 93) + '°C 精密恒温';
+      document.getElementById('r-bean-notes').innerText = profile.flavors.join(' · ');
+      receipt.style.display = 'block';
+    }
+
+    function closeReceipt() {
+      const receipt = document.getElementById('brew-receipt');
+      if (receipt) receipt.style.display = 'none';
+      playTone(400, 0.06, 'sine');
+    }
+
+    function pinReceiptToCorkboard() {
+      const profile = beanProfiles[brewState.bean];
+      if (!profile) return;
+
+      const wall = document.getElementById('sticky-wall');
+      if (wall) {
+        const note = document.createElement('div');
+        note.className = 'cork-sticky-note';
+        const rot = (Math.random() * 6 - 3).toFixed(1);
+        note.style.transform = `rotate(${rot}deg)`;
+        note.innerHTML = `
+          <div class="sticky-text">“☕ 刚刚品尝了手冲【${escapeHtml(profile.name)}】（水温 ${brewState.waterTemp || 93}°C），风味呈现 ${escapeHtml(profile.flavors.join(' / '))}！”</div>
+          <div class="sticky-author">— 来自 吧台品鉴手卡 #${Math.floor(1000 + Math.random() * 9000)}</div>
+        `;
+        wall.prepend(note);
+      }
+
+      closeReceipt();
+      playTone(580, 0.1, 'sine');
+      setTimeout(() => playTone(780, 0.15, 'triangle'), 100);
+      ticker.innerText = "🎉 手冲出品手卡已成功钉在吧台软木板上！可向下滑动查看 📌";
+    }
+
     // --------------------------------------------------------------------------
     // 电子温控底座拖拽与旋钮调节水温交互 (80°C - 99°C)
     // --------------------------------------------------------------------------
@@ -3350,16 +3769,46 @@
       brewState.hasIce = !brewState.hasIce;
       document.getElementById('cube-1').classList.toggle('show', brewState.hasIce);
       document.getElementById('cube-2').classList.toggle('show', brewState.hasIce);
-      playTone(720, 0.08, 'sine');
-      ticker.innerText = brewState.hasIce ? "已加入晶莹手工大冰球 🧊" : "已取出冰块";
+      
+      const realCup = document.getElementById('real-cup');
+      const ripple = document.getElementById('ice-ripple');
+      if (brewState.hasIce) {
+        if (ripple) {
+          ripple.classList.add('splashing');
+          setTimeout(() => ripple.classList.remove('splashing'), 500);
+        }
+        if (realCup) realCup.classList.add('frosted-glass');
+        playTone(920, 0.06, 'sine');
+        setTimeout(() => playTone(1280, 0.05, 'sine'), 60);
+        ticker.innerText = "扑通！已加入手工雕刻大冰球 🧊 凝出丝丝冰雾";
+      } else {
+        if (realCup) realCup.classList.remove('frosted-glass');
+        playTone(600, 0.06, 'sine');
+        ticker.innerText = "已取出冰球，恢复温热醇香 ☕";
+      }
     }
 
     function toggleOatMilk() {
       brewState.hasMilk = !brewState.hasMilk;
-      cupLiquid.style.backgroundColor = brewState.hasMilk ? 'var(--coffee-latte)' : 'var(--coffee-dark)';
-      cremaFoam.style.opacity = brewState.hasMilk ? '0.9' : '0.4';
-      playTone(280, 0.15, 'sine');
-      ticker.innerText = brewState.hasMilk ? "已注入丝滑燕麦厚乳，呈现大理石暖咖色 🥛" : "已切换为纯黑咖啡";
+      const swirl = document.getElementById('milk-swirl');
+      const latteArt = document.getElementById('latte-art');
+
+      if (brewState.hasMilk) {
+        cupLiquid.style.backgroundColor = 'var(--coffee-latte)';
+        cremaFoam.style.opacity = '0.95';
+        if (swirl) swirl.classList.add('active');
+        if (latteArt) latteArt.classList.add('show');
+        playTone(320, 0.12, 'sine');
+        setTimeout(() => playTone(440, 0.1, 'sine'), 80);
+        ticker.innerText = "丝滑燕麦厚乳注入！呈现大理石流体晕染与暖心拉花 🥛✨";
+      } else {
+        cupLiquid.style.backgroundColor = 'var(--coffee-dark)';
+        cremaFoam.style.opacity = '0.4';
+        if (swirl) swirl.classList.remove('active');
+        if (latteArt) latteArt.classList.remove('show');
+        playTone(280, 0.1, 'sine');
+        ticker.innerText = "已切换为纯粹无杂质的黑咖啡风味 ☕";
+      }
     }
 
     function resetBar() {
