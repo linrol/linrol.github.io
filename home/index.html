@@ -1148,6 +1148,162 @@
     .site-footer a:hover {
       text-decoration: underline;
     }
+  
+    /* 赏豆展示台 (Cupping & Aroma Dish) */
+    .bean-display-container {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .bean-display-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: var(--ink-subtle);
+    }
+
+    .bean-dish-plate {
+      width: 150px;
+      height: 90px;
+      background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, #ede3d4 85%, #d9caba 100%);
+      border: 3px solid var(--border-line);
+      border-radius: 50%;
+      box-shadow: inset 0 4px 10px rgba(0,0,0,0.06), 0 8px 16px rgba(50,35,25,0.08);
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      transition: transform var(--transition-fast);
+    }
+
+    .bean-dish-plate:hover {
+      transform: scale(1.03);
+    }
+
+    .bean-dish-plate:active {
+      transform: scale(0.97);
+    }
+
+    /* 盘中咖啡豆集群 */
+    .bean-scatter {
+      position: relative;
+      width: 90px;
+      height: 50px;
+    }
+
+    .coffee-bean-3d {
+      position: absolute;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.25));
+    }
+
+    .coffee-bean-3d.b1 { left: 8px; top: 12px; transform: rotate(-25deg); }
+    .coffee-bean-3d.b2 { left: 36px; top: 6px; transform: rotate(15deg); }
+    .coffee-bean-3d.b3 { left: 48px; top: 22px; transform: rotate(-40deg); }
+    .coffee-bean-3d.b4 { left: 20px; top: 26px; transform: rotate(50deg); }
+
+    /* 豆子弹跳动画 */
+    .bean-scatter.tumble .coffee-bean-3d.b1 { transform: rotate(-10deg) translateY(-8px); }
+    .bean-scatter.tumble .coffee-bean-3d.b2 { transform: rotate(35deg) translateY(-10px); }
+    .bean-scatter.tumble .coffee-bean-3d.b3 { transform: rotate(-60deg) translateY(-6px); }
+    .bean-scatter.tumble .coffee-bean-3d.b4 { transform: rotate(70deg) translateY(-9px); }
+
+    /* 飘浮的风味标签 */
+    .flavor-cloud {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .flavor-chip {
+      font-size: 11px;
+      background: var(--bg-paper);
+      border: 1px solid var(--border-line);
+      color: var(--ink-secondary);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      animation: chipFloat 0.3s ease;
+    }
+
+    @keyframes chipFloat {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 卡片内的微型玻璃试管豆瓶 */
+    .bean-jar-preview {
+      width: 22px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1.5px solid var(--border-line);
+      border-radius: 4px 4px 10px 10px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 3px;
+      box-shadow: inset 0 0 4px rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.04);
+      flex-shrink: 0;
+    }
+
+    .bean-jar-preview::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      width: 14px;
+      height: 4px;
+      background: #c89d6d;
+      border: 1px solid #9c7348;
+      border-radius: 2px;
+    }
+
+    .mini-bean {
+      width: 9px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: -2px;
+      border: 0.5px solid rgba(0,0,0,0.3);
+      position: relative;
+    }
+
+    .mini-bean::after {
+      content: "";
+      position: absolute;
+      top: 2.5px;
+      left: 1.5px;
+      right: 1.5px;
+      height: 1px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 1px;
+    }
+
+    .bean-card-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
   </style>
 </head>
 <body>
@@ -1205,29 +1361,106 @@
           
           <div>
             <div class="panel-block-title">第一步：挑选今日风味豆 (Beans)</div>
+            
+            <!-- 赏豆展示盘 (交互看豆) -->
+            <div class="bean-display-container">
+              <div class="bean-display-header">
+                <span>🔍 赏豆木盘 (点击拨弄豆子)</span>
+                <span id="bean-origin-tag" style="font-weight:600; color:var(--accent-warm);">埃塞俄比亚·水洗</span>
+              </div>
+
+              <!-- 陶瓷小豆碟与立体咖啡豆 -->
+              <div class="bean-dish-plate" onclick="tumbleBeans()" title="点击拨弄、感受手作豆香">
+                <div id="bean-scatter-box" class="bean-scatter">
+                  <!-- 豆 1 -->
+                  <div class="coffee-bean-3d b1">
+                    <svg width="28" height="19" viewBox="0 0 30 20" fill="none">
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+                      <path d="M3 10 C 9 6, 12 14, 18 8 C 22 4, 25 12, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                      <ellipse cx="10" cy="6" rx="6" ry="2" fill="rgba(255,255,255,0.2)" transform="rotate(-15 10 6)"/>
+                    </svg>
+                  </div>
+                  <!-- 豆 2 -->
+                  <div class="coffee-bean-3d b2">
+                    <svg width="26" height="18" viewBox="0 0 30 20" fill="none">
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+                      <path d="M3 10 C 9 7, 13 13, 17 8 C 21 5, 24 11, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                      <ellipse cx="11" cy="6" rx="5" ry="2" fill="rgba(255,255,255,0.2)" transform="rotate(-10 11 6)"/>
+                    </svg>
+                  </div>
+                  <!-- 豆 3 -->
+                  <div class="coffee-bean-3d b3">
+                    <svg width="27" height="18" viewBox="0 0 30 20" fill="none">
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+                      <path d="M3 10 C 8 6, 12 14, 19 8 C 23 5, 25 12, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                    </svg>
+                  </div>
+                  <!-- 豆 4 -->
+                  <div class="coffee-bean-3d b4">
+                    <svg width="25" height="17" viewBox="0 0 30 20" fill="none">
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+                      <path d="M3 10 C 9 6, 13 13, 17 8 C 21 4, 25 11, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 飘浮风味轮标签 -->
+              <div id="flavor-cloud" class="flavor-cloud">
+                <span class="flavor-chip">🌸 茉莉白花</span>
+                <span class="flavor-chip">🍋 佛手柑</span>
+                <span class="flavor-chip">🫖 伯爵红茶</span>
+              </div>
+            </div>
+
+            <!-- 豆单列表 -->
             <div class="bean-picker">
               <div class="bean-card active" onclick="selectBean(this, 'yirgacheffe', '花果香与佛手柑', '浅烘 Medium-Light')">
-                <div>
-                  <div class="bean-name">Ethiopia 耶加雪菲</div>
-                  <div class="bean-notes">茉莉花果香、佛手柑酸甜 · 唤醒灵感</div>
+                <div class="bean-card-content">
+                  <!-- 试管豆瓶预览 -->
+                  <div class="bean-jar-preview">
+                    <div class="mini-bean" style="background:#9e6b47;"></div>
+                    <div class="mini-bean" style="background:#a8744f;"></div>
+                    <div class="mini-bean" style="background:#94633f;"></div>
+                  </div>
+                  <div>
+                    <div class="bean-name">Ethiopia 耶加雪菲</div>
+                    <div class="bean-notes">茉莉花果香、佛手柑酸甜 · 唤醒灵感</div>
+                  </div>
                 </div>
-                <div class="bean-roast">浅烘</div>
+                <div class="bean-roast" style="background:#faeedb; color:#965d27;">浅烘</div>
               </div>
 
               <div class="bean-card" onclick="selectBean(this, 'geek-roast', '浓缩可可与坚果', '极客深烘 Dark')">
-                <div>
-                  <div class="bean-name">Geek Dark 极客特调</div>
-                  <div class="bean-notes">黑巧克力、烤杏仁焦糖 · 专除恶性Bug</div>
+                <div class="bean-card-content">
+                  <!-- 试管豆瓶预览 -->
+                  <div class="bean-jar-preview">
+                    <div class="mini-bean" style="background:#2d1a0e;"></div>
+                    <div class="mini-bean" style="background:#361f11;"></div>
+                    <div class="mini-bean" style="background:#24140a;"></div>
+                  </div>
+                  <div>
+                    <div class="bean-name">Geek Dark 极客特调</div>
+                    <div class="bean-notes">黑巧克力、烤杏仁焦糖 · 专除恶性Bug</div>
+                  </div>
                 </div>
-                <div class="bean-roast">深烘</div>
+                <div class="bean-roast" style="background:#ebdcd3; color:#4a2717;">深烘</div>
               </div>
 
               <div class="bean-card" onclick="selectBean(this, 'decaf-oat', '燕麦焦香无咖啡因', '脱因晚安 Decaf')">
-                <div>
-                  <div class="bean-name">Night Decaf 晚安脱因</div>
-                  <div class="bean-notes">谷物燕麦焦香 · 深夜摸鱼不失眠</div>
+                <div class="bean-card-content">
+                  <!-- 试管豆瓶预览 -->
+                  <div class="bean-jar-preview">
+                    <div class="mini-bean" style="background:#6e462c;"></div>
+                    <div class="mini-bean" style="background:#7a4f33;"></div>
+                    <div class="mini-bean" style="background:#613b23;"></div>
+                  </div>
+                  <div>
+                    <div class="bean-name">Night Decaf 晚安脱因</div>
+                    <div class="bean-notes">谷物燕麦焦香 · 深夜摸鱼不失眠</div>
+                  </div>
                 </div>
-                <div class="bean-roast">脱因</div>
+                <div class="bean-roast" style="background:#ede3d7; color:#6b4f3a;">脱因</div>
               </div>
             </div>
           </div>
@@ -1520,12 +1753,58 @@
     let grindTimer = null;
     let pourTimer = null;
 
+    const beanProfiles = {
+      'yirgacheffe': {
+        origin: '埃塞俄比亚 · 水洗 G1',
+        beanColor: '#9e6b47',
+        creaseColor: '#d8af87',
+        liquidColor: 'var(--coffee-dark)',
+        flavors: ['🌸 茉莉白花', '🍋 佛手柑', '🫖 伯爵红茶']
+      },
+      'geek-roast': {
+        origin: '苏门答腊 · 极客深烘',
+        beanColor: '#2b170c',
+        creaseColor: '#170b05',
+        liquidColor: '#1c0f07',
+        flavors: ['🍫 黑巧克力', '🌰 烤杏仁', '🍮 焦糖醇厚']
+      },
+      'decaf-oat': {
+        origin: '哥伦比亚 · 二氧化碳脱因',
+        beanColor: '#6d4529',
+        creaseColor: '#b48560',
+        liquidColor: '#422818',
+        flavors: ['🌾 烘焙燕麦', '🍬 麦芽糖', '🥛 奶油坚果']
+      }
+    };
+
     function selectBean(card, id, desc, roast) {
       document.querySelectorAll('.bean-card').forEach(c => c.classList.remove('active'));
       card.classList.add('active');
       brewState.bean = id;
       ticker.innerText = `已选用：${card.querySelector('.bean-name').innerText} (${desc})`;
       playTone(420, 0.08, 'sine');
+
+      // 更新赏豆盘中豆子外观与风味轮
+      const profile = beanProfiles[id];
+      if (profile) {
+        document.getElementById('bean-origin-tag').innerText = profile.origin;
+        document.querySelectorAll('.bean-fill').forEach(el => el.setAttribute('fill', profile.beanColor));
+        document.querySelectorAll('.bean-crease').forEach(el => el.setAttribute('stroke', profile.creaseColor));
+
+        const cloud = document.getElementById('flavor-cloud');
+        cloud.innerHTML = profile.flavors.map(f => `<span class="flavor-chip">${f}</span>`).join('');
+        tumbleBeans();
+      }
+    }
+
+    function tumbleBeans() {
+      const box = document.getElementById('bean-scatter-box');
+      box.classList.add('tumble');
+      playTone(540, 0.06, 'triangle');
+      setTimeout(() => playTone(680, 0.05, 'sine'), 60);
+      setTimeout(() => {
+        box.classList.remove('tumble');
+      }, 350);
     }
 
     // ① 磨豆交互
