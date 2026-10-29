@@ -318,6 +318,180 @@
       gap: 22px;
     }
 
+    .panel-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .bean-title-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .mini-tool-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      color: var(--ink-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all var(--transition-fast);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .mini-tool-btn:hover {
+      border-color: var(--accent-warm);
+      color: var(--accent-warm);
+      transform: translateY(-1px);
+    }
+
+    .mini-tool-btn.primary {
+      background: rgba(200, 104, 53, 0.08);
+      border-color: var(--accent-warm);
+      color: var(--accent-warm);
+    }
+
+    .mini-tool-btn.primary:hover {
+      background: var(--accent-warm);
+      color: #ffffff;
+    }
+
+    /* 寄豆弹窗 (Modal) */
+    .bean-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(40, 30, 24, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: modalFadeIn 0.25s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .bean-modal-card {
+      background: var(--bg-paper);
+      border: 2px solid var(--border-line);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 50px rgba(35, 25, 20, 0.25);
+      padding: 28px;
+      position: relative;
+      animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalSlideUp {
+      from { transform: translateY(20px) scale(0.97); }
+      to { transform: translateY(0) scale(1); }
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--ink-subtle);
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close-btn:hover { color: var(--ink-primary); }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-sub {
+      font-size: 12px;
+      color: var(--ink-secondary);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--ink-primary);
+      outline: none;
+      transition: border-color var(--transition-fast);
+      box-sizing: border-box;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--accent-warm);
+    }
+
+    .flavor-tag-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .flavor-tag-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-line);
+      color: var(--ink-secondary);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      user-select: none;
+      transition: all var(--transition-fast);
+    }
+
+    .flavor-tag-btn.selected {
+      background: var(--accent-warm);
+      border-color: var(--accent-warm);
+      color: #ffffff;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border-line);
+    }
+
     .panel-block-title {
       font-size: 12px;
       font-weight: 700;
@@ -1723,7 +1897,13 @@
         <div class="workbench-left">
           
           <div>
-            <div class="panel-block-title">第一步：挑选今日风味豆 (Beans)</div>
+            <div class="panel-block-header">
+              <div class="panel-block-title" style="margin-bottom:0;">第一步：今日风味豆 (Beans)</div>
+              <div class="bean-title-actions">
+                <button class="mini-tool-btn" onclick="randomBean()" title="盲盒抽豆 · 探索不同风味">🎲 随机抽</button>
+                <button class="mini-tool-btn primary" onclick="openAddBeanModal()" title="寄放你烘焙的专属咖啡豆">+ 寄放新豆</button>
+              </div>
+            </div>
             <div class="bean-picker">
               <div class="bean-card active" onclick="selectBean(this, 'yirgacheffe', '花果香与佛手柑', '浅烘 Medium-Light')">
                 <div class="bean-card-content">
@@ -2176,11 +2356,12 @@
     let grindTimer = null;
     let pourTimer = null;
 
-    const beanProfiles = {
+    const defaultBeanProfiles = {
       'yirgacheffe': {
         name: 'Ethiopia 耶加雪菲',
         roast: '浅烘 Medium-Light',
         origin: '产地：埃塞俄比亚 · 水洗 G1 · 海拔 1900-2200m',
+        notes: '茉莉花果香、佛手柑酸甜 · 唤醒灵感',
         beanColor: '#9e6b47',
         creaseColor: '#d8af87',
         roastBg: '#faeedb',
@@ -2191,6 +2372,7 @@
         name: 'Geek Dark 极客特调',
         roast: '深烘 Dark Roast',
         origin: '产地：苏门答腊曼特宁 · 极客深烘 · 浓郁醇厚',
+        notes: '黑巧克力、烤杏仁焦糖 · 专除恶性Bug',
         beanColor: '#2b170c',
         creaseColor: '#170b05',
         roastBg: '#ebdcd3',
@@ -2201,13 +2383,232 @@
         name: 'Night Decaf 晚安脱因',
         roast: '脱因 Decaf Roast',
         origin: '产地：哥伦比亚 · 二氧化碳天然脱因 · 晚安摸鱼',
+        notes: '谷物燕麦焦香 · 深夜摸鱼不失眠',
         beanColor: '#6d4529',
         creaseColor: '#b48560',
         roastBg: '#ede3d7',
         roastColor: '#6b4f3a',
         flavors: ['🌾 烘焙燕麦', '🍬 麦芽糖', '🥛 奶油坚果']
+      },
+      'panama-geisha': {
+        name: 'Panama 翡翠瑰夏',
+        roast: '浅烘 Light Roast',
+        origin: '产地：巴拿马 波奎特 · 顶级日晒瑰夏 · 海拔 1800m',
+        notes: '水蜜桃果汁感、柑橘与白花 · 咖啡界神级豆',
+        beanColor: '#a8744f',
+        creaseColor: '#e0bfa0',
+        roastBg: '#faeedb',
+        roastColor: '#965d27',
+        flavors: ['🍑 水蜜桃', '🌸 茉莉白花', '🍵 乌龙茶韵']
+      },
+      'kenya-aa': {
+        name: 'Kenya 肯尼亚 AA',
+        roast: '中浅烘 Medium-Light',
+        origin: '产地：肯尼亚 涅里 · 72小时水洗发酵 · 明亮果酸',
+        notes: '黑加仑、番茄与饱满黑莓果汁 · 活力迸发',
+        beanColor: '#8a5938',
+        creaseColor: '#cca27c',
+        roastBg: '#faeedb',
+        roastColor: '#965d27',
+        flavors: ['🫐 黑加仑', '🍅 圣女果', '🍯 蜂蜜甜感']
+      },
+      'yunnan-wine': {
+        name: 'Yunnan 孟连厌氧日晒',
+        roast: '中深烘 Medium-Dark',
+        origin: '产地：中国云南 普洱孟连 · 厌氧日晒双重发酵',
+        notes: '朗姆酒桶、发酵红提与普洱醇厚回甘',
+        beanColor: '#4d2c19',
+        creaseColor: '#804c2b',
+        roastBg: '#f2e4d8',
+        roastColor: '#633519',
+        flavors: ['🍷 朗姆酒桶', '🍇 发酵红提', '🍫 可可回甘']
       }
     };
+
+    let beanProfiles = { ...defaultBeanProfiles };
+
+    // 从 LocalStorage 读取客座寄放豆
+    function loadSavedBeans() {
+      try {
+        const saved = localStorage.getItem('linrol_community_beans');
+        if (saved) {
+          const list = JSON.parse(saved);
+          list.forEach(b => {
+            beanProfiles[b.id] = b;
+            renderBeanCard(b, false);
+          });
+        }
+      } catch (e) {}
+    }
+
+    // 动态渲染单张豆子卡片到豆单列表
+    function renderBeanCard(b, isNew = false) {
+      const picker = document.querySelector('.bean-picker');
+      if (!picker) return;
+
+      // 避免重复渲染
+      if (document.querySelector(`.bean-card[data-bean-id="${b.id}"]`)) return;
+
+      const card = document.createElement('div');
+      card.className = 'bean-card' + (isNew ? ' active' : '');
+      card.setAttribute('data-bean-id', b.id);
+      card.setAttribute('onclick', `selectBean(this, '${b.id}', '${b.notes || b.roast}', '${b.roast}')`);
+
+      card.innerHTML = `
+        <div class="bean-card-content">
+          <div class="bean-jar-preview">
+            <div class="mini-bean" style="background:${b.beanColor};"></div>
+            <div class="mini-bean" style="background:${b.beanColor}; filter:brightness(1.1);"></div>
+            <div class="mini-bean" style="background:${b.beanColor}; filter:brightness(0.9);"></div>
+          </div>
+          <div>
+            <div class="bean-name">${escapeHtml(b.name)}</div>
+            <div class="bean-notes">${escapeHtml(b.notes || b.origin)}</div>
+          </div>
+        </div>
+        <div class="bean-roast" style="background:${b.roastBg}; color:${b.roastColor};">${escapeHtml(b.roast.split(' ')[0])}</div>
+      `;
+
+      if (isNew) {
+        picker.prepend(card);
+      } else {
+        picker.appendChild(card);
+      }
+    }
+
+    // 盲盒随机抽豆算法 (Surprise Me)
+    function randomBean() {
+      const keys = Object.keys(beanProfiles);
+      if (keys.length <= 1) return;
+
+      // 连续声效微动画
+      playTone(450, 0.05, 'triangle');
+      setTimeout(() => playTone(550, 0.05, 'triangle'), 70);
+      setTimeout(() => playTone(680, 0.08, 'sine'), 140);
+
+      // 滤除当前已选
+      const candidates = keys.filter(k => k !== brewState.bean);
+      const chosenKey = candidates[Math.floor(Math.random() * candidates.length)];
+      const chosenProfile = beanProfiles[chosenKey];
+
+      // 找到对应卡片或动态创建
+      let targetCard = document.querySelector(`.bean-card[data-bean-id="${chosenKey}"]`);
+      if (!targetCard) {
+        renderBeanCard(chosenProfile, false);
+        targetCard = document.querySelector(`.bean-card[data-bean-id="${chosenKey}"]`);
+      }
+
+      if (targetCard) {
+        selectBean(targetCard, chosenKey, chosenProfile.notes || chosenProfile.origin, chosenProfile.roast);
+        ticker.innerText = `🎲 盲盒为您随机挑选了：【${chosenProfile.name}】！快闻闻新风味 ✨`;
+        
+        // 滚动进入视野
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    // 寄豆模态弹窗控制
+    function openAddBeanModal() {
+      document.getElementById('bean-modal').style.display = 'flex';
+      playTone(520, 0.08, 'sine');
+    }
+
+    function closeAddBeanModal() {
+      document.getElementById('bean-modal').style.display = 'none';
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === 'bean-modal') {
+        closeAddBeanModal();
+      }
+    }
+
+    function toggleFlavorTag(el) {
+      el.classList.toggle('selected');
+      playTone(600, 0.03, 'sine');
+    }
+
+    // 烘焙度色谱库
+    const roastPalette = {
+      'light': { roast: '浅烘 Cinnamon/Light', beanColor: '#a8744f', creaseColor: '#e0bfa0', roastBg: '#faeedb', roastColor: '#965d27' },
+      'medium': { roast: '中烘 City/Medium', beanColor: '#6d4529', creaseColor: '#b48560', roastBg: '#f5e8d7', roastColor: '#6e4424' },
+      'dark': { roast: '深烘 French/Dark', beanColor: '#2b170c', creaseColor: '#170b05', roastBg: '#ebdcd3', roastColor: '#4a2717' },
+      'decaf': { roast: '脱因 Decaf Roast', beanColor: '#5c3924', creaseColor: '#9a6b4a', roastBg: '#ede3d7', roastColor: '#6b4f3a' }
+    };
+
+    function submitCustomBean(e) {
+      e.preventDefault();
+      const name = document.getElementById('cb-name').value.trim();
+      const origin = document.getElementById('cb-origin').value.trim();
+      const roastKey = document.getElementById('cb-roast').value;
+      const author = document.getElementById('cb-author').value.trim() || '热心咖友';
+      
+      // 提取选中的风味标签
+      const selectedChips = Array.from(document.querySelectorAll('.flavor-tag-btn.selected')).map(el => el.innerText.trim());
+      const customFlavors = document.getElementById('cb-flavors-custom').value.trim();
+      if (customFlavors) {
+        customFlavors.split(/[,，]/).forEach(f => {
+          if (f.trim()) selectedChips.push('✨ ' + f.trim());
+        });
+      }
+      const finalFlavors = selectedChips.length > 0 ? selectedChips.slice(0, 4) : ['🌸 独家手作', '☕ 醇厚顺滑'];
+
+      const pal = roastPalette[roastKey] || roastPalette['medium'];
+      const newId = 'community-' + Date.now();
+
+      const newBean = {
+        id: newId,
+        name: name,
+        roast: pal.roast,
+        origin: `产地：${origin} · 寄豆人：${author}`,
+        notes: `${finalFlavors.join('、')} · ${author} 寄放`,
+        beanColor: pal.beanColor,
+        creaseColor: pal.creaseColor,
+        roastBg: pal.roastBg,
+        roastColor: pal.roastColor,
+        flavors: finalFlavors,
+        isCustom: true
+      };
+
+      // 注册进内存与 LocalStorage
+      beanProfiles[newId] = newBean;
+      try {
+        const saved = JSON.parse(localStorage.getItem('linrol_community_beans') || '[]');
+        saved.unshift(newBean);
+        localStorage.setItem('linrol_community_beans', JSON.stringify(saved));
+      } catch (err) {}
+
+      // 渲染新卡片并自动选中
+      renderBeanCard(newBean, true);
+      const newCard = document.querySelector(`.bean-card[data-bean-id="${newId}"]`);
+      if (newCard) {
+        selectBean(newCard, newId, newBean.notes, newBean.roast);
+      }
+
+      // 自动钉一张便利贴到软木板上通知大家！
+      const wall = document.getElementById('sticky-wall');
+      if (wall) {
+        const note = document.createElement('div');
+        note.className = 'cork-sticky-note';
+        const rot = (Math.random() * 6 - 3).toFixed(1);
+        note.style.transform = `rotate(${rot}deg)`;
+        note.innerHTML = `
+          <div class="sticky-text">“我刚在吧台寄放了一桶新豆子【${escapeHtml(name)}】，风味是 ${escapeHtml(finalFlavors.join(' / '))}，大家快来盲盒抽着喝！”</div>
+          <div class="sticky-author">— 来自 寄豆师 · ${escapeHtml(author)}</div>
+        `;
+        wall.prepend(note);
+      }
+
+      closeAddBeanModal();
+      document.getElementById('custom-bean-form').reset();
+      document.querySelectorAll('.flavor-tag-btn').forEach(b => b.classList.remove('selected'));
+
+      // 成功音效与提示
+      playTone(520, 0.1, 'sine');
+      setTimeout(() => playTone(660, 0.12, 'sine'), 100);
+      setTimeout(() => playTone(880, 0.2, 'triangle'), 200);
+      ticker.innerText = `🎉 恭喜！您烘焙的【${name}】已成功摆上吧台，并永久加入盲盒抽豆池！`;
+    }
 
     function selectBean(card, id, desc, roast) {
       document.querySelectorAll('.bean-card').forEach(c => c.classList.remove('active'));
@@ -2797,6 +3198,76 @@
     }
 
     fetchLatestDmg();
+    loadSavedBeans();
+    
+    // 初始化给默认 3 款卡片补齐 data-bean-id
+    const defaultCards = document.querySelectorAll('.bean-picker .bean-card');
+    if (defaultCards.length >= 3) {
+      defaultCards[0].setAttribute('data-bean-id', 'yirgacheffe');
+      defaultCards[1].setAttribute('data-bean-id', 'geek-roast');
+      defaultCards[2].setAttribute('data-bean-id', 'decaf-oat');
+    }
+
   </script>
+  <!-- 寄放咖啡豆弹窗 (Community Bean Roastery Modal) -->
+  <div id="bean-modal" class="bean-modal-backdrop" onclick="handleBackdropClick(event)">
+    <div class="bean-modal-card">
+      <button class="modal-close-btn" onclick="closeAddBeanModal()">×</button>
+      <div class="modal-title"><span>🫘</span> 吧台寄豆工坊 · Register Bean</div>
+      <div class="modal-sub">在这里烘焙寄放你的专属风味豆，将陈列在吧台供所有人随机品尝！</div>
+
+      <form id="custom-bean-form" onsubmit="submitCustomBean(event)">
+        <div class="form-group">
+          <label class="form-label">咖啡豆名称 *</label>
+          <input type="text" id="cb-name" class="form-input" placeholder="例如：巴拿马 翡翠瑰夏 / 熬夜救命特调" required maxlength="25">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">产地、海拔与处理法 *</label>
+          <input type="text" id="cb-origin" class="form-input" placeholder="例如：埃塞俄比亚 · 厌氧日晒 · 海拔 2000m" required maxlength="40">
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label class="form-label">烘焙程度</label>
+            <select id="cb-roast" class="form-select" onchange="updateRoastColorPreview()">
+              <option value="light">浅烘 Cinnamon/Light (清透花果酸)</option>
+              <option value="medium">中烘 City/Medium (焦糖均衡甜)</option>
+              <option value="dark">深烘 French/Dark (黑巧醇厚浓)</option>
+              <option value="decaf">晚安脱因 Decaf (低因焦香谷物)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">寄豆人签名</label>
+            <input type="text" id="cb-author" class="form-input" placeholder="例如：杭州·摸鱼程序员" maxlength="15">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">风味标签 (点击勾选或自填3项)</label>
+          <div class="flavor-tag-selector">
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍑 水蜜桃</span>
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🌸 茉莉白花</span>
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍷 朗姆酒香</span>
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍫 纯黑可可</span>
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🌰 烤榛果</span>
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍯 焦糖布丁</span>
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍊 鲜多汁柑橘</span>
+            <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍵 乌龙茶感</span>
+          </div>
+          <input type="text" id="cb-flavors-custom" class="form-input" style="margin-top:8px; font-size:12px;" placeholder="或手动输入风味 (用逗号分隔，如：百香果, 菠萝, 蜂蜜)">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-pill" onclick="closeAddBeanModal()">取消</button>
+          <button type="submit" class="btn-dmg-primary" style="border:none; cursor:pointer;">
+            <span>🫘</span> 确认寄放在吧台
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 </body>
 </html>
