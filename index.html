@@ -910,6 +910,48 @@
       color: var(--ink-primary);
     }
 
+    .card-title-link {
+      text-decoration: none;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color var(--transition-fast);
+    }
+
+    .card-title-link h4 {
+      transition: color var(--transition-fast);
+    }
+
+    .card-title-link:hover h4 {
+      color: var(--accent-warm);
+      text-decoration: underline;
+    }
+
+    .card-title-link .title-arrow {
+      font-size: 16px;
+      color: var(--ink-subtle);
+      transition: transform var(--transition-fast), color var(--transition-fast);
+    }
+
+    .card-title-link:hover .title-arrow {
+      color: var(--accent-warm);
+      transform: translate(2px, -2px);
+    }
+
+    .card-icon-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      cursor: pointer;
+    }
+
+    .card-icon-link:hover .card-icon {
+      border-color: var(--accent-warm);
+      transform: scale(1.06);
+      box-shadow: 0 6px 14px rgba(200, 104, 53, 0.15);
+    }
+
     .card-desc {
       font-size: 14px;
       color: var(--ink-secondary);
@@ -1996,10 +2038,15 @@
       <div class="tool-card-box">
         <div class="card-problem">“在外企聊天写邮件，打完中文必须切屏去网页翻译，一天来回几十次，思路全断了？”</div>
         <div class="card-content-flex">
-          <div class="card-icon">⇄</div>
+          <a href="https://linrol.github.io/swapr-trans/" target="_blank" class="card-icon-link" title="访问 SwaprTrans 官方网站">
+            <div class="card-icon">⇄</div>
+          </a>
           <div class="card-meta">
             <div class="card-title-row">
-              <h4>SwaprTrans · macOS 原地瞬译</h4>
+              <a href="https://linrol.github.io/swapr-trans/" target="_blank" class="card-title-link" title="点击直达 SwaprTrans 官方主页">
+                <h4>SwaprTrans · macOS 原地瞬译</h4>
+                <span class="title-arrow">↗</span>
+              </a>
             </div>
             <p class="card-desc">
               在任何 App（Slack、Teams、邮件、终端、IDE）输入框中打完中文，划选直接敲 <strong>Enter 回车</strong>瞬间在光标处原地覆写为地道英文；敲 <strong>Space 空格</strong>极简 HUD 浮窗查词。拒绝动辄几百兆的 Electron 怪物，纯原生 Swift 打造，体积小于 2MB，基于 Apple 本地端侧模型运行，敏感工作对话绝不上云。
