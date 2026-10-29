@@ -948,6 +948,34 @@
       margin-top: 6px;
     }
 
+    .btn-dmg-primary {
+      background: var(--accent-warm);
+      color: #ffffff !important;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(200, 104, 53, 0.25);
+      transition: all var(--transition-fast);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+    }
+
+    .btn-dmg-primary:hover {
+      background: #b55726;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(200, 104, 53, 0.35);
+      text-decoration: none !important;
+    }
+
+    .btn-dmg-primary:active {
+      transform: translateY(1px);
+    }
+
     .cli-install-box {
       font-family: var(--font-mono);
       font-size: 12px;
@@ -1989,6 +2017,9 @@
         <div class="card-bottom-actions">
           <div class="cli-install-box">brew install linrol/tap/swapr-trans</div>
           <div class="card-links">
+            <a id="btn-download-dmg" href="https://github.com/linrol/swapr-trans/releases/download/v1.0.2/SwaprTrans-1.0.2.dmg" class="btn-dmg-primary" title="直接下载最新 macOS DMG 安装包">
+              <span>🍎</span> <span id="dmg-version-text">下载 DMG (v1.0.2)</span> <span>▾</span>
+            </a>
             <a href="https://linrol.github.io/swapr-trans/" target="_blank" class="card-link-item">体验官网主页 ↗</a>
             <a href="https://github.com/linrol/swapr-trans" target="_blank" class="card-link-item">GitHub 源码仓库 ↗</a>
           </div>
@@ -2680,6 +2711,45 @@
       requestAnimationFrame(animateRain);
     }
     animateRain();
+
+    /* 动态获取 SwaprTrans 最新 release dmg 链接 */
+    async function fetchLatestDmg() {
+      const btn = document.getElementById('btn-download-dmg');
+      const text = document.getElementById('dmg-version-text');
+      if (!btn) return;
+
+      try {
+        // 优先通过 GitHub API 获取最新发布版本
+        const res = await fetch('https://api.github.com/repos/linrol/swapr-trans/releases/latest');
+        if (res.ok) {
+          const data = await res.json();
+          const dmgAsset = data.assets && data.assets.find(a => a.name && a.name.endsWith('.dmg'));
+          if (dmgAsset && dmgAsset.browser_download_url) {
+            btn.href = dmgAsset.browser_download_url;
+            if (text && data.tag_name) {
+              text.innerText = `下载 DMG (${data.tag_name})`;
+            }
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // 降级兜底方案: 直接读取仓库的 version.json
+      try {
+        const res2 = await fetch('https://raw.githubusercontent.com/linrol/swapr-trans/main/version.json');
+        if (res2.ok) {
+          const vData = await res2.json();
+          if (vData.dmgUrl) {
+            btn.href = vData.dmgUrl;
+            if (text && vData.version) {
+              text.innerText = `下载 DMG (v${vData.version})`;
+            }
+          }
+        }
+      } catch (e2) {}
+    }
+
+    fetchLatestDmg();
   </script>
 </body>
 </html>
