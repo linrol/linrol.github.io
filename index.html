@@ -2875,11 +2875,53 @@
         </div>
       </div>
 
-      <!-- 正在烘焙中的第二道菜 -->
+      <!-- 明星作品 2: Katib -->
+      <div class="tool-card-box">
+        <div class="card-problem">“线上跨国会议听不清又怕跟不上，转录工具要么按分钟收费，要么得配置繁琐的黑洞虚拟声卡还把会议录音传上云？”</div>
+        <div class="card-content-flex">
+          <a href="https://linrol.github.io/katib/" target="_blank" class="card-icon-link" title="访问 Katib 官方网站">
+            <div class="card-icon" style="padding:0; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+              <img src="https://linrol.github.io/katib/assets/app-icon.png" alt="Katib App Icon" style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" />
+            </div>
+          </a>
+          <div class="card-meta">
+            <div class="card-title-row">
+              <a href="https://linrol.github.io/katib/" target="_blank" class="card-title-link" title="点击直达 Katib 官方主页">
+                <h4>Katib · macOS 实时会议双向听写与字幕浮窗</h4>
+                <span class="title-arrow">↗</span>
+              </a>
+            </div>
+            <p class="card-desc">
+              基于阿里开源高精度 SenseVoice 神经语音模型，由 Apple Silicon 与 Intel 芯片本地推理驱动，100% 隐私安全零上云。直接调用 macOS 官方原生 <strong>ScreenCaptureKit</strong> 音频通道无感截获系统声音，<strong>彻底告别 BlackHole / Soundflower 繁琐虚拟声卡</strong>！支持远端对方与本地麦克风双向独立打标，悬浮毛玻璃字幕浮窗全屏置顶且绝不抢占输入焦点。
+            </p>
+            <div class="card-badges">
+              <span class="pill-badge">macOS 菜单栏</span>
+              <span class="pill-badge">SenseVoice 纯端侧离线</span>
+              <span class="pill-badge">ScreenCaptureKit 免虚拟声卡</span>
+              <span class="pill-badge">双向会话打标</span>
+              <span class="pill-badge">毛玻璃实时 HUD</span>
+              <span class="pill-badge">MIT 开源</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-bottom-actions">
+          <div class="cli-install-box">brew install linrol/tap/katib</div>
+          <div class="card-links">
+            <a id="btn-download-katib-dmg" href="https://github.com/linrol/katib/releases/latest" class="btn-dmg-primary" title="直接下载最新 macOS DMG 安装包">
+              <span>🍎</span> <span id="katib-dmg-version-text">下载 DMG (v1.0.0)</span> <span>▾</span>
+            </a>
+            <a href="https://linrol.github.io/katib/" target="_blank" class="card-link-item">体验官网主页 ↗</a>
+            <a href="https://github.com/linrol/katib" target="_blank" class="card-link-item">GitHub 源码仓库 ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 正在烘焙中的第三道菜 -->
       <div class="baking-idea-card">
         <div style="font-size: 32px;">🥐</div>
         <div>
-          <h4 style="font-size:15px; font-weight:700; margin-bottom:4px; color:var(--ink-primary);">第二款小工具正在烤箱里慢火烘焙…</h4>
+          <h4 style="font-size:15px; font-weight:700; margin-bottom:4px; color:var(--ink-primary);">第三款小工具正在烤箱里慢火烘焙…</h4>
           <p style="font-size:13px; color:var(--ink-secondary);">“剪贴板历史工具动辄常驻 300MB 内存，还在后台偷偷联网上传？”—— 另一个极致轻量、纯本地端侧的原生小玩具正在调试中。</p>
         </div>
       </div>
@@ -4348,6 +4390,41 @@
       } catch (e2) {}
     }
 
+    /* 动态获取 Katib 最新 release dmg 链接 */
+    async function fetchLatestKatibDmg() {
+      const btn = document.getElementById('btn-download-katib-dmg');
+      const text = document.getElementById('katib-dmg-version-text');
+      if (!btn) return;
+
+      try {
+        const res = await fetch('https://api.github.com/repos/linrol/katib/releases/latest');
+        if (res.ok) {
+          const data = await res.json();
+          const dmgAsset = data.assets && data.assets.find(a => a.name && a.name.endsWith('.dmg'));
+          if (dmgAsset && dmgAsset.browser_download_url) {
+            btn.href = dmgAsset.browser_download_url;
+            if (text && data.tag_name) {
+              text.innerText = `下载 DMG (${data.tag_name})`;
+            }
+            return;
+          }
+        }
+      } catch (e) {}
+
+      try {
+        const res2 = await fetch('https://raw.githubusercontent.com/linrol/katib/main/version.json');
+        if (res2.ok) {
+          const vData = await res2.json();
+          if (vData.dmgUrl) {
+            btn.href = vData.dmgUrl;
+            if (text && vData.version) {
+              text.innerText = `下载 DMG (v${vData.version})`;
+            }
+          }
+        }
+      } catch (e2) {}
+    }
+
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeReceipt();
@@ -4356,6 +4433,7 @@
     });
 
     fetchLatestDmg();
+    fetchLatestKatibDmg();
     loadSavedBeans();
     refreshBeanBatch(false);
   </script>
