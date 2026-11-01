@@ -1625,6 +1625,35 @@
       font-family: var(--font-serif);
       margin-bottom: 14px;
       line-height: 1.5;
+      padding-right: 180px;
+    }
+
+    .card-pro-badge {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      background: linear-gradient(135deg, rgba(200, 104, 53, 0.08), rgba(245, 158, 11, 0.14));
+      border: 1px solid rgba(200, 104, 53, 0.28);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-warm);
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(200, 104, 53, 0.06);
+      transition: all var(--transition-normal);
+      z-index: 2;
+    }
+
+    .card-pro-badge:hover {
+      background: var(--accent-warm);
+      color: #fff;
+      border-color: var(--accent-warm);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(200, 104, 53, 0.25);
     }
 
     .card-content-flex {
@@ -1999,6 +2028,14 @@
     }
 
     @media (max-width: 680px) {
+      .card-problem {
+        padding-right: 0;
+      }
+      .card-pro-badge {
+        position: static;
+        margin-bottom: 12px;
+        display: inline-flex;
+      }
       .bean-showcase-zone {
         grid-template-columns: 1fr;
         justify-items: center;
@@ -2838,6 +2875,9 @@
 
       <!-- 明星作品: SwaprTrans -->
       <div class="tool-card-box">
+        <a href="https://www.creem.io/payment/prod_4DbzRAS3zGQqIxCufT244M" target="_blank" class="card-pro-badge" title="升级 SwaprTrans Pro 终身版 ($6.99)">
+          <span>⭐️</span> Pro 终身版 $6.99 <span>↗</span>
+        </a>
         <div class="card-problem">“在外企聊天写邮件，打完中文必须切屏去网页翻译，一天来回几十次，思路全断了？”</div>
         <div class="card-content-flex">
           <a href="https://linrol.github.io/swapr-trans/" target="_blank" class="card-icon-link" title="访问 SwaprTrans 官方网站">
@@ -2877,6 +2917,9 @@
 
       <!-- 明星作品 2: Katib -->
       <div class="tool-card-box">
+        <a href="https://www.creem.io/payment/prod_7QcjNL9GaMP6RCGo3NNENp" target="_blank" class="card-pro-badge" title="升级 Katib Pro 终身版 ($9.99)">
+          <span>⭐️</span> Pro 终身版 $9.99 <span>↗</span>
+        </a>
         <div class="card-problem">“线上跨国会议听不清又怕跟不上，转录工具要么按分钟收费，要么得配置繁琐的黑洞虚拟声卡还把会议录音传上云？”</div>
         <div class="card-content-flex">
           <a href="https://linrol.github.io/katib/" target="_blank" class="card-icon-link" title="访问 Katib 官方网站">
@@ -2911,7 +2954,6 @@
             <a id="btn-download-katib-dmg" href="https://github.com/linrol/katib/releases/latest" class="btn-dmg-primary" title="直接下载最新 macOS DMG 安装包">
               <span>🍎</span> <span id="katib-dmg-version-text">下载 DMG (v1.0.0)</span> <span>▾</span>
             </a>
-            <a href="https://www.creem.io/payment/prod_7QcjNL9GaMP6RCGo3NNENp" target="_blank" class="card-link-item" style="color:var(--accent-warm);font-weight:600;">升级 Pro 终身版 ($9.99) ⭐️</a>
             <a href="https://linrol.github.io/katib/" target="_blank" class="card-link-item">体验官网主页 ↗</a>
             <a href="https://github.com/linrol/katib" target="_blank" class="card-link-item">GitHub 源码仓库 ↗</a>
           </div>
