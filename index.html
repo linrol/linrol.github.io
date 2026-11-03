@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN" data-theme="rainy">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Linrol Lab · 探索原生 macOS 工具与独立手作</title>
   <meta name="description" content="Linrol Lab 独立手作工作室主页。全手冲交互吧台、多轨白噪音混音台、翻页手账本与纯原生 macOS 工具集。">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
   <style>
     /* ==========================================================================
        设计系统与主题配置 (支持 雨天/暖日/深夜 三种沉浸光影)
@@ -14,12 +16,12 @@
       --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-serif: "Kaiti SC", "STKaiti", "KaiTi", "Songti SC", Georgia, serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      
+
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
       --radius-full: 999px;
-      
+
       --transition-fast: 0.15s ease;
       --transition-normal: 0.25s ease;
       --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -32,22 +34,22 @@
       --bg-card: #ffffff;
       --bg-desk: #ecdcc9;
       --bg-desk-deep: #dbc5ad;
-      
+
       --ink-primary: #342a24;
       --ink-secondary: #6c5f54;
       --ink-subtle: #988b7e;
       --border-line: #dfd4c3;
       --border-dashed: #c8baa5;
-      
+
       --coffee-dark: #382115;
       --coffee-espresso: #27160c;
       --coffee-latte: #b48050;
       --coffee-foam: #f9f2e8;
-      
+
       --accent-warm: #c86835;
       --accent-badge-bg: #e2ede2;
       --accent-badge-text: #2f5a34;
-      
+
       --shadow-sm: 0 2px 8px rgba(52, 42, 36, 0.04);
       --shadow-md: 0 8px 24px rgba(52, 42, 36, 0.07);
       --shadow-lg: 0 16px 40px rgba(52, 42, 36, 0.1);
@@ -61,22 +63,22 @@
       --bg-card: #ffffff;
       --bg-desk: #f5e4cd;
       --bg-desk-deep: #e8d0b2;
-      
+
       --ink-primary: #2d241e;
       --ink-secondary: #635548;
       --ink-subtle: #958474;
       --border-line: #e8decb;
       --border-dashed: #cfbfab;
-      
+
       --coffee-dark: #3b2317;
       --coffee-espresso: #2a180d;
       --coffee-latte: #bd8958;
       --coffee-foam: #fff7ee;
-      
+
       --accent-warm: #d97036;
       --accent-badge-bg: #e5f0e3;
       --accent-badge-text: #28542d;
-      
+
       --shadow-sm: 0 2px 8px rgba(45, 36, 30, 0.04);
       --shadow-md: 0 8px 24px rgba(45, 36, 30, 0.06);
       --shadow-lg: 0 16px 40px rgba(45, 36, 30, 0.09);
@@ -90,22 +92,22 @@
       --bg-card: #292421;
       --bg-desk: #342c27;
       --bg-desk-deep: #28211d;
-      
+
       --ink-primary: #ede3d7;
       --ink-secondary: #b3a598;
       --ink-subtle: #7a6e63;
       --border-line: #3f3630;
       --border-dashed: #544941;
-      
+
       --coffee-dark: #1b1009;
       --coffee-espresso: #110905;
       --coffee-latte: #9d6e42;
       --coffee-foam: #3d342d;
-      
+
       --accent-warm: #e5874e;
       --accent-badge-bg: #29382b;
       --accent-badge-text: #8ed495;
-      
+
       --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
       --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
       --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
@@ -345,7 +347,7 @@
       gap: 4px;
       line-height: 1.2;
       transition: all var(--transition-fast);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     }
 
     .mini-tool-btn:hover {
@@ -382,6 +384,7 @@
         opacity: 0;
         transform: translateY(6px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -408,8 +411,13 @@
     }
 
     @keyframes modalFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     .bean-modal-card {
@@ -425,8 +433,13 @@
     }
 
     @keyframes modalSlideUp {
-      from { transform: translateY(20px) scale(0.97); }
-      to { transform: translateY(0) scale(1); }
+      from {
+        transform: translateY(20px) scale(0.97);
+      }
+
+      to {
+        transform: translateY(0) scale(1);
+      }
     }
 
     .modal-close-btn {
@@ -440,7 +453,10 @@
       cursor: pointer;
       line-height: 1;
     }
-    .modal-close-btn:hover { color: var(--ink-primary); }
+
+    .modal-close-btn:hover {
+      color: var(--ink-primary);
+    }
 
     .modal-title {
       font-size: 18px;
@@ -470,7 +486,8 @@
       display: block;
     }
 
-    .form-input, .form-select {
+    .form-input,
+    .form-select {
       width: 100%;
       background: var(--bg-card);
       border: 1px solid var(--border-line);
@@ -483,7 +500,8 @@
       box-sizing: border-box;
     }
 
-    .form-input:focus, .form-select:focus {
+    .form-input:focus,
+    .form-select:focus {
       border-color: var(--accent-warm);
     }
 
@@ -651,8 +669,8 @@
       gap: 16px;
       align-items: center;
       position: relative;
-      background-image: 
-        linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(0,0,0,0.03)),
+      background-image:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.03)),
         radial-gradient(circle at 50% 30%, rgba(255, 230, 200, 0.2) 0%, transparent 60%);
     }
 
@@ -679,8 +697,17 @@
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 0.4; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.15); }
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: scale(0.9);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.15);
+      }
     }
 
     /* 冲煮主舞台道具容器 (Brew Apparatus) */
@@ -720,15 +747,29 @@
     }
 
     .kettle-body-wrap:hover {
-      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.25));
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.25));
     }
 
     @keyframes kettleSpiralPour {
-      0% { transform: translate(168px, -82px) rotate(-30deg); }
-      25% { transform: translate(164px, -85px) rotate(-31deg); }
-      50% { transform: translate(172px, -80px) rotate(-29deg); }
-      75% { transform: translate(170px, -84px) rotate(-30.5deg); }
-      100% { transform: translate(168px, -82px) rotate(-30deg); }
+      0% {
+        transform: translate(168px, -82px) rotate(-30deg);
+      }
+
+      25% {
+        transform: translate(164px, -85px) rotate(-31deg);
+      }
+
+      50% {
+        transform: translate(172px, -80px) rotate(-29deg);
+      }
+
+      75% {
+        transform: translate(170px, -84px) rotate(-30.5deg);
+      }
+
+      100% {
+        transform: translate(168px, -82px) rotate(-30deg);
+      }
     }
 
     .kettle-station.pouring .kettle-body-wrap {
@@ -748,7 +789,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
       z-index: 1;
       cursor: ew-resize;
       transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
@@ -757,7 +798,7 @@
 
     .kettle-base-stand:hover {
       border-color: #58cbfb;
-      box-shadow: 0 0 10px rgba(88,203,251,0.3), 0 4px 12px rgba(0,0,0,0.22);
+      box-shadow: 0 0 10px rgba(88, 203, 251, 0.3), 0 4px 12px rgba(0, 0, 0, 0.22);
     }
 
     /* 物理金属旋钮小拨盘 (Rotary Knob) */
@@ -767,7 +808,7 @@
       border-radius: 50%;
       background: #363230;
       border: 1px solid #181514;
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 1px 3px rgba(0,0,0,0.4);
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2), 0 1px 3px rgba(0, 0, 0, 0.4);
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -789,7 +830,7 @@
       color: #58cbfb;
       letter-spacing: 0.5px;
       font-weight: 700;
-      text-shadow: 0 0 5px rgba(88,203,251,0.7);
+      text-shadow: 0 0 5px rgba(88, 203, 251, 0.7);
       user-select: none;
       line-height: 1;
     }
@@ -811,7 +852,7 @@
       opacity: 0;
       transition: opacity 0.25s ease, transform 0.25s ease;
       backdrop-filter: blur(4px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
       z-index: 30;
     }
 
@@ -847,14 +888,14 @@
       left: 112px;
       width: 2.5px;
       height: 0px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(190,230,255,0.9) 60%, rgba(160,215,255,0.7) 100%);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(190, 230, 255, 0.9) 60%, rgba(160, 215, 255, 0.7) 100%);
       border-radius: 2px;
       transform-origin: top center;
       transform: rotate(30deg);
       opacity: 0;
       pointer-events: none;
       transition: height 0.12s linear, opacity 0.15s ease;
-      filter: drop-shadow(0 0 3px rgba(210,240,255,0.85));
+      filter: drop-shadow(0 0 3px rgba(210, 240, 255, 0.85));
       z-index: 20;
     }
 
@@ -914,9 +955,20 @@
     }
 
     @keyframes steamFloat {
-      0% { transform: translateY(8px) scaleX(1); opacity: 0; }
-      50% { transform: translateY(-6px) scaleX(1.8) rotate(5deg); opacity: 0.7; }
-      100% { transform: translateY(-24px) scaleX(2.6) rotate(-5deg); opacity: 0; }
+      0% {
+        transform: translateY(8px) scaleX(1);
+        opacity: 0;
+      }
+
+      50% {
+        transform: translateY(-6px) scaleX(1.8) rotate(5deg);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: translateY(-24px) scaleX(2.6) rotate(-5deg);
+        opacity: 0;
+      }
     }
 
     /* 北欧极简陶瓷咖啡杯身 */
@@ -928,7 +980,7 @@
       background: linear-gradient(145deg, #fefdfb 0%, #f7f2ea 55%, #eae1d2 100%);
       position: relative;
       overflow: hidden;
-      box-shadow: inset 0 -8px 20px rgba(50,30,15,0.08), 0 10px 24px rgba(0,0,0,0.07);
+      box-shadow: inset 0 -8px 20px rgba(50, 30, 15, 0.08), 0 10px 24px rgba(0, 0, 0, 0.07);
       transition: transform var(--transition-fast);
     }
 
@@ -951,7 +1003,7 @@
       border-left: none;
       border-radius: 0 24px 34px 0;
       background: linear-gradient(90deg, transparent 0%, #f7f2ea 65%);
-      box-shadow: 2px 4px 8px rgba(0,0,0,0.06);
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.06);
     }
 
     /* 原木质感底垫 (Walnut/Birch Saucer) */
@@ -962,7 +1014,7 @@
       border: 2px solid #543924;
       border-radius: 8px;
       margin-top: -3px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     }
 
     /* 咖啡液体与浮沫 */
@@ -996,15 +1048,26 @@
       border: 1.5px solid rgba(255, 255, 255, 0.8);
       border-radius: 4px;
       backdrop-filter: blur(2px);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       opacity: 0;
       transform: rotate(15deg);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .ice-cube-item.cube-1 { top: 25px; left: 35px; }
-    .ice-cube-item.cube-2 { top: 32px; right: 35px; transform: rotate(-20deg); }
-    .ice-cube-item.show { opacity: 1; }
+    .ice-cube-item.cube-1 {
+      top: 25px;
+      left: 35px;
+    }
+
+    .ice-cube-item.cube-2 {
+      top: 32px;
+      right: 35px;
+      transform: rotate(-20deg);
+    }
+
+    .ice-cube-item.show {
+      opacity: 1;
+    }
 
     /* 旁边的小曲奇饼干 (搭配茶点) */
     .cookie-plate {
@@ -1016,7 +1079,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       cursor: pointer;
       user-select: none;
       transition: transform var(--transition-fast);
@@ -1037,7 +1100,7 @@
       align-items: center;
       justify-content: center;
       font-size: 20px;
-      box-shadow: inset 0 -3px 6px rgba(0,0,0,0.2);
+      box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.2);
       transition: clip-path 0.2s ease;
     }
 
@@ -1070,7 +1133,9 @@
     }
 
     @keyframes crankSpin {
-      100% { transform: translateX(-50%) rotate(360deg); }
+      100% {
+        transform: translateX(-50%) rotate(360deg);
+      }
     }
 
     .crank-arm {
@@ -1104,7 +1169,7 @@
       background: #b5804e;
       border-radius: 50%;
       border: 1.5px solid #5a3818;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     /* 玻璃豆罐拔塞飘香气泡 (Jar Aroma Clouds) */
@@ -1139,7 +1204,7 @@
     .milk-swirl-layer {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 25%, rgba(255,255,255,0.92) 0%, rgba(245,232,212,0.7) 40%, transparent 75%);
+      background: radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.92) 0%, rgba(245, 232, 212, 0.7) 40%, transparent 75%);
       mix-blend-mode: overlay;
       opacity: 0;
       pointer-events: none;
@@ -1152,8 +1217,13 @@
     }
 
     @keyframes milkMarble {
-      0% { transform: scale(1) rotate(0deg); }
-      100% { transform: scale(1.12) rotate(6deg); }
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
+
+      100% {
+        transform: scale(1.12) rotate(6deg);
+      }
     }
 
     /* 拿铁爱心拉花 (Latte Art) */
@@ -1182,7 +1252,7 @@
       transform: translateX(-50%) scale(0);
       width: 50px;
       height: 20px;
-      border: 2px solid rgba(255,255,255,0.7);
+      border: 2px solid rgba(255, 255, 255, 0.7);
       border-radius: 50%;
       opacity: 0;
       pointer-events: none;
@@ -1195,7 +1265,7 @@
     }
 
     .real-cup.frosted-glass {
-      box-shadow: inset 0 -8px 20px rgba(50,30,15,0.08), 0 10px 24px rgba(0,0,0,0.07), 0 0 16px rgba(180, 225, 255, 0.35);
+      box-shadow: inset 0 -8px 20px rgba(50, 30, 15, 0.08), 0 10px 24px rgba(0, 0, 0, 0.07), 0 0 16px rgba(180, 225, 255, 0.35);
       border-color: #554438;
     }
 
@@ -1229,8 +1299,15 @@
     }
 
     @keyframes receiptDrop {
-      from { opacity: 0; transform: translateY(-16px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      from {
+        opacity: 0;
+        transform: translateY(-16px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .receipt-close-x {
@@ -1250,7 +1327,7 @@
 
     .receipt-close-x:hover {
       color: var(--ink-primary);
-      background: rgba(0,0,0,0.06);
+      background: rgba(0, 0, 0, 0.06);
     }
 
     .receipt-header {
@@ -1391,7 +1468,7 @@
 
     .receipt-btn.close-btn:hover {
       border-color: var(--ink-secondary);
-      background: rgba(0,0,0,0.03);
+      background: rgba(0, 0, 0, 0.03);
     }
 
     /* 重新打开小票的精致按钮 */
@@ -1427,12 +1504,19 @@
       max-width: 380px;
       text-align: center;
       animation: noteAppear 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      box-shadow: 0 4px 12px rgba(45,30,20,0.06);
+      box-shadow: 0 4px 12px rgba(45, 30, 20, 0.06);
     }
 
     @keyframes noteAppear {
-      from { opacity: 0; transform: translateY(8px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     .fortune-badge {
@@ -1567,7 +1651,7 @@
       background: var(--accent-warm);
       cursor: pointer;
       border: 2px solid #ffffff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 
     /* ==========================================================================
@@ -1668,7 +1752,7 @@
       justify-content: center;
       font-size: 28px;
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
     }
 
     .card-meta {
@@ -1918,7 +2002,7 @@
       background: #fff8bb;
       border-radius: 2px;
       padding: 14px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
       transform: rotate(-1.5deg);
       position: relative;
       margin-bottom: 14px;
@@ -1996,7 +2080,7 @@
     .site-footer a:hover {
       text-decoration: underline;
     }
-  
+
     /* ==========================================================================
        右侧核心黄金展台：咖啡豆风味展示区 (The Bean Showcase Zone)
        ========================================================================== */
@@ -2011,26 +2095,35 @@
       grid-template-columns: 80px 180px 1fr;
       align-items: center;
       gap: 20px;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02), var(--shadow-sm);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02), var(--shadow-sm);
       position: relative;
       transition: all var(--transition-normal);
       animation: fadeInShowcase 0.4s ease-out;
     }
 
     @keyframes fadeInShowcase {
-      from { opacity: 0; transform: translateY(-6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 680px) {
       .card-problem {
         padding-right: 0;
       }
+
       .card-pro-badge {
         position: static;
         margin-bottom: 12px;
         display: inline-flex;
       }
+
       .bean-showcase-zone {
         grid-template-columns: 1fr;
         justify-items: center;
@@ -2043,7 +2136,7 @@
     .apothecary-jar {
       width: 68px;
       height: 100px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(240,240,240,0.3) 100%);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 240, 240, 0.3) 100%);
       border: 2px solid var(--border-line);
       border-radius: 6px 6px 16px 16px;
       position: relative;
@@ -2052,7 +2145,7 @@
       justify-content: flex-end;
       align-items: center;
       padding-bottom: 6px;
-      box-shadow: inset 0 0 10px rgba(255,255,255,0.9), 0 6px 14px rgba(0,0,0,0.06);
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.9), 0 6px 14px rgba(0, 0, 0, 0.06);
     }
 
     .jar-cork {
@@ -2063,7 +2156,7 @@
       background: #c29867;
       border: 1.5px solid #8e683b;
       border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .jar-beans-fill {
@@ -2079,7 +2172,7 @@
       gap: 2px;
       padding: 4px;
       transition: background-color 0.4s ease;
-      box-shadow: inset 0 -4px 8px rgba(0,0,0,0.25);
+      box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.25);
     }
 
     .jar-tag {
@@ -2112,7 +2205,7 @@
       background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, #ebe2d3 80%, #d8c7b4 100%);
       border: 3px solid var(--border-line);
       border-radius: 50%;
-      box-shadow: inset 0 4px 12px rgba(0,0,0,0.06), 0 8px 18px rgba(50,35,25,0.08);
+      box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.06), 0 8px 18px rgba(50, 35, 25, 0.08);
       position: relative;
       display: flex;
       justify-content: center;
@@ -2137,21 +2230,59 @@
     .big-bean {
       position: absolute;
       transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.28));
+      filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.28));
     }
 
-    .big-bean.b1 { left: 8px; top: 12px; transform: rotate(-25deg); }
-    .big-bean.b2 { left: 42px; top: 8px; transform: rotate(18deg); }
-    .big-bean.b3 { left: 54px; top: 26px; transform: rotate(-38deg); }
-    .big-bean.b4 { left: 20px; top: 28px; transform: rotate(45deg); }
-    .big-bean.b5 { left: 36px; top: 18px; transform: rotate(-10deg) scale(0.9); }
+    .big-bean.b1 {
+      left: 8px;
+      top: 12px;
+      transform: rotate(-25deg);
+    }
+
+    .big-bean.b2 {
+      left: 42px;
+      top: 8px;
+      transform: rotate(18deg);
+    }
+
+    .big-bean.b3 {
+      left: 54px;
+      top: 26px;
+      transform: rotate(-38deg);
+    }
+
+    .big-bean.b4 {
+      left: 20px;
+      top: 28px;
+      transform: rotate(45deg);
+    }
+
+    .big-bean.b5 {
+      left: 36px;
+      top: 18px;
+      transform: rotate(-10deg) scale(0.9);
+    }
 
     /* 弹跳动画 */
-    .big-bean-cluster.tumble .big-bean.b1 { transform: rotate(-5deg) translateY(-10px); }
-    .big-bean-cluster.tumble .big-bean.b2 { transform: rotate(38deg) translateY(-12px); }
-    .big-bean-cluster.tumble .big-bean.b3 { transform: rotate(-55deg) translateY(-8px); }
-    .big-bean-cluster.tumble .big-bean.b4 { transform: rotate(65deg) translateY(-11px); }
-    .big-bean-cluster.tumble .big-bean.b5 { transform: rotate(0deg) translateY(-14px) scale(0.95); }
+    .big-bean-cluster.tumble .big-bean.b1 {
+      transform: rotate(-5deg) translateY(-10px);
+    }
+
+    .big-bean-cluster.tumble .big-bean.b2 {
+      transform: rotate(38deg) translateY(-12px);
+    }
+
+    .big-bean-cluster.tumble .big-bean.b3 {
+      transform: rotate(-55deg) translateY(-8px);
+    }
+
+    .big-bean-cluster.tumble .big-bean.b4 {
+      transform: rotate(65deg) translateY(-11px);
+    }
+
+    .big-bean-cluster.tumble .big-bean.b5 {
+      transform: rotate(0deg) translateY(-14px) scale(0.95);
+    }
 
     .dish-click-hint {
       margin-top: 6px;
@@ -2210,7 +2341,7 @@
       color: var(--ink-primary);
       padding: 2px 8px;
       border-radius: var(--radius-full);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     }
 
     /* 卡片内的微型玻璃试管豆瓶 */
@@ -2226,7 +2357,7 @@
       justify-content: flex-end;
       align-items: center;
       padding-bottom: 3px;
-      box-shadow: inset 0 0 4px rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.04);
+      box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.04);
       flex-shrink: 0;
     }
 
@@ -2246,7 +2377,7 @@
       height: 6px;
       border-radius: 50%;
       margin-top: -2px;
-      border: 0.5px solid rgba(0,0,0,0.3);
+      border: 0.5px solid rgba(0, 0, 0, 0.3);
       position: relative;
     }
 
@@ -2257,7 +2388,7 @@
       left: 1.5px;
       right: 1.5px;
       height: 1px;
-      background: rgba(255,255,255,0.4);
+      background: rgba(255, 255, 255, 0.4);
       border-radius: 1px;
     }
 
@@ -2268,7 +2399,7 @@
       flex: 1;
     }
 
-  
+
     /* ==========================================================================
        V60 经典滤杯组件与研磨落粉粒子系统
        ========================================================================== */
@@ -2308,7 +2439,7 @@
       background: linear-gradient(135deg, #ffffff 0%, #f6efe7 50%, #e2d7c8 100%);
       border: 2px solid #4a3628;
       clip-path: polygon(4% 0%, 96% 0%, 64% 100%, 36% 100%);
-      box-shadow: inset 0 3px 8px rgba(255,255,255,0.9), 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: inset 0 3px 8px rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.08);
       display: flex;
       justify-content: center;
       overflow: hidden;
@@ -2325,7 +2456,7 @@
       border-radius: 4px;
       background: linear-gradient(180deg, #eae0d2 0%, #c8bbaa 100%);
       border: 1.5px solid #4a3628;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
       z-index: 2;
     }
 
@@ -2353,7 +2484,7 @@
       background: #9e6b47;
       transition: height 0.15s ease-out, background-color 0.4s ease, transform 0.3s ease;
       clip-path: polygon(0% 25%, 100% 25%, 70% 100%, 30% 100%);
-      box-shadow: inset 0 3px 6px rgba(0,0,0,0.35);
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.35);
     }
 
     /* 闷蒸膨胀动效 */
@@ -2388,13 +2519,33 @@
       animation: bubbleRise 0.8s infinite ease-in-out;
     }
 
-    .bubble-dot:nth-child(2) { animation-delay: 0.25s; width: 9px; height: 9px; }
-    .bubble-dot:nth-child(3) { animation-delay: 0.5s; width: 6px; height: 6px; }
+    .bubble-dot:nth-child(2) {
+      animation-delay: 0.25s;
+      width: 9px;
+      height: 9px;
+    }
+
+    .bubble-dot:nth-child(3) {
+      animation-delay: 0.5s;
+      width: 6px;
+      height: 6px;
+    }
 
     @keyframes bubbleRise {
-      0% { transform: translateY(6px) scale(0.6); opacity: 0; }
-      50% { transform: translateY(-2px) scale(1.1); opacity: 0.9; }
-      100% { transform: translateY(-10px) scale(1.4); opacity: 0; }
+      0% {
+        transform: translateY(6px) scale(0.6);
+        opacity: 0;
+      }
+
+      50% {
+        transform: translateY(-2px) scale(1.1);
+        opacity: 0.9;
+      }
+
+      100% {
+        transform: translateY(-10px) scale(1.4);
+        opacity: 0;
+      }
     }
 
     /* 研磨时的落粉粒子雨 (Falling Coffee Grounds Cascade) */
@@ -2423,15 +2574,45 @@
       animation: dustFall 0.35s infinite linear;
     }
 
-    .dust-1 { left: 20%; animation-delay: 0.05s; }
-    .dust-2 { left: 35%; animation-delay: 0.12s; width: 4px; height: 4px; }
-    .dust-3 { left: 50%; animation-delay: 0.02s; }
-    .dust-4 { left: 65%; animation-delay: 0.18s; width: 3px; height: 3px; }
-    .dust-5 { left: 80%; animation-delay: 0.09s; }
+    .dust-1 {
+      left: 20%;
+      animation-delay: 0.05s;
+    }
+
+    .dust-2 {
+      left: 35%;
+      animation-delay: 0.12s;
+      width: 4px;
+      height: 4px;
+    }
+
+    .dust-3 {
+      left: 50%;
+      animation-delay: 0.02s;
+    }
+
+    .dust-4 {
+      left: 65%;
+      animation-delay: 0.18s;
+      width: 3px;
+      height: 3px;
+    }
+
+    .dust-5 {
+      left: 80%;
+      animation-delay: 0.09s;
+    }
 
     @keyframes dustFall {
-      0% { transform: translateY(-5px) scale(0.8); opacity: 0.9; }
-      100% { transform: translateY(48px) scale(1.2); opacity: 0.4; }
+      0% {
+        transform: translateY(-5px) scale(0.8);
+        opacity: 0.9;
+      }
+
+      100% {
+        transform: translateY(48px) scale(1.2);
+        opacity: 0.4;
+      }
     }
 
     /* 磨豆机飞速自转的小磨盘齿轮 */
@@ -2452,7 +2633,9 @@
     }
 
     @keyframes gearSpin {
-      100% { transform: translateX(-50%) rotate(360deg); }
+      100% {
+        transform: translateX(-50%) rotate(360deg);
+      }
     }
 
     /* 滤杯底部的滴漏水滴 */
@@ -2476,14 +2659,24 @@
     }
 
     @keyframes dripPulse {
-      0%, 100% { transform: translateX(-50%) scaleY(0.7); }
-      50% { transform: translateX(-50%) scaleY(1.3); }
-    }
-      50% { transform: translateX(-50%) scaleY(1.2); }
+
+      0%,
+      100% {
+        transform: translateX(-50%) scaleY(0.7);
+      }
+
+      50% {
+        transform: translateX(-50%) scaleY(1.3);
+      }
     }
 
+    50% {
+      transform: translateX(-50%) scaleY(1.2);
+    }
+    }
   </style>
 </head>
+
 <body>
 
   <!-- 雨水流淌粒子背景 Canvas -->
@@ -2519,7 +2712,7 @@
 
     <!-- 主舞台：沉浸式手冲咖啡吧台 (The Counter) -->
     <section class="counter-stage">
-      
+
       <!-- 吧台横梁 -->
       <div class="stage-canopy">
         <div class="canopy-text">
@@ -2536,12 +2729,13 @@
 
         <!-- 左侧：选豆与工艺控制台 -->
         <div class="workbench-left">
-          
+
           <div>
             <div class="panel-block-header">
               <div class="panel-block-title" style="margin-bottom:0;">第一步：今日风味豆</div>
               <div class="bean-title-actions">
-                <button class="mini-tool-btn" id="btn-refresh-beans" onclick="refreshBeanBatch()" title="换一批咖啡豆（从20款精品豆库随机轮换）">
+                <button class="mini-tool-btn" id="btn-refresh-beans" onclick="refreshBeanBatch()"
+                  title="换一批咖啡豆（从20款精品豆库随机轮换）">
                   <span class="refresh-icon">↻</span>
                   <span>换一批</span>
                 </button>
@@ -2560,13 +2754,15 @@
             <div class="panel-block-title">第二步：手冲工艺 (Brewing Steps)</div>
             <div class="brew-steps">
               <!-- 磨豆按钮 -->
-              <button id="btn-grind" class="step-btn" onmousedown="startGrinding()" onmouseup="stopGrinding()" ontouchstart="startGrinding()" ontouchend="stopGrinding()">
+              <button id="btn-grind" class="step-btn" onmousedown="startGrinding()" onmouseup="stopGrinding()"
+                ontouchstart="startGrinding()" ontouchend="stopGrinding()">
                 <span>① 长按研磨豆粉 (Grind)</span>
                 <span id="grind-prog" class="step-progress">0%</span>
               </button>
 
               <!-- 注水按钮 -->
-              <button id="btn-pour" class="step-btn" disabled onmousedown="startPouring()" onmouseup="stopPouring()" ontouchstart="startPouring()" ontouchend="stopPouring()">
+              <button id="btn-pour" class="step-btn" disabled onmousedown="startPouring()" onmouseup="stopPouring()"
+                ontouchstart="startPouring()" ontouchend="stopPouring()">
                 <span>② 长按细嘴壶注水 (Pour)</span>
                 <span id="pour-prog" class="step-progress">等待研磨</span>
               </button>
@@ -2587,7 +2783,7 @@
 
         <!-- 右侧：咖啡杯台、细嘴壶、曲奇茶点 -->
         <div class="workbench-right">
-          
+
           <div class="bar-ticker">
             <span class="dot"></span>
             <span id="ticker-status">等待挑选咖啡豆，开始今天的冲煮…</span>
@@ -2610,38 +2806,50 @@
                   <!-- 豆 1 -->
                   <div class="big-bean b1">
                     <svg width="34" height="23" viewBox="0 0 30 20" fill="none">
-                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
-                      <path d="M3 10 C 9 6, 12 14, 18 8 C 22 4, 25 12, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                      <ellipse cx="10" cy="6" rx="6" ry="2" fill="rgba(255,255,255,0.22)" transform="rotate(-15 10 6)"/>
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)"
+                        stroke-width="1" />
+                      <path d="M3 10 C 9 6, 12 14, 18 8 C 22 4, 25 12, 27 10" class="bean-crease" stroke="#d8af87"
+                        stroke-width="1.6" stroke-linecap="round" fill="none" />
+                      <ellipse cx="10" cy="6" rx="6" ry="2" fill="rgba(255,255,255,0.22)"
+                        transform="rotate(-15 10 6)" />
                     </svg>
                   </div>
                   <!-- 豆 2 -->
                   <div class="big-bean b2">
                     <svg width="32" height="22" viewBox="0 0 30 20" fill="none">
-                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
-                      <path d="M3 10 C 9 7, 13 13, 17 8 C 21 5, 24 11, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-                      <ellipse cx="11" cy="6" rx="5" ry="2" fill="rgba(255,255,255,0.22)" transform="rotate(-10 11 6)"/>
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)"
+                        stroke-width="1" />
+                      <path d="M3 10 C 9 7, 13 13, 17 8 C 21 5, 24 11, 27 10" class="bean-crease" stroke="#d8af87"
+                        stroke-width="1.6" stroke-linecap="round" fill="none" />
+                      <ellipse cx="11" cy="6" rx="5" ry="2" fill="rgba(255,255,255,0.22)"
+                        transform="rotate(-10 11 6)" />
                     </svg>
                   </div>
                   <!-- 豆 3 -->
                   <div class="big-bean b3">
                     <svg width="33" height="22" viewBox="0 0 30 20" fill="none">
-                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
-                      <path d="M3 10 C 8 6, 12 14, 19 8 C 23 5, 25 12, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)"
+                        stroke-width="1" />
+                      <path d="M3 10 C 8 6, 12 14, 19 8 C 23 5, 25 12, 27 10" class="bean-crease" stroke="#d8af87"
+                        stroke-width="1.6" stroke-linecap="round" fill="none" />
                     </svg>
                   </div>
                   <!-- 豆 4 -->
                   <div class="big-bean b4">
                     <svg width="31" height="21" viewBox="0 0 30 20" fill="none">
-                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
-                      <path d="M3 10 C 9 6, 13 13, 17 8 C 21 4, 25 11, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)"
+                        stroke-width="1" />
+                      <path d="M3 10 C 9 6, 13 13, 17 8 C 21 4, 25 11, 27 10" class="bean-crease" stroke="#d8af87"
+                        stroke-width="1.6" stroke-linecap="round" fill="none" />
                     </svg>
                   </div>
                   <!-- 豆 5 -->
                   <div class="big-bean b5">
                     <svg width="29" height="20" viewBox="0 0 30 20" fill="none">
-                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
-                      <path d="M3 10 C 8 5, 12 13, 18 9 C 22 5, 25 11, 27 10" class="bean-crease" stroke="#d8af87" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                      <ellipse cx="15" cy="10" rx="14" ry="9" class="bean-fill" fill="#9e6b47" stroke="rgba(0,0,0,0.3)"
+                        stroke-width="1" />
+                      <path d="M3 10 C 8 5, 12 13, 18 9 C 22 5, 25 11, 27 10" class="bean-crease" stroke="#d8af87"
+                        stroke-width="1.6" stroke-linecap="round" fill="none" />
                     </svg>
                   </div>
                 </div>
@@ -2668,55 +2876,58 @@
 
           <!-- 冲煮主舞台道具 -->
           <div class="brew-apparatus">
-            
+
             <!-- 手冲细嘴壶工位 (精致温控底座 + 优雅天鹅颈手冲壶) -->
             <div id="kettle" class="kettle-station">
               <!-- 壶体：直接按住壶身注水 -->
-              <div id="kettle-body" class="kettle-body-wrap"
-                   onmousedown="handleKettleStart(event)" onmouseup="handleKettleEnd(event)"
-                   ontouchstart="handleKettleStart(event)" ontouchend="handleKettleEnd(event)"
-                   title="按住手冲壶直接注水">
+              <div id="kettle-body" class="kettle-body-wrap" onmousedown="handleKettleStart(event)"
+                onmouseup="handleKettleEnd(event)" ontouchstart="handleKettleStart(event)"
+                ontouchend="handleKettleEnd(event)" title="按住手冲壶直接注水">
                 <div class="prop-hint kettle-hint">按住注水 💧</div>
                 <svg width="116" height="106" viewBox="0 0 116 106" fill="none">
                   <defs>
                     <linearGradient id="kettleBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#3c3836"/>
-                      <stop offset="50%" stop-color="#2a2624"/>
-                      <stop offset="100%" stop-color="#181514"/>
+                      <stop offset="0%" stop-color="#3c3836" />
+                      <stop offset="50%" stop-color="#2a2624" />
+                      <stop offset="100%" stop-color="#181514" />
                     </linearGradient>
                     <linearGradient id="walnutGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stop-color="#af794d"/>
-                      <stop offset="100%" stop-color="#6f4021"/>
+                      <stop offset="0%" stop-color="#af794d" />
+                      <stop offset="100%" stop-color="#6f4021" />
                     </linearGradient>
                   </defs>
                   <!-- 壶底阴影 -->
-                  <ellipse cx="58" cy="98" rx="30" ry="4" fill="rgba(0,0,0,0.18)"/>
+                  <ellipse cx="58" cy="98" rx="30" ry="4" fill="rgba(0,0,0,0.18)" />
                   <!-- 壶身 (Stagg EKG 极简倒梯形) -->
-                  <path d="M36 32 L80 32 C82 32, 83.5 33, 84 35 L94 92 C94.5 94.5, 92.5 96.5, 90 96.5 L26 96.5 C23.5 96.5, 21.5 94.5, 22 92 L32 35 C32.5 33, 34 32, 36 32 Z" 
-                        fill="url(#kettleBodyGrad)" stroke="#161413" stroke-width="2"/>
+                  <path
+                    d="M36 32 L80 32 C82 32, 83.5 33, 84 35 L94 92 C94.5 94.5, 92.5 96.5, 90 96.5 L26 96.5 C23.5 96.5, 21.5 94.5, 22 92 L32 35 C32.5 33, 34 32, 36 32 Z"
+                    fill="url(#kettleBodyGrad)" stroke="#161413" stroke-width="2" />
                   <!-- 壶身边缘金属质感微反光 -->
-                  <path d="M35 36 L27 92" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M35 36 L27 92" stroke="rgba(255,255,255,0.18)" stroke-width="2.5" stroke-linecap="round" />
                   <!-- 胡桃木质壶盖与提钮 -->
-                  <path d="M40 32 L76 32 L73 25 L43 25 Z" fill="url(#walnutGrad)" stroke="#4a2a14" stroke-width="1.5"/>
-                  <ellipse cx="58" cy="22" rx="7" ry="4.5" fill="url(#walnutGrad)" stroke="#4a2a14" stroke-width="1.5"/>
+                  <path d="M40 32 L76 32 L73 25 L43 25 Z" fill="url(#walnutGrad)" stroke="#4a2a14" stroke-width="1.5" />
+                  <ellipse cx="58" cy="22" rx="7" ry="4.5" fill="url(#walnutGrad)" stroke="#4a2a14"
+                    stroke-width="1.5" />
                   <!-- 人体工学反重力手柄 (Walnut + Matte Black) -->
-                  <path d="M24 44 C9 44, -1 52, 1 68 C3 82, 13 90, 24 92" stroke="#1f1c1b" stroke-width="7" stroke-linecap="round" fill="none"/>
-                  <path d="M24 44 C9 44, -1 52, 1 68 C3 82, 13 90, 24 92" stroke="url(#walnutGrad)" stroke-width="4" stroke-linecap="round" fill="none"/>
+                  <path d="M24 44 C9 44, -1 52, 1 68 C3 82, 13 90, 24 92" stroke="#1f1c1b" stroke-width="7"
+                    stroke-linecap="round" fill="none" />
+                  <path d="M24 44 C9 44, -1 52, 1 68 C3 82, 13 90, 24 92" stroke="url(#walnutGrad)" stroke-width="4"
+                    stroke-linecap="round" fill="none" />
                   <!-- 优雅天鹅颈细嘴 (Gooseneck Spout) 尖端精确到达 (112, 16) -->
-                  <path d="M86 86 C103 82, 112 60, 106 32 C104 22, 107 16, 112 16" stroke="#161413" stroke-width="5" stroke-linecap="round" fill="none"/>
-                  <path d="M86 86 C103 82, 112 60, 106 32 C104 22, 107 16, 112 16" stroke="#3c3836" stroke-width="2.8" stroke-linecap="round" fill="none"/>
-                  <ellipse cx="112" cy="16" rx="2" ry="1.2" fill="#555"/>
+                  <path d="M86 86 C103 82, 112 60, 106 32 C104 22, 107 16, 112 16" stroke="#161413" stroke-width="5"
+                    stroke-linecap="round" fill="none" />
+                  <path d="M86 86 C103 82, 112 60, 106 32 C104 22, 107 16, 112 16" stroke="#3c3836" stroke-width="2.8"
+                    stroke-linecap="round" fill="none" />
+                  <ellipse cx="112" cy="16" rx="2" ry="1.2" fill="#555" />
                 </svg>
                 <!-- 从细嘴尖端精准注出的晶莹水流 (直冲滤杯中心) -->
                 <div id="water-stream" class="water-stream"></div>
               </div>
 
               <!-- 电子温控底座 (处于壶底正下方，左右拖拽、滚轮或点击微调水温) -->
-              <div id="kettle-base" class="kettle-base-stand"
-                   onmousedown="startTempDrag(event)" ontouchstart="startTempDrag(event)"
-                   onwheel="handleTempWheel(event)"
-                   onclick="handleTempClick(event)"
-                   title="↔ 左右拖动、滑动滚轮或点击微调水温 (80°C ~ 99°C)">
+              <div id="kettle-base" class="kettle-base-stand" onmousedown="startTempDrag(event)"
+                ontouchstart="startTempDrag(event)" onwheel="handleTempWheel(event)" onclick="handleTempClick(event)"
+                title="↔ 左右拖动、滑动滚轮或点击微调水温 (80°C ~ 99°C)">
                 <div class="base-knob" id="base-knob">
                   <div class="knob-dot"></div>
                 </div>
@@ -2727,7 +2938,7 @@
 
             <!-- 咖啡杯主体 (配备上方手冲滤杯 V60) -->
             <div class="cup-interactive-box" onclick="sipCoffee()" title="点击啜饮一口">
-              
+
               <!-- 蒸汽 -->
               <div id="steam-wrap" class="steam-plume">
                 <div class="steam-trace"></div>
@@ -2736,10 +2947,9 @@
               </div>
 
               <!-- ① 架在杯口上方的 V60 手冲滤杯与落粉系统 -->
-              <div id="dripper-unit" class="dripper-assembly"
-                   onmousedown="handleDripperStart(event)" onmouseup="handleDripperEnd(event)"
-                   ontouchstart="handleDripperStart(event)" ontouchend="handleDripperEnd(event)"
-                   title="按住滤杯直接研磨咖啡粉">
+              <div id="dripper-unit" class="dripper-assembly" onmousedown="handleDripperStart(event)"
+                onmouseup="handleDripperEnd(event)" ontouchstart="handleDripperStart(event)"
+                ontouchend="handleDripperEnd(event)" title="按住滤杯直接研磨咖啡粉">
                 <div class="prop-hint dripper-hint">按住研磨 ⚙️</div>
                 <!-- 研磨时飞旋的小齿轮 -->
                 <!-- 手摇磨豆机旋转曲柄 -->
@@ -2829,7 +3039,8 @@
             <span>🌧️ 窗外细雨</span>
             <span id="val-rain" style="font-size:11px; color:var(--ink-subtle);">40%</span>
           </div>
-          <input type="range" class="track-slider" min="0" max="100" value="40" oninput="setTrackVolume('rain', this.value)">
+          <input type="range" class="track-slider" min="0" max="100" value="40"
+            oninput="setTrackVolume('rain', this.value)">
         </div>
 
         <!-- 咖啡馆杂音 -->
@@ -2838,7 +3049,8 @@
             <span>☕ 馆内轻语</span>
             <span id="val-cafe" style="font-size:11px; color:var(--ink-subtle);">0%</span>
           </div>
-          <input type="range" class="track-slider" min="0" max="100" value="0" oninput="setTrackVolume('cafe', this.value)">
+          <input type="range" class="track-slider" min="0" max="100" value="0"
+            oninput="setTrackVolume('cafe', this.value)">
         </div>
 
         <!-- 机械打字声 -->
@@ -2847,7 +3059,8 @@
             <span>⌨️ 键盘击键</span>
             <span id="val-keys" style="font-size:11px; color:var(--ink-subtle);">0%</span>
           </div>
-          <input type="range" class="track-slider" min="0" max="100" value="0" oninput="setTrackVolume('keys', this.value)">
+          <input type="range" class="track-slider" min="0" max="100" value="0"
+            oninput="setTrackVolume('keys', this.value)">
         </div>
 
         <!-- 壁炉木柴 -->
@@ -2856,7 +3069,8 @@
             <span>🪵 壁炉噼啪</span>
             <span id="val-fire" style="font-size:11px; color:var(--ink-subtle);">0%</span>
           </div>
-          <input type="range" class="track-slider" min="0" max="100" value="0" oninput="setTrackVolume('fire', this.value)">
+          <input type="range" class="track-slider" min="0" max="100" value="0"
+            oninput="setTrackVolume('fire', this.value)">
         </div>
       </div>
     </section>
@@ -2870,7 +3084,8 @@
 
       <!-- 明星作品: SwaprTrans -->
       <div class="tool-card-box">
-        <a href="https://www.creem.io/payment/prod_4DbzRAS3zGQqIxCufT244M" target="_blank" class="card-pro-badge" title="升级 SwaprTrans Pro 终身版 ($6.99)">
+        <a href="https://www.creem.io/payment/prod_4DbzRAS3zGQqIxCufT244M" target="_blank" class="card-pro-badge"
+          title="升级 SwaprTrans Pro 终身版 ($6.99)">
           <span>⭐️</span> Pro 终身版 $6.99 <span>↗</span>
         </a>
         <div class="card-problem">“在外企聊天写邮件，打完中文必须切屏去网页翻译，一天来回几十次，思路全断了？”</div>
@@ -2886,7 +3101,8 @@
               </a>
             </div>
             <p class="card-desc">
-              在任何 App（Slack、Teams、邮件、终端、IDE）输入框中打完中文，划选直接敲 <strong>Enter 回车</strong>瞬间在光标处原地覆写为地道英文；敲 <strong>Space 空格</strong>极简 HUD 浮窗查词。拒绝动辄几百兆的 Electron 怪物，纯原生 Swift 打造，体积小于 2MB，基于 Apple 本地端侧模型运行，敏感工作对话绝不上云。
+              在任何 App（Slack、Teams、邮件、终端、IDE）输入框中打完中文，划选直接敲 <strong>Enter 回车</strong>瞬间在光标处原地覆写为地道英文；敲 <strong>Space
+                空格</strong>极简 HUD 浮窗查词。拒绝动辄几百兆的 Electron 怪物，纯原生 Swift 打造，体积小于 2MB，基于 Apple 本地端侧模型运行，敏感工作对话绝不上云。
             </p>
             <div class="card-badges">
               <span class="pill-badge">macOS 菜单栏</span>
@@ -2901,7 +3117,9 @@
         <div class="card-bottom-actions">
           <div class="cli-install-box">brew install linrol/tap/swapr-trans</div>
           <div class="card-links">
-            <a id="btn-download-dmg" href="https://github.com/linrol/swapr-trans/releases/download/v1.0.2/SwaprTrans-1.0.2.dmg" class="btn-dmg-primary" title="直接下载最新 macOS DMG 安装包">
+            <a id="btn-download-dmg"
+              href="https://github.com/linrol/swapr-trans/releases/download/v1.0.2/SwaprTrans-1.0.2.dmg"
+              class="btn-dmg-primary" title="直接下载最新 macOS DMG 安装包">
               <span>🍎</span> <span id="dmg-version-text">下载 DMG (v1.0.2)</span> <span>▾</span>
             </a>
             <a href="/swapr-trans/" target="_blank" class="card-link-item">体验官网主页 ↗</a>
@@ -2912,14 +3130,17 @@
 
       <!-- 明星作品 2: Katib -->
       <div class="tool-card-box">
-        <a href="https://www.creem.io/payment/prod_7QcjNL9GaMP6RCGo3NNENp" target="_blank" class="card-pro-badge" title="升级 Katib Pro 终身版 ($9.99)">
+        <a href="https://www.creem.io/payment/prod_7QcjNL9GaMP6RCGo3NNENp" target="_blank" class="card-pro-badge"
+          title="升级 Katib Pro 终身版 ($9.99)">
           <span>⭐️</span> Pro 终身版 $9.99 <span>↗</span>
         </a>
         <div class="card-problem">“线上跨国会议听不清又怕跟不上，转录工具要么按分钟收费，要么得配置繁琐的黑洞虚拟声卡还把会议录音传上云？”</div>
         <div class="card-content-flex">
           <a href="/katib/" target="_blank" class="card-icon-link" title="访问 Katib 官方网站">
-            <div class="card-icon" style="padding:0; overflow:hidden; display:flex; align-items:center; justify-content:center;">
-              <img src="/katib/assets/app-icon.png" alt="Katib App Icon" style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" />
+            <div class="card-icon"
+              style="padding:0; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+              <img src="/katib/assets/app-icon.png" alt="Katib App Icon"
+                style="width:100%; height:100%; object-fit:cover; border-radius:inherit;" />
             </div>
           </a>
           <div class="card-meta">
@@ -2930,7 +3151,9 @@
               </a>
             </div>
             <p class="card-desc">
-              基于阿里开源高精度 SenseVoice 神经语音模型，由 Apple Silicon 与 Intel 芯片本地推理驱动，100% 隐私安全零上云。直接调用 macOS 官方原生 <strong>ScreenCaptureKit</strong> 音频通道无感截获系统声音，<strong>彻底告别 BlackHole / Soundflower 繁琐虚拟声卡</strong>！支持远端对方与本地麦克风双向独立打标，悬浮毛玻璃字幕浮窗全屏置顶且绝不抢占输入焦点。
+              基于阿里开源高精度 SenseVoice 神经语音模型，由 Apple Silicon 与 Intel 芯片本地推理驱动，100% 隐私安全零上云。直接调用 macOS 官方原生
+              <strong>ScreenCaptureKit</strong> 音频通道无感截获系统声音，<strong>彻底告别 BlackHole / Soundflower
+                繁琐虚拟声卡</strong>！支持远端对方与本地麦克风双向独立打标，悬浮毛玻璃字幕浮窗全屏置顶且绝不抢占输入焦点。
             </p>
             <div class="card-badges">
               <span class="pill-badge">macOS 菜单栏</span>
@@ -2946,7 +3169,8 @@
         <div class="card-bottom-actions">
           <div class="cli-install-box">brew install linrol/tap/katib</div>
           <div class="card-links">
-            <a id="btn-download-katib-dmg" href="https://github.com/linrol/katib/releases/latest" class="btn-dmg-primary" title="直接下载最新 macOS DMG 安装包">
+            <a id="btn-download-katib-dmg" href="https://github.com/linrol/katib/releases/latest"
+              class="btn-dmg-primary" title="直接下载最新 macOS DMG 安装包">
               <span>🍎</span> <span id="katib-dmg-version-text">下载 DMG (v1.0.0)</span> <span>▾</span>
             </a>
             <a href="/katib/" target="_blank" class="card-link-item">体验官网主页 ↗</a>
@@ -2959,15 +3183,17 @@
       <div class="baking-idea-card">
         <div style="font-size: 32px;">🥐</div>
         <div>
-          <h4 style="font-size:15px; font-weight:700; margin-bottom:4px; color:var(--ink-primary);">第三款小工具正在烤箱里慢火烘焙…</h4>
-          <p style="font-size:13px; color:var(--ink-secondary);">“剪贴板历史工具动辄常驻 300MB 内存，还在后台偷偷联网上传？”—— 另一个极致轻量、纯本地端侧的原生小玩具正在调试中。</p>
+          <h4 style="font-size:15px; font-weight:700; margin-bottom:4px; color:var(--ink-primary);">第三款小工具正在烤箱里慢火烘焙…
+          </h4>
+          <p style="font-size:13px; color:var(--ink-secondary);">“剪贴板历史工具动辄常驻 300MB 内存，还在后台偷偷联网上传？”——
+            另一个极致轻量、纯本地端侧的原生小玩具正在调试中。</p>
         </div>
       </div>
     </section>
 
     <!-- 双栏区域：翻页手账本 (Linrol's Journal) + 留言软木板 (Corkboard) -->
     <section class="content-double-column">
-      
+
       <!-- 手账本 -->
       <div class="journal-book">
         <div>
@@ -2975,7 +3201,8 @@
           <div id="journal-date" class="journal-entry-date">2026-10-28 · 随笔</div>
           <div id="journal-title" class="journal-entry-title">为什么我执着于做小于 2MB 的原生工具？</div>
           <div id="journal-body" class="journal-entry-body">
-            现在的桌面软件越来越臃肿了，一个简单的取色器或划词工具，动辄打包整个 Chromium 引擎，吃掉近 1GB 内存。我做 SwaprTrans 的初衷很简单：双手不离开键盘，敲回车原地翻完，安安静静躺在菜单栏，只占几兆内存，不给电脑增加一点喘息负担。
+            现在的桌面软件越来越臃肿了，一个简单的取色器或划词工具，动辄打包整个 Chromium 引擎，吃掉近 1GB 内存。我做 SwaprTrans
+            的初衷很简单：双手不离开键盘，敲回车原地翻完，安安静静躺在菜单栏，只占几兆内存，不给电脑增加一点喘息负担。
           </div>
         </div>
         <div class="journal-nav-bar">
@@ -3274,7 +3501,7 @@
             beanProfiles[b.id] = b;
           });
         }
-      } catch (e) {}
+      } catch (e) { }
     }
 
     // 核心换一批逻辑：每次从20款精品豆池中随机抽取3款不重复的咖啡豆展示在左侧面板
@@ -3289,8 +3516,8 @@
 
       // 尽量从当前展示卡片之外的池子中抽取，保持每次换一批的新鲜感
       const unselectedPool = allKeys.filter(k => !currentBatchIds.includes(k) && !nextBatch.includes(k));
-      let pool = unselectedPool.length >= (3 - nextBatch.length) 
-        ? unselectedPool 
+      let pool = unselectedPool.length >= (3 - nextBatch.length)
+        ? unselectedPool
         : allKeys.filter(k => !nextBatch.includes(k));
 
       // 随机洗牌抽取
@@ -3405,7 +3632,7 @@
       const origin = document.getElementById('cb-origin').value.trim();
       const roastKey = document.getElementById('cb-roast').value;
       const author = document.getElementById('cb-author').value.trim() || '热心咖友';
-      
+
       // 提取选中的风味标签
       const selectedChips = Array.from(document.querySelectorAll('.flavor-tag-btn.selected')).map(el => el.innerText.trim());
       const customFlavors = document.getElementById('cb-flavors-custom').value.trim();
@@ -3439,7 +3666,7 @@
         const saved = JSON.parse(localStorage.getItem('linrol_community_beans') || '[]');
         saved.unshift(newBean);
         localStorage.setItem('linrol_community_beans', JSON.stringify(saved));
-      } catch (err) {}
+      } catch (err) { }
 
       // 换一批并强制保留并激活新寄放的这批豆子
       refreshBeanBatch(true, newId);
@@ -3491,10 +3718,10 @@
       // 联动更新右侧中央核心展台
       const titleEl = document.getElementById('showcase-bean-title');
       if (titleEl) titleEl.innerText = profile.name;
-      
+
       const originEl = document.getElementById('showcase-bean-origin');
       if (originEl) originEl.innerText = profile.origin;
-      
+
       const roastPill = document.getElementById('showcase-roast-pill');
       if (roastPill) {
         roastPill.innerText = profile.roast;
@@ -3542,7 +3769,7 @@
       if (brewState.grindProgress >= 100) return;
       brewState.isGrinding = true;
       grindBtn.classList.add('holding');
-      
+
       // 右侧视觉动效：齿轮旋转 + 落粉粒子飞洒
       grinderGear.classList.add('spinning');
       grindParticles.classList.add('active');
@@ -3553,7 +3780,7 @@
       grindTimer = setInterval(() => {
         brewState.grindProgress = Math.min(100, brewState.grindProgress + 5);
         grindProg.innerText = brewState.grindProgress + '%';
-        
+
         // 右侧滤杯中的咖啡粉层逐渐堆积厚实 (0% ➔ 80%)
         groundsBed.style.height = (brewState.grindProgress * 0.8) + '%';
         playNoiseClick(0.04);
@@ -3588,7 +3815,7 @@
       pourBtn.classList.add('holding');
       kettle.classList.add('pouring');
       waterStream.classList.add('flowing');
-      
+
       // 动效：粉层闷蒸膨胀 + 冒出气泡 + 滤杯底部开始滴水
       groundsBed.classList.add('blooming');
       bloomBubbles.classList.add('active');
@@ -3598,7 +3825,7 @@
       pourTimer = setInterval(() => {
         brewState.pourProgress = Math.min(100, brewState.pourProgress + 4);
         pourProg.innerText = brewState.pourProgress + '%';
-        
+
         // 咖啡液面在下方咖啡杯中缓缓上升
         cupLiquid.style.height = (brewState.pourProgress * 0.8) + '%';
         cremaFoam.style.opacity = (brewState.pourProgress / 100) * 0.85;
@@ -3618,7 +3845,7 @@
           pourProg.innerText = "萃取完成 ✓";
           steamWrap.classList.add('active');
           brewState.sipsLeft = brewState.totalSips;
-          
+
           // 萃取完成后，滤杯完成使命，优雅淡出移开
           setTimeout(() => {
             if (dripperUnit) dripperUnit.classList.add('hidden');
@@ -3871,7 +4098,7 @@
     function setWaterTemp(temp) {
       if (brewState.waterTemp === temp && document.getElementById('base-temp')?.innerText === temp + '°C') return;
       brewState.waterTemp = temp;
-      
+
       const tempEl = document.getElementById('base-temp');
       if (tempEl) tempEl.innerText = temp + '°C';
 
@@ -3988,7 +4215,7 @@
       brewState.hasIce = !brewState.hasIce;
       document.getElementById('cube-1').classList.toggle('show', brewState.hasIce);
       document.getElementById('cube-2').classList.toggle('show', brewState.hasIce);
-      
+
       const realCup = document.getElementById('real-cup');
       const ripple = document.getElementById('ice-ripple');
       if (brewState.hasIce) {
@@ -4119,7 +4346,7 @@
       const bufferSize = ctx.sampleRate * 2;
       const rainBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const rainData = rainBuffer.getChannelData(0);
-      let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
       for (let i = 0; i < bufferSize; i++) {
         const white = Math.random() * 2 - 1;
         b0 = 0.99886 * b0 + white * 0.0555179;
@@ -4192,7 +4419,7 @@
       playTone(180 + Math.random() * 40, 0.3, 'sine', vol * 0.04);
     }
 
-    function playTone(freq, dur, type='sine', vol=0.04) {
+    function playTone(freq, dur, type = 'sine', vol = 0.04) {
       try {
         const ctx = getAudioCtx();
         const osc = ctx.createOscillator();
@@ -4205,7 +4432,7 @@
         g.connect(ctx.destination);
         osc.start();
         osc.stop(ctx.currentTime + dur);
-      } catch(e) {}
+      } catch (e) { }
     }
 
     function playNoiseClick(dur) {
@@ -4414,7 +4641,7 @@
             return;
           }
         }
-      } catch (e) {}
+      } catch (e) { }
 
       // 降级兜底方案: 直接读取仓库的 version.json
       try {
@@ -4428,7 +4655,7 @@
             }
           }
         }
-      } catch (e2) {}
+      } catch (e2) { }
     }
 
     /* 动态获取 Katib 最新 release dmg 链接 */
@@ -4450,7 +4677,7 @@
             return;
           }
         }
-      } catch (e) {}
+      } catch (e) { }
 
       try {
         const res2 = await fetch('https://raw.githubusercontent.com/linrol/katib/main/version.json');
@@ -4463,7 +4690,7 @@
             }
           }
         }
-      } catch (e2) {}
+      } catch (e2) { }
     }
 
     window.addEventListener('keydown', (e) => {
@@ -4493,7 +4720,8 @@
 
         <div class="form-group">
           <label class="form-label">产地、海拔与处理法 *</label>
-          <input type="text" id="cb-origin" class="form-input" placeholder="例如：埃塞俄比亚 · 厌氧日晒 · 海拔 2000m" required maxlength="40">
+          <input type="text" id="cb-origin" class="form-input" placeholder="例如：埃塞俄比亚 · 厌氧日晒 · 海拔 2000m" required
+            maxlength="40">
         </div>
 
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
@@ -4525,7 +4753,8 @@
             <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍊 鲜多汁柑橘</span>
             <span class="flavor-tag-btn" onclick="toggleFlavorTag(this)">🍵 乌龙茶感</span>
           </div>
-          <input type="text" id="cb-flavors-custom" class="form-input" style="margin-top:8px; font-size:12px;" placeholder="或手动输入风味 (用逗号分隔，如：百香果, 菠萝, 蜂蜜)">
+          <input type="text" id="cb-flavors-custom" class="form-input" style="margin-top:8px; font-size:12px;"
+            placeholder="或手动输入风味 (用逗号分隔，如：百香果, 菠萝, 蜂蜜)">
         </div>
 
         <div class="modal-footer">
@@ -4588,6 +4817,9 @@
     </div>
   </div>
 
-  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "860d07b4a6254a209fe47aec28f9cf0a"}'></script><!-- End Cloudflare Web Analytics -->
+  <!-- Cloudflare Web Analytics -->
+  <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+    data-cf-beacon='{"token": "860d07b4a6254a209fe47aec28f9cf0a"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
+
 </html>
